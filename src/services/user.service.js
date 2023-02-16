@@ -5,11 +5,23 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { Doctor, Client } from '../database/models';
+import { name } from 'ejs';
+import { Doctor, Client, Vacation, Appointment } from '../database/models';
 
 export default class UserService {
   async getDoctors() {
-    const users = await Doctor.findAll({});
+    const users = await Doctor.findAll({
+      include: [
+        {
+          model: Vacation,
+          as: 'vacations'
+        },
+        {
+          model: Appointment,
+          as: 'appointments'
+        }
+      ]
+    });
     return users;
   }
 

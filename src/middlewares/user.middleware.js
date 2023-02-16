@@ -265,6 +265,32 @@ export const checkClientExist = async (req, res, next) => {
   }
 };
 
+export const checkIsAdmin = async (req, res, next) => {
+  try {
+    const token = checkToken(req);
+    const admin_data = decodeToken(token);
+    const user = await Doctor.findByPk(admin_data.id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `Admin with id "${admin_data.id}" doesn't exist`
+      });
+    }
+    if (user.role_id !== 1) {
+      return res.status(400).json({
+        message: `This action can only be performed by an admin.`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
 export const checkLoginDoctorExist = async (req, res, next) => {
   try {
     const token = checkToken(req);

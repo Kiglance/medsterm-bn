@@ -10,6 +10,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       appointment_date: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      appointment_time: {
+        type: Sequelize.TIME,
+        allowNull: false
+      },
+      appointment_duration: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -33,10 +41,14 @@ module.exports = {
           as: 'doctor'
         }
       },
-      is_checked: {
+      is_approved: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: true
+      },
+      status: {
+        type: Sequelize.ENUM('pending', 'approved', 'cancelled'),
+        defaultValue: 'pending'
       },
       is_canceled: {
         type: Sequelize.BOOLEAN,
@@ -44,6 +56,10 @@ module.exports = {
         allowNull: true
       },
       cancel_date: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      cancel_reason: {
         type: Sequelize.DATE,
         allowNull: true
       },

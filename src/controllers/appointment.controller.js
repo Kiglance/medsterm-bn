@@ -11,6 +11,7 @@ import sendEmail from '../helpers/nodemailer';
 import { verifyToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
 import { Doctor, Client } from '../database/models';
+import { date } from 'joi';
 
 export default class userController {
   constructor() {
@@ -20,27 +21,31 @@ export default class userController {
 
   async makeAppointment(req, res) {
     try {
-      const { appointment_date, doctor_id } = req.body;
+      const {
+        appointment_date,
+        appointment_time,
+        appointment_duration,
+        doctor_id
+      } = req.body;
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
-      const client_id = variable.client_id;
+      const client_id = variable.id;
       const user = await this.userService.getClient(client_id);
+
+      console.log(variable, '&&&&&&&&&&');
+      console.log(user, '^^^^^^^');
 
       const newAppointment = await this.appointmentService.makeAppointment(
         {
           appointment_date,
+          appointment_time,
+          appointment_duration,
           client_id,
           doctor_id
         },
         res
       );
-
-      console.log('************************');
-      console.log(newAppointment);
-      console.log('************************');
-      console.log(variable.aud);
-      console.log('************************');
       const message = `
       <h1><strong>Appointment notification.</strong></h1>
       <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${appointment_date}</span>.</p> 
@@ -107,7 +112,7 @@ export default class userController {
       const client = await Client.findByPk(appointment.client_id, {});
 
       await this.appointmentService.updateAppointmentParts(
-        { is_checked: true },
+        { is_approved: true, status: 'approved' },
         { where: { appointment_id: appointment.appointment_id } }
       );
 
@@ -134,6 +139,37 @@ export default class userController {
       </a> 
     </p>
       `;
+      const subject = `Your appointment was approved by doctor!`;
+      await sendEmail(subject, message, client.email);
+
+      return res.status(200).json('Appointment checked successfully!');
+    } catch (error) {
+      return res.status(500).json({
+        message: 'An Unexpected error occurred',
+        error: error.message
+      });
+    }
+  }
+
+  async cancelAppointment(req, res) {
+    try {
+      const { id } = req.params;
+      const { cancel_reason } = req.body;
+      const appointment = await this.appointmentService.getAppointment(id);
+      const token = checkToken(req);
+      const client_data = decodeToken(token);
+      const user = await Client.findByPk(client_data.id, {});
+      const doctor = await Doctor.findByPk(appointment.doctor_id, {});
+
+      await this.appointmentService.updateAppointmentParts(
+        { is_canceled: true, cancel_date: new Date.now() },
+        { where: { appointment_id: appointment.appointment_id } }
+      );
+
+      const message = `
+    <h1><strong>Appointment notification.</strong></h1>
+    <p>Hello Dr. ${doctor.first_name} ${doctor.last_name}, your appointment with the patient ${user.first_name} ${user.last_name} that was due: ${appointment.appointment_date} was canceled because of: ${cancel_reason} on ${cancel_date}.</p> 
+    `;
       const subject = `Your appointment was approved by doctor!`;
       await sendEmail(subject, message, client.email);
 

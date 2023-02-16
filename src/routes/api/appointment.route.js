@@ -34,4 +34,14 @@ routes.get(
   }
 );
 
+routes.get(
+  '/cancel/:id',
+  checkAppointmentExist,
+  checkLoggedIn,
+  checkClientExist,
+  async (req, res) => {
+    await new AppointmentController().cancelAppointment(req, res);
+  }
+);
+
 export default routes;

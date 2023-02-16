@@ -6,11 +6,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   Client_MedicalInfo.init(
     {
-      user_id: {
+      client_id: {
         type: DataTypes.UUID
       },
       info_id: {
         type: DataTypes.UUID
+      },
+      description: {
+        type: DataTypes.TEXT
       }
     },
     {

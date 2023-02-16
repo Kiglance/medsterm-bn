@@ -6,49 +6,180 @@ module.exports = {
       'Medical_Infos',
       [
         {
-          info_id: '202b2bfa-b290-4085-aba2-e66d158569f4',
-          info_name: 'Recurrent headache and migraine?',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Epilepsy, fits, blackouts, fainting turns or unexplained loss of consciousness?',
           info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
-
         {
-          info_id: '4e3320b7-8d51-41ec-b946-b18ae2ec1fe7',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Vertigo, dizziness, giddiness, problems with balance?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Recurrent headache or migraine?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Diseases of nervous system e.g neuritis, stroke, multiple sclerosis?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Chest pain, angina, heart disease or breathlessness?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Any visual defect e.g. scotoma, blindness in one eye, reduced visual field, blurred vision, coloured blind?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
           info_name: 'Raised or low blood pressure?',
-          info_description: 'gerard',
+          info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
-
         {
-          info_id: '42b130fd-41f7-45db-ad2f-50e3eec363d3',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
           info_name: 'Any blood disorder?',
-          info_description: 'Patrick',
+          info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
-
         {
-          info_id: '74f21682-2ba4-4818-b838-7f5dcf35d2ff',
-          info_name: 'Asthma, Bronchitis',
-          info_description: 'Alain',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Asthma, bronchitis, emphysema, pneumonia or any other lung disease?',
+          info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
-
         {
-          info_id: '1d6ca114-9a21-49ef-8e04-e733b357153c',
-          info_name: 'Any kidney or bladder conditions',
-          info_description: 'Deo',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Jaundice or any form of hepatitis or other liver problem?',
+          info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         },
-
         {
-          info_id: '49710ec2-a533-42ba-b190-247fd023e98c',
-          info_name: 'Heart problems?',
-          info_description: 'Adele',
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Any kidney or bladder conditions?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Arthritis, gout, chondromalcia patellae or rheumatism?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Any metabolic disorder including diabetes, thyroid and adrenal gland disease?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Psoriasis, eczema, allergic skin rash or other skin disorder?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Any infectious diseases?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Anxiety/depression, mental breakdown or stress related problems?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Sleep related issues?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Substence misuse (e.g drugs, steroids)?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Any malignancies or cancers?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Any operations or surgical procedures?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Ear or hearing problems?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Have you ever consulted any orthopaedic surgeon, chiropractor, osteopath or physiotherapist?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Current treatment. Are you currently attending a hospital/GP for treatment or waiting for an appointment?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Any other medical condition we should be aware of?',
+          info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
         }

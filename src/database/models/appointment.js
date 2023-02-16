@@ -36,13 +36,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      appointment_time: {
+        type: DataTypes.TIME,
+        allowNull: false
+      },
+      appointment_duration: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       client_id: {
         type: DataTypes.UUID
       },
       doctor_id: {
         type: DataTypes.UUID
       },
-      is_checked: {
+      is_approved: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: true

@@ -18,6 +18,24 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         as: 'appointments'
       });
+
+      this.hasMany(models.Dayoff, {
+        foreignKey: 'doctor_id',
+        onDelete: 'CASCADE',
+        as: 'dayoffs'
+      });
+
+      this.hasMany(models.Vacation, {
+        foreignKey: 'doctor_id',
+        onDelete: 'CASCADE',
+        as: 'vacations'
+      });
+
+      this.belongsToMany(models.Work_Day, {
+        foreignKey: 'doctor_id',
+        through: 'Doctor_Workday',
+        as: 'work_days'
+      });
     }
   }
   Doctor.init(

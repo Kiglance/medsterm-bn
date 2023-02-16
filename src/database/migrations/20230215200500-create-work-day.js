@@ -2,21 +2,16 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Client_MedicalInfos', {
-      _id: {
-        type: Sequelize.UUID,
+    await queryInterface.createTable('Work_Days', {
+      day_id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      day_name: {
+        type: Sequelize.STRING,
         allowNull: false
-      },
-      client_id: {
-        type: Sequelize.UUID
-      },
-      info_id: {
-        type: Sequelize.UUID
-      },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +24,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Client_MedicalInfos');
+    await queryInterface.dropTable('Work_Days');
   }
 };

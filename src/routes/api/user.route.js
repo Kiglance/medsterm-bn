@@ -49,7 +49,6 @@ routes.post(
 
 routes.post(
   '/client/login',
-  // isDoctor,
   isLoginClient,
   loginUserValidation,
   checkVerifiedClient,
