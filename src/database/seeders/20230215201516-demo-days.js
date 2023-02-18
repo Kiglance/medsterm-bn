@@ -3,47 +3,47 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      'Work_Days',
+      'Days',
       [
         {
+          day_id: 70,
+          day_name: 'Mon',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           day_id: 71,
-          day_name: 'Monday',
+          day_name: 'Tue',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           day_id: 72,
-          day_name: 'Tuesday',
+          day_name: 'Wed',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           day_id: 73,
-          day_name: 'Wednesday',
+          day_name: 'Thu',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           day_id: 74,
-          day_name: 'Thursday',
+          day_name: 'Fri',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           day_id: 75,
-          day_name: 'Friday',
+          day_name: 'Sat',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           day_id: 76,
-          day_name: 'Saturday',
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          day_id: 77,
-          day_name: 'Sunday',
+          day_name: 'Sun',
           createdAt: new Date(),
           updatedAt: new Date()
         }
@@ -53,6 +53,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Work_Days', null, {});
+    await queryInterface.bulkDelete('Days', null, {});
   }
 };

@@ -33,9 +33,6 @@ export default class userController {
       const client_id = variable.id;
       const user = await this.userService.getClient(client_id);
 
-      console.log(variable, '&&&&&&&&&&');
-      console.log(user, '^^^^^^^');
-
       const newAppointment = await this.appointmentService.makeAppointment(
         {
           appointment_date,

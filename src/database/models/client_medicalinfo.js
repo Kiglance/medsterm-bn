@@ -6,6 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Client_MedicalInfo.init(
     {
+      _id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: true
+      },
       client_id: {
         type: DataTypes.UUID
       },

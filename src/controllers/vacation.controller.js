@@ -12,7 +12,7 @@ import checkToken from '../helpers/checkToken';
 import { Doctor, Client, Vacation } from '../database/models';
 import { date } from 'joi';
 
-export default class userController {
+export default class vacationController {
   constructor() {
     this.vacationService = new VacationService();
     this.userService = new UserService();
@@ -37,7 +37,7 @@ export default class userController {
       });
     } catch (error) {
       return res.status(500).json({
-        message: 'Error occured while making an appointment.',
+        message: 'Error occured while making a vacation.',
         error: error.message
       });
     }

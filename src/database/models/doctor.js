@@ -31,10 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'vacations'
       });
 
-      this.belongsToMany(models.Work_Day, {
+      this.hasMany(models.Schedule, {
         foreignKey: 'doctor_id',
-        through: 'Doctor_Workday',
-        as: 'work_days'
+        onDelete: 'CASCADE',
+        as: 'schedules'
       });
     }
   }

@@ -9,7 +9,8 @@ import {
   checkVerifiedClient,
   isDoctor,
   isLoginClient,
-  isLoginDoctor
+  isLoginDoctor,
+  checkIsAdmin
 } from '../../middlewares/user.middleware';
 import {
   loginUserValidation,
@@ -22,6 +23,7 @@ routes.post(
   upload.single('picture'),
   registerUserValidation,
   checkDoctorEmailExist,
+  checkIsAdmin,
   async (req, res) => {
     await new UserController().createDoctor(req, res);
   }

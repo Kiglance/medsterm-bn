@@ -2,17 +2,31 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Doctor_Workdays', {
+    await queryInterface.createTable('Work_Days', {
       _id: {
         type: Sequelize.UUID,
         primaryKey: true,
         allowNull: false
       },
-      doctor_id: {
-        type: Sequelize.UUID
+      schedule_id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Schedules',
+          key: 'schedule_id',
+          as: 'schedule'
+        }
       },
-      day_id: {
-        type: Sequelize.INTEGER
+      day: {
+        type: Sequelize.STRING
+      },
+      date: {
+        type: Sequelize.DATE
+      },
+      status: {
+        type: Sequelize.ENUM('active', 'inactive'),
+        defaultValue: 'inactive'
       },
       from: {
         type: Sequelize.TIME,
@@ -33,6 +47,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Doctor_Workdays');
+    await queryInterface.dropTable('Work_Days');
   }
 };

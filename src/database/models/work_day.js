@@ -3,16 +3,45 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Work_Day extends Model {
     static associate(models) {
-      this.belongsToMany(models.Doctor, {
-        foreignKey: 'day_id',
-        through: 'Doctor_Workday',
-        as: 'available_doctors'
+      this.belongsTo(models.Schedule, {
+        foreignKey: {
+          name: 'schedule_id',
+          allowNull: true
+        },
+        onDelete: 'CASCADE',
+        as: 'schedule'
       });
     }
   }
   Work_Day.init(
     {
-      day_name: DataTypes.STRING
+      _id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: true
+      },
+      schedule_id: {
+        type: DataTypes.UUID
+      },
+      day: {
+        type: DataTypes.STRING
+      },
+      date: {
+        type: DataTypes.DATE
+      },
+      status: {
+        type: DataTypes.ENUM('active', 'inactive'),
+        defaultValue: 'inactive'
+      },
+      from: {
+        type: DataTypes.TIME,
+        defaultValue: '08:00'
+      },
+      to: {
+        type: DataTypes.TIME,
+        defaultValue: '18:00'
+      }
     },
     {
       sequelize,
