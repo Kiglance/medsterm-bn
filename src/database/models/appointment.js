@@ -12,13 +12,38 @@ module.exports = (sequelize, DataTypes) => {
         as: 'doctor'
       });
 
+      this.belongsTo(models.Schedule, {
+        foreignKey: {
+          name: 'schedule_id',
+          allowNull: true
+        },
+        onDelete: 'CASCADE',
+        as: 'schedule'
+      });
+
+      this.belongsTo(models.Work_Day, {
+        foreignKey: {
+          name: '_id',
+          allowNull: true
+        },
+        onDelete: 'CASCADE',
+        as: 'work_day'
+      });
+
+      // this.belongsTo(models.Slot, {
+      //   foreignKey: {
+      //     name: 'slot_id',
+      //     allowNull: true
+      //   },
+      //   onDelete: 'CASCADE',
+      //   as: 'slot'
+      // });
+
       this.belongsTo(models.Client, {
         foreignKey: {
           name: 'client_id',
           allowNull: true
         },
-        constraints: false,
-        hooks: true,
         onDelete: 'CASCADE',
         as: 'client'
       });
@@ -32,23 +57,27 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
-      appointment_date: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      appointment_time: {
-        type: DataTypes.TIME,
-        allowNull: false
-      },
-      appointment_duration: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       client_id: {
         type: DataTypes.UUID
       },
       doctor_id: {
         type: DataTypes.UUID
+      },
+      schedule_id: {
+        type: DataTypes.UUID
+      },
+      _id: {
+        type: DataTypes.UUID
+      },
+      appointment_duration: {
+        type: DataTypes.STRING
+      },
+      // slot_id: {
+      //   type: DataTypes.UUID
+      // },
+      department: {
+        type: DataTypes.STRING,
+        allowNull: true
       },
       is_approved: {
         type: DataTypes.BOOLEAN,

@@ -7,6 +7,33 @@ export default class WorkDayController {
     this.userService = new UserService();
   }
 
+  async createWorkDay(req, res) {
+    try {
+      const { day, date } = req.body;
+      const { schedule_id } = req.params;
+
+      const newDay = await this.dayService.createWorkDay(
+        {
+          schedule_id,
+          day,
+          date,
+          status: 'active'
+        },
+        res
+      );
+
+      return res.status(201).json({
+        status: 201,
+        message: 'Work day creation was successfull.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while making a work day.',
+        error: error.message
+      });
+    }
+  }
+
   async getWorkDays(req, res) {
     try {
       const days = await new WorkDayService().getWorkDays();

@@ -21,9 +21,9 @@ const routes = express.Router();
 routes.post(
   '/doctor/register',
   upload.single('picture'),
-  registerUserValidation,
+  // registerUserValidation,
   checkDoctorEmailExist,
-  checkIsAdmin,
+  // checkIsAdmin,
   async (req, res) => {
     await new UserController().createDoctor(req, res);
   }

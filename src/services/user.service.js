@@ -6,7 +6,13 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
 import { name } from 'ejs';
-import { Doctor, Client, Vacation, Appointment } from '../database/models';
+import {
+  Doctor,
+  Client,
+  Vacation,
+  Appointment,
+  Department
+} from '../database/models';
 
 export default class UserService {
   async getDoctors() {
@@ -17,8 +23,8 @@ export default class UserService {
           as: 'vacations'
         },
         {
-          model: Appointment,
-          as: 'appointments'
+          model: Department,
+          as: 'departments'
         }
       ]
     });
@@ -28,6 +34,11 @@ export default class UserService {
   async getClients() {
     const users = await Client.findAll({});
     return users;
+  }
+
+  async createDoctor(data) {
+    const newUser = await Doctor.create(data);
+    return newUser;
   }
 
   async createUser(data) {

@@ -8,6 +8,16 @@
 import { Work_Day } from '../database/models';
 
 export default class WorkDayService {
+  async createWorkDay(data) {
+    const newDay = await Work_Day.create(data);
+    return newDay;
+  }
+
+  async createWorkDayArr(data) {
+    const newData = await Work_Day.bulkCreate(data);
+    return newData;
+  }
+
   async getWorkDays() {
     const infos = await Work_Day.findAll({});
     return infos;

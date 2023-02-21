@@ -8,11 +8,13 @@ import {
 } from '../helpers/user.helper';
 import sendEmail from '../helpers/nodemailer';
 import { verifyToken } from '../helpers/user.helper';
-import { where } from 'sequelize';
+import DocDeptService from '../services/doctor_dept.service';
+import { Doctor_Dept, Doctor, Department } from '../database/models';
 
 export default class userController {
   constructor() {
     this.userService = new UserService();
+    this.docdeptService = new DocDeptService();
   }
 
   async createDoctor(req, res) {
@@ -28,13 +30,10 @@ export default class userController {
         birth_date,
         marital_status,
         experience_years,
-        speciality,
         cost_per_appointment,
         salary,
-        department,
         education,
         about
-        // country , address_1, address_2
       } = req.body;
 
       if (req.file) {
@@ -45,34 +44,103 @@ export default class userController {
             'https://s.pngkit.com/png/small/806-8066032_person-icon-black-female-user-icon-png.png';
         }
         req.body.picture =
-          'http s://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
+          'https://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
       }
 
-      const newUser = await this.userService.createUser(
-        {
-          role_id: 2,
-          first_name,
-          last_name,
-          email,
-          password: hashPassword(password),
-          picture: req.body.picture,
-          phone_number,
-          id_number,
-          gender,
-          birth_date,
-          marital_status,
-          experience_years,
-          speciality,
-          cost_per_appointment,
-          salary,
-          department,
-          education,
-          about
-        },
-        res
-      );
+      const newUser = await this.userService
+        .createDoctor(
+          {
+            role_id: 2,
+            first_name,
+            last_name,
+            email,
+            password: hashPassword(password),
+            picture: req.body.picture,
+            phone_number,
+            id_number,
+            gender,
+            birth_date,
+            marital_status,
+            experience_years,
+            cost_per_appointment,
+            salary,
+            education,
+            about
+          },
+          res
+        )
+        .catch((error) => {
+          return res.status(500).json({
+            message: 'Error occured while creating a user',
+            error: error.message
+          });
+        });
 
-      const token = generateToken({ id: newUser.doctor_id }, '1d');
+      const doctor_id = newUser.doctor_id;
+
+      const existingDoctor = await Doctor.findOne({
+        where: {
+          doctor_id: doctor_id
+        }
+      });
+      if (!existingDoctor) {
+        return res.status(404).send({
+          error: "The Doctor you are trying assign doesn't exist."
+        });
+      }
+
+      const deptIdsArr = req.body.department_id.split(', ');
+
+      var lastArray = [];
+      var usableIndices = [];
+      for (let i = 0; i < deptIdsArr.length; i++) {
+        const existingDept = await Department.findOne({
+          where: {
+            department_id: deptIdsArr[i]
+          }
+        });
+
+        const existingRelation = await Doctor_Dept.findOne({
+          where: { doctor_id: doctor_id, department_id: deptIdsArr[i] }
+        }).catch((error) => {
+          return res.status(404).send({
+            error: error.message
+          });
+        });
+        if (!existingRelation && existingDept) {
+          usableIndices.push(i);
+        }
+        lastArray.push(existingRelation);
+      }
+
+      if (usableIndices == '') {
+        return res.status(404).json({
+          error: 'All these relations have already been made.'
+        });
+      }
+
+      const getBulkArr = (deptIdsArr) => {
+        var arr = [];
+        var newArr = [];
+        for (let i = 0; i < deptIdsArr.length; i++) {
+          var obj = {};
+          obj['doctor_id'] = doctor_id;
+          obj['department_id'] = deptIdsArr[i];
+
+          arr.push(obj);
+        }
+
+        for (let i = 0; i < arr.length; i++) {
+          if (usableIndices.includes(i)) {
+            newArr.push(arr[i]);
+          }
+        }
+        return newArr;
+      };
+
+      await this.docdeptService.createDocDept(getBulkArr(deptIdsArr), res);
+
+      const token = generateToken({ id: doctor_id }, '1d');
       const message = `
          <h1><strong>Activate your account.</strong></h1>
       <p>
@@ -107,7 +175,6 @@ export default class userController {
         token
       });
     } catch (error) {
-      console.log(error, '*****');
       return res.status(500).json({
         message: 'Error occured while creating a user',
         error: error.message
@@ -328,13 +395,10 @@ export default class userController {
         birth_date,
         marital_status,
         experience_years,
-        speciality,
         cost_per_appointment,
         salary,
-        department,
         education,
         about
-        // country , address_1, address_2
       } = req.body;
 
       const id = req.params.id;
@@ -347,7 +411,7 @@ export default class userController {
             'https://s.pngkit.com/png/small/806-8066032_person-icon-black-female-user-icon-png.png';
         }
         req.body.picture =
-          'http s://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
+          'https://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
       }
 
       const newUser = await this.userService.updateDoctor(req.body, {
@@ -363,10 +427,8 @@ export default class userController {
         birth_date,
         marital_status,
         experience_years,
-        speciality,
         cost_per_appointment,
         salary,
-        department,
         education,
         about,
         where: {
@@ -375,8 +437,7 @@ export default class userController {
       });
       return res.status(201).json({
         status: 201,
-        message:
-          'User registered successfully! Please check your email for verification.',
+        message: 'Doctor updated successfully.',
         data: newUser
       });
     } catch (error) {

@@ -14,7 +14,7 @@ export default class scheduleController {
 
   async createSchedule(req, res) {
     try {
-      const { start_date, end_date, days } = req.body;
+      const { start_date, end_date, appointment_duration, days } = req.body;
       const token = checkToken(req);
       const decoded = decodeToken(token);
 
@@ -33,23 +33,18 @@ export default class scheduleController {
 
         return dates;
       }
-      const d1 = new Date(start_date);
-      const d2 = new Date(end_date);
+      const date1 = new Date(start_date);
+      const date2 = new Date(end_date);
 
-      const newSchedule = await Schedule.create({
-        doctor_id: decoded.id,
-        start_date,
-        end_date
-      }).catch((error) => {
-        console.log({
-          error: error,
-          number: 1
-        });
-        return res.status(500).json({
-          message: 'Error one occured!!!',
-          error: error.message
-        });
-      });
+      const newSchedule = await this.scheduleService.createSchedule(
+        {
+          doctor_id: decoded.id,
+          start_date,
+          appointment_duration,
+          end_date
+        },
+        res
+      );
 
       function makeArr(arr) {
         var value = [];
@@ -72,20 +67,15 @@ export default class scheduleController {
         return value;
       }
 
-      const newWorkDay = await Work_Day.bulkCreate(
-        makeArr(getDatesInRange(d1, d2))
-      )
-        .then((data) => {
-          return res.status(200).send({
-            message: 'work day and schedule created successfullly.'
-          });
-        })
-        .catch((error) => {
-          return res.status(500).json({
-            message: 'Error occured while creating schedule',
-            error: error.message
-          });
-        });
+      await this.workDayService.createWorkDayArr(
+        makeArr(getDatesInRange(date1, date2)),
+        res
+      );
+
+      return res.status(201).json({
+        status: 201,
+        message: 'Schedule made successfully! '
+      });
     } catch (error) {
       return res.status(500).json({
         message: 'Error occured while making a Schedule.',

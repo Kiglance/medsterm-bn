@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'role'
       });
 
+      this.belongsToMany(models.Department, {
+        foreignKey: 'doctor_id',
+        through: 'Doctor_Dept',
+        as: 'departments'
+      });
+
       this.hasMany(models.Appointment, {
         foreignKey: 'doctor_id',
         onDelete: 'CASCADE',
@@ -49,14 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       role_id: {
         allowNull: true,
         type: DataTypes.INTEGER,
-        defaultValue: 2,
-        onDelete: 'SET DEFAULT',
-        onUpdate: 'CASCADE',
-        references: {
-          model: 'Roles',
-          key: 'role_id',
-          as: 'role'
-        }
+        defaultValue: 2
       },
       first_name: {
         type: DataTypes.STRING
@@ -110,10 +109,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: true
       },
-      speciality: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
       cost_per_appointment: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -122,11 +117,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      department: {
+      education: {
         type: DataTypes.STRING,
         allowNull: true
       },
-      education: {
+      category: {
         type: DataTypes.STRING,
         allowNull: true
       },
