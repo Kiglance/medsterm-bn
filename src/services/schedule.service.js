@@ -24,7 +24,7 @@ export default class ScheduleService {
         {
           model: Work_Day,
           as: 'work_days',
-          attributes: ['_id', 'date', 'day', 'status'],
+          // attributes: ['_id', 'date', 'day', 'status'],
           order: [['date', 'ASC']]
         }
       ]

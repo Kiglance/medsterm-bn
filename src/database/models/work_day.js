@@ -11,6 +11,18 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         as: 'schedule'
       });
+
+      this.hasMany(models.Appointment, {
+        foreignKey: '_id',
+        onDelete: 'CASCADE',
+        as: 'appointments'
+      });
+
+      // this.hasMany(models.Slot, {
+      //   foreignKey: '_id',
+      //   onDelete: 'CASCADE',
+      //   as: 'slots'
+      // });
     }
   }
   Work_Day.init(

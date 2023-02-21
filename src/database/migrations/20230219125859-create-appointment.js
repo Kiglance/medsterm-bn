@@ -9,18 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      appointment_date: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-      appointment_time: {
-        type: Sequelize.TIME,
-        allowNull: false
-      },
-      appointment_duration: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       client_id: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
@@ -40,6 +28,33 @@ module.exports = {
           key: 'doctor_id',
           as: 'doctor'
         }
+      },
+      schedule_id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Schedules',
+          key: 'schedule_id',
+          as: 'schedule'
+        }
+      },
+      appointment_duration: {
+        type: Sequelize.STRING
+      },
+      // slot_id: {
+      //   type: Sequelize.UUID,
+      //   onDelete: 'CASCADE',
+      //   onUpdate: 'CASCADE',
+      //   references: {
+      //     model: 'Slots',
+      //     key: 'slot_id',
+      //     as: 'slot'
+      //   }
+      // },
+      department: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       is_approved: {
         type: Sequelize.BOOLEAN,

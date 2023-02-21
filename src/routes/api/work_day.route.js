@@ -2,6 +2,10 @@ import express from 'express';
 import WorkDayController from '../../controllers/work_day.controller';
 const routes = express.Router();
 
+routes.post('/:schedule_id', async (req, res) => {
+  await new WorkDayController().createWorkDay(req, res);
+});
+
 routes.get('/', async (req, res) => {
   await new WorkDayController().getWorkDays(req, res);
 });

@@ -78,10 +78,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true
       },
-      speciality: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
       cost_per_appointment: {
         type: Sequelize.INTEGER,
         allowNull: true
@@ -90,28 +86,16 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true
       },
-      department: {
+      education: {
         type: Sequelize.STRING,
         allowNull: true
       },
-      education: {
+      category: {
         type: Sequelize.STRING,
         allowNull: true
       },
       about: {
         type: Sequelize.TEXT,
-        allowNull: true
-      },
-      country: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      address_1: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      address_2: {
-        type: Sequelize.STRING,
         allowNull: true
       },
       createdAt: {
