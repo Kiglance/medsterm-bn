@@ -6,7 +6,12 @@ import {
   checkClientExist,
   checkLoginDoctorExist
 } from '../../middlewares/user.middleware';
-import { checkAppointmentExist } from '../../middlewares/appointment.middleware';
+import {
+  checkAppointmentExist,
+  checkAppointmentIsTaken,
+  checkDoctorScheduleDayExist,
+  checkDoctorDepartmentExist
+} from '../../middlewares/appointment.middleware';
 
 const routes = express.Router();
 
@@ -15,6 +20,9 @@ routes.post(
   checkLoggedIn,
   checkDoctorExist,
   checkClientExist,
+  checkAppointmentIsTaken,
+  checkDoctorScheduleDayExist,
+  checkDoctorDepartmentExist,
   async (req, res) => {
     await new AppointmentController().makeAppointment(req, res);
   }

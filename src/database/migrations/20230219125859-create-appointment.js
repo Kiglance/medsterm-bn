@@ -1,5 +1,6 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+const { generateNumber } = require('../../utils/generateNumber');
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Appointments', {
@@ -9,6 +10,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      appointment_number: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue() {
+          return generateNumber('AP', 8);
+        }
+      },
       client_id: {
         type: Sequelize.UUID,
         onDelete: 'CASCADE',
@@ -17,6 +25,17 @@ module.exports = {
           model: 'Clients',
           key: 'client_id',
           as: 'client'
+        }
+      },
+      department_id: {
+        type: Sequelize.UUID,
+        allowNull: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Departments',
+          key: 'department_id',
+          as: 'department'
         }
       },
       doctor_id: {
@@ -39,22 +58,18 @@ module.exports = {
           as: 'schedule'
         }
       },
+      _id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Work_Days',
+          key: '_id',
+          as: 'work_day'
+        }
+      },
       appointment_duration: {
         type: Sequelize.STRING
-      },
-      // slot_id: {
-      //   type: Sequelize.UUID,
-      //   onDelete: 'CASCADE',
-      //   onUpdate: 'CASCADE',
-      //   references: {
-      //     model: 'Slots',
-      //     key: 'slot_id',
-      //     as: 'slot'
-      //   }
-      // },
-      department: {
-        type: Sequelize.STRING,
-        allowNull: true
       },
       is_approved: {
         type: Sequelize.BOOLEAN,

@@ -9,12 +9,17 @@ import { Client_MedicalInfo } from '../database/models';
 
 export default class ClientInfoService {
   async createClientMedicalInfo(data) {
-    const newInfo = await Client_MedicalInfo.create(data);
-    return newInfo;
+    const result = await Client_MedicalInfo.bulkCreate(data);
+    return result;
+  }
+
+  async createClientMedicalInfoArr(data) {
+    const result = await Client_MedicalInfo.bulkCreate(data);
+    return result;
   }
 
   async getAllClientMedicalInfo() {
-    const infos = await Client_MedicalInfo.findAll({});
-    return infos;
+    const result = await Client_MedicalInfo.findAll({});
+    return result;
   }
 }

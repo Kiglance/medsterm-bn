@@ -8,6 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Doctor_Dept',
         as: 'doctors'
       });
+
+      this.hasMany(models.Appointment, {
+        foreignKey: 'department_id',
+        onDelete: 'CASCADE',
+        as: 'appointments'
+      });
     }
   }
   Department.init(

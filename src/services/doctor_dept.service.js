@@ -9,28 +9,31 @@ import { Doctor_Dept, Doctor, Department } from '../database/models';
 
 export default class DocDeptService {
   async createDocDept(data) {
-    const newData = await Doctor_Dept.bulkCreate(data);
-    return newData;
+    const result = await Doctor_Dept.bulkCreate(data);
+    return result;
   }
 
   async getDocDepts() {
-    const infos = await Doctor_Dept.findAll({});
-    return infos;
+    const result = await Doctor_Dept.findAll({});
+    return result;
+  }
+
+  async getDocDept(id) {
+    return Doctor_Dept.findByPk(id, {});
   }
 
   async deleteDocDepts(req) {
-    const { id } = req.params;
-    const infos = await Doctor_Dept.destroy({ where: { schedule_id: id } });
-    return infos;
+    const result = await Doctor_Dept.destroy({ where });
+    return result;
   }
 
   async updateDocDpt(data, where) {
-    const newDocDpt = await Doctor_Dept.update(data, where);
-    return newDocDpt;
+    const result = await Doctor_Dept.update(data, where);
+    return result;
   }
 
   async deleteDocDept({ where }) {
-    const infos = await Doctor_Dept.destroy({ where });
-    return infos;
+    const result = await Doctor_Dept.destroy({ where });
+    return result;
   }
 }

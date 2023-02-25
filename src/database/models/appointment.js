@@ -1,8 +1,18 @@
 'use strict';
 const { Model } = require('sequelize');
+const { generateNumber } = require('../../utils/generateNumber');
 module.exports = (sequelize, DataTypes) => {
   class Appointment extends Model {
     static associate(models) {
+      this.belongsTo(models.Department, {
+        foreignKey: {
+          name: 'department_id',
+          allowNull: true
+        },
+        onDelete: 'CASCADE',
+        as: 'department'
+      });
+
       this.belongsTo(models.Doctor, {
         foreignKey: {
           name: 'doctor_id',
@@ -30,15 +40,6 @@ module.exports = (sequelize, DataTypes) => {
         as: 'work_day'
       });
 
-      // this.belongsTo(models.Slot, {
-      //   foreignKey: {
-      //     name: 'slot_id',
-      //     allowNull: true
-      //   },
-      //   onDelete: 'CASCADE',
-      //   as: 'slot'
-      // });
-
       this.belongsTo(models.Client, {
         foreignKey: {
           name: 'client_id',
@@ -57,7 +58,17 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
+      appointment_number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue() {
+          return generateNumber('AP', 8);
+        }
+      },
       client_id: {
+        type: DataTypes.UUID
+      },
+      department_id: {
         type: DataTypes.UUID
       },
       doctor_id: {
@@ -71,13 +82,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       appointment_duration: {
         type: DataTypes.STRING
-      },
-      // slot_id: {
-      //   type: DataTypes.UUID
-      // },
-      department: {
-        type: DataTypes.STRING,
-        allowNull: true
       },
       is_approved: {
         type: DataTypes.BOOLEAN,

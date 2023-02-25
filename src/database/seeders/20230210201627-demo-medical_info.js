@@ -182,6 +182,28 @@ module.exports = {
           info_description: '',
           createdAt: new Date(),
           updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name:
+            'Allergies: Do you have any known allergies or do you have any adverse reaction to drugs or medication?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Do you currently take any medication?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          info_id: Sequelize.literal('uuid_generate_v4()'),
+          info_name: 'Smoking History. Do you or have you ever smoked?',
+          info_description: '',
+          createdAt: new Date(),
+          updatedAt: new Date()
         }
       ],
       {}

@@ -12,6 +12,7 @@ import {
   isLoginDoctor,
   checkIsAdmin
 } from '../../middlewares/user.middleware';
+import { checkIfInfoExist } from '../../middlewares/info.middleware';
 import {
   loginUserValidation,
   registerUserValidation
@@ -32,7 +33,8 @@ routes.post(
 routes.post(
   '/client/register',
   upload.single('picture'),
-  registerUserValidation,
+  // registerUserValidation,
+  checkIfInfoExist,
   checkClientEmailExist,
   async (req, res) => {
     await new UserController().registerClient(req, res);
@@ -65,6 +67,10 @@ routes.get('/doctors', async (req, res) => {
 
 routes.get('/clients', async (req, res) => {
   await new UserController().getClients(req, res);
+});
+
+routes.get('/clients/:id', async (req, res) => {
+  await new UserController().getClient(req, res);
 });
 
 routes.get('/verify/:token', async (req, res) => {

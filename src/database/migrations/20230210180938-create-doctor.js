@@ -1,4 +1,5 @@
 'use strict';
+const { generateNumber } = require('../../utils/generateNumber');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,6 +12,13 @@ module.exports = {
         primaryKey: true,
         defaultValue: Sequelize.literal('uuid_generate_v4()'),
         allowNull: false
+      },
+      doctor_number: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue() {
+          return generateNumber('00', 8);
+        }
       },
       role_id: {
         allowNull: true,

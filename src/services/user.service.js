@@ -11,7 +11,8 @@ import {
   Client,
   Vacation,
   Appointment,
-  Department
+  Department,
+  Medical_Info
 } from '../database/models';
 
 export default class UserService {
@@ -67,7 +68,9 @@ export default class UserService {
   }
 
   async getClient(id) {
-    return Client.findByPk(id, {});
+    return Client.findByPk(id, {
+      include: [{ model: Medical_Info, as: 'medical_info' }]
+    });
   }
 
   async updateDoctor(data, where) {

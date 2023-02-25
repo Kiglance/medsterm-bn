@@ -1,5 +1,6 @@
 'use strict';
 const bcrypt = require('bcryptjs');
+const { generateNumber } = require('../../utils/generateNumber');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -8,6 +9,7 @@ module.exports = {
       [
         {
           doctor_id: '202b2bfa-b290-4030-aba2-e66d153069b9',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Admin',
           last_name: 'One',
           email: 'admin_1@ms.com',
@@ -19,6 +21,7 @@ module.exports = {
         },
         {
           doctor_id: '202b2bfa-b278-4099-aba2-e66d159969c0',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Admin',
           last_name: 'Two',
           email: 'admin_2@ms.com',
@@ -30,6 +33,7 @@ module.exports = {
         },
         {
           doctor_id: '64ff1279-8b59-4143-8e6c-a0c8f38bf9d5',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Kim',
           last_name: 'Foster',
           email: 'rutayisiregerard2002@gmail.com',
@@ -56,6 +60,7 @@ module.exports = {
         },
         {
           doctor_id: '5542b45b-530e-4d7f-bdd4-2322633f591f',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Micheal',
           last_name: 'Edell',
           email: 'edellmic@med.com',
@@ -82,6 +87,7 @@ module.exports = {
         },
         {
           doctor_id: 'aa9a40f9-de74-41e2-9ac7-5af88f2ecf98',
+          doctor_number: generateNumber('00', 8),
           first_name: 'John',
           last_name: 'Brown',
           email: 'johnbr@med.com',
@@ -108,6 +114,7 @@ module.exports = {
         },
         {
           doctor_id: '33f41511-880b-4b44-97ca-df6ea0a746cb',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Chris',
           last_name: 'Damon',
           email: 'chridam@med.com',
@@ -134,6 +141,7 @@ module.exports = {
         },
         {
           doctor_id: '9d0867d3-4fd3-482a-b423-3c1c508b6c69',
+          doctor_number: generateNumber('00', 8),
           first_name: 'Tima',
           last_name: 'Ellis',
           email: 'tinelli@med.com',

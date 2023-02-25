@@ -17,4 +17,23 @@ export default class VacationService {
     const vacations = await Vacation.findAll({});
     return vacations;
   }
+
+  async getSingleVacation(id) {
+    return Vacation.findByPk(id, {});
+  }
+
+  async updateVacation(data, where) {
+    const newVac = await Vacation.update(data, where);
+    return newVac;
+  }
+
+  async deleteOnevacation(where) {
+    const data = await Vacation.destroy(where);
+    return data;
+  }
+
+  async deleteVacations({ where }) {
+    const data = await Vacation.destroy({ where });
+    return data;
+  }
 }

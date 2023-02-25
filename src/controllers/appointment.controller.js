@@ -10,7 +10,7 @@ import {
 import sendEmail from '../helpers/nodemailer';
 import { verifyToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
-import { Doctor, Client } from '../database/models';
+import { Doctor, Client, Work_Day } from '../database/models';
 import { date } from 'joi';
 
 export default class userController {
@@ -22,30 +22,37 @@ export default class userController {
   async makeAppointment(req, res) {
     try {
       const {
-        appointment_date,
-        appointment_time,
         appointment_duration,
-        doctor_id
+        doctor_id,
+        _id,
+        schedule_id,
+        department_id
       } = req.body;
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
       const client_id = variable.id;
       const user = await this.userService.getClient(client_id);
+      const work_day = await Work_Day.findByPk(_id, {});
 
       const newAppointment = await this.appointmentService.makeAppointment(
         {
-          appointment_date,
-          appointment_time,
           appointment_duration,
           client_id,
-          doctor_id
+          doctor_id,
+          _id,
+          schedule_id,
+          department_id
         },
         res
       );
+
+      console.log({ newAppointment });
+      console.log({ work_day });
+
       const message = `
       <h1><strong>Appointment notification.</strong></h1>
-      <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${appointment_date}</span>.</p> 
+      <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${work_day?.date}</span>.</p> 
       <a
         href="${process.env.FRONTEND_URL}/verify?token=${token}"
         target="_blank"
@@ -72,11 +79,6 @@ export default class userController {
         message: 'Appointment creation was successfull.'
       });
     } catch (error) {
-      const { appointment_date, doctor_id } = req.body;
-      const doctor = await this.userService.getUser(doctor_id);
-      const token = checkToken(req);
-      const variable = decodeToken(token);
-
       return res.status(500).json({
         message: 'Error occured while making an appointment.',
         error: error.message

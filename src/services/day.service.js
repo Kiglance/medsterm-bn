@@ -9,22 +9,22 @@ import { Day } from '../database/models';
 
 export default class DayService {
   async createDay(data) {
-    const newDay = await Day.create(data);
-    return newDay;
+    const result = await Day.create(data);
+    return result;
   }
 
   async getDays() {
-    const days = await Day.findAll({});
-    return days;
+    const result = await Day.findAll({});
+    return result;
   }
 
   async getOneDay({ where }) {
-    const day = await Day.findOne({ where });
-    return day;
+    const result = await Day.findOne({ where });
+    return result;
   }
 
   async deleteDays({ where }) {
-    const infos = await Day.destroy({ where });
-    return infos;
+    const result = await Day.destroy({ where });
+    return result;
   }
 }
