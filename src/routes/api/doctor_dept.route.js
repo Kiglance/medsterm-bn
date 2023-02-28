@@ -1,8 +1,10 @@
 import express from 'express';
 import DoctorDeptController from '../../controllers/doctor_dept.controller';
+import { checkDoctorExist } from '../../middlewares/user.middleware';
+import { checkDepartmentExist } from '../../middlewares/department.middleware';
 const routes = express.Router();
 
-routes.post('/', async (req, res) => {
+routes.post('/', checkDoctorExist, async (req, res) => {
   await new DoctorDeptController().createDocDept(req, res);
 });
 

@@ -18,6 +18,7 @@ import {
 export default class UserService {
   async getDoctors() {
     const users = await Doctor.findAll({
+      where: { role_id: 2 },
       include: [
         {
           model: Vacation,

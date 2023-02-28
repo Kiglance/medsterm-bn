@@ -52,6 +52,7 @@ module.exports = {
           education:
             "MD, University of Ottawa Faculty of Medecine Residency, Children's Hospital of Eastern Ontario",
           category: 'General practitioner',
+          speciality: 'Endocrinologist',
           about:
             "My extensive orthopedics experience has taught me two things. Keep up with the most recent developments in orthopedic treatment, and spend time getting to know your patients' individual needs.",
           isVerified: true,
@@ -79,6 +80,7 @@ module.exports = {
           education:
             "MD, University of Ottawa Faculty of Medecine Residency, Children's Hospital of Eastern Ontario",
           category: 'Specialist doctor',
+          speciality: 'Pulmonologist',
           about:
             "My extensive orthopedics experience has taught me two things. Keep up with the most recent developments in orthopedic treatment, and spend time getting to know your patients' individual needs.",
           isVerified: true,
@@ -106,6 +108,7 @@ module.exports = {
           education:
             "MD, University of Ottawa Faculty of Medecine Residency, Children's Hospital of Eastern Ontario",
           category: 'Medical student',
+          speciality: 'Cardiologist',
           about:
             "My extensive orthopedics experience has taught me two things. Keep up with the most recent developments in orthopedic treatment, and spend time getting to know your patients' individual needs.",
           isVerified: true,
@@ -133,6 +136,7 @@ module.exports = {
           education:
             "MD, University of Ottawa Faculty of Medecine Residency, Children's Hospital of Eastern Ontario",
           category: 'Academic doctor',
+          speciality: 'Pediatrician',
           about:
             "My extensive orthopedics experience has taught me two things. Keep up with the most recent developments in orthopedic treatment, and spend time getting to know your patients' individual needs.",
           isVerified: true,
@@ -160,6 +164,7 @@ module.exports = {
           education:
             "MD, University of Ottawa Faculty of Medecine Residency, Children's Hospital of Eastern Ontario",
           category: 'Medical director',
+          speciality: 'Otolaryngologist',
           about:
             "My extensive orthopedics experience has taught me two things. Keep up with the most recent developments in orthopedic treatment, and spend time getting to know your patients' individual needs.",
           isVerified: true,

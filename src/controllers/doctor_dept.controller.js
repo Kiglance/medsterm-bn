@@ -11,17 +11,6 @@ export default class DoctorDeptController {
 
   async createDocDept(req, res) {
     try {
-      const existingDoctor = await User.findOne({
-        where: {
-          doctor_id: req.body.doctor_id
-        }
-      });
-      if (!existingDoctor) {
-        return res.status(404).send({
-          error: "The Doctor you are trying assign doesn't exist."
-        });
-      }
-
       const bodyArray = req.body.department_id.split(', ');
 
       var checker = [];
