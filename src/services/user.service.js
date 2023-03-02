@@ -65,7 +65,14 @@ export default class UserService {
   }
 
   async getUser(id) {
-    return Doctor.findByPk(id, {});
+    return Doctor.findByPk(id, {
+      include: [
+        {
+          model: Department,
+          as: 'departments'
+        }
+      ]
+    });
   }
 
   async getClient(id) {

@@ -496,6 +496,22 @@ export default class userController {
     }
   }
 
+  async getDoctor(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await this.userService.getUser(id);
+      return res.status(200).json({
+        message: 'Retrieved one doctor successfully',
+        data: result
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching doctor',
+        error: error.message
+      });
+    }
+  }
+
   async updateDoctor(req, res) {
     try {
       const {

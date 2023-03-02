@@ -65,6 +65,10 @@ routes.get('/doctors', async (req, res) => {
   await new UserController().getDoctors(req, res);
 });
 
+routes.get('/doctors/:id', async (req, res) => {
+  await new UserController().getDoctor(req, res);
+});
+
 routes.get('/clients', async (req, res) => {
   await new UserController().getClients(req, res);
 });
