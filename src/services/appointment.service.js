@@ -9,13 +9,13 @@ import { Appointment } from '../database/models';
 
 export default class AppointmentService {
   async makeAppointment(data) {
-    const newAppointment = await Appointment.create(data);
-    return newAppointment;
+    const result = await Appointment.create(data);
+    return result;
   }
 
   async getAllAppointments() {
-    const appointments = await Appointment.findAll({});
-    return appointments;
+    const result = await Appointment.findAll({});
+    return result;
   }
 
   async getAppointment(id) {

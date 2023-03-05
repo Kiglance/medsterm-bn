@@ -10,14 +10,38 @@ export default class ClientMedicalInfoController {
 
   async createClientMedicalInfo(req, res) {
     try {
-      const { client_id, info_id } = req.body;
+      const existingClient = await Client.findOne({
+        where: {
+          client_id: req.body[0]?.client_id
+        }
+      });
+      if (!existingClient) {
+        return res.status(404).json({
+          error: "The Client you are trying assign doesn't exist."
+        });
+      }
+
+      let array = [
+        {
+          client_id: '',
+          info_id,
+          description
+        },
+        {
+          client_id: '',
+          info_id,
+          description
+        },
+        {
+          client_id: '',
+          info_id,
+          description
+        }
+      ];
 
       const newInfo =
         await this.clientMedicalInfoService.createClientMedicalInfo(
-          {
-            client_id,
-            info_id
-          },
+          req.body,
           res
         );
 
@@ -107,19 +131,29 @@ export default class ClientMedicalInfoController {
         return newArr;
       };
 
-      await Client_MedicalInfo.bulkCreate(getBulkArr(myTuts))
-        .then((data) => {
-          return res.status(200).send({
-            message: "Medical info added to patient'n data successfully.",
-            data
-          });
-        })
-        .catch((error) => {
-          return res.status(500).json({
-            message: 'Error occured while creating med. infos',
-            error: error.message
-          });
-        });
+      await this.clientMedicalInfoService.createClientMedicalInfoArr(
+        getBulkArr(myTuts),
+        res
+      );
+
+      return res.status(201).send({
+        message: "Medical info added to patient'n data successfully.",
+        data
+      });
+
+      // await Client_MedicalInfo.bulkCreate(getBulkArr(myTuts))
+      //   .then((data) => {
+      //     return res.status(200).send({
+      //       message: "Medical info added to patient'n data successfully.",
+      //       data
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     return res.status(500).json({
+      //       message: 'Error occured while creating med. infos',
+      //       error: error.message
+      //     });
+      //   });
     } catch (error) {
       return res.status(500).json({
         message: 'Error occured while creating med. infos',

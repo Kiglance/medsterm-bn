@@ -8,6 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Doctor_Dept',
         as: 'doctors'
       });
+
+      this.belongsToMany(models.Department, {
+        foreignKey: 'department_id',
+        through: 'Appointment_Dept',
+        as: 'appointments'
+      });
     }
   }
   Department.init(
@@ -21,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       department_name: {
         type: DataTypes.STRING
       },
-      patient_visit: {
+      speciality_name: {
         type: DataTypes.STRING
       }
     },

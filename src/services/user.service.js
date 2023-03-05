@@ -5,18 +5,19 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { name } from 'ejs';
 import {
   Doctor,
   Client,
   Vacation,
   Appointment,
-  Department
+  Department,
+  Medical_Info
 } from '../database/models';
 
 export default class UserService {
   async getDoctors() {
     const users = await Doctor.findAll({
+      where: { role_id: 2 },
       include: [
         {
           model: Vacation,
@@ -63,11 +64,20 @@ export default class UserService {
   }
 
   async getUser(id) {
-    return Doctor.findByPk(id, {});
+    return Doctor.findByPk(id, {
+      include: [
+        {
+          model: Department,
+          as: 'departments'
+        }
+      ]
+    });
   }
 
   async getClient(id) {
-    return Client.findByPk(id, {});
+    return Client.findByPk(id, {
+      include: [{ model: Medical_Info, as: 'medical_info' }]
+    });
   }
 
   async updateDoctor(data, where) {

@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const { generateNumber } = require('../../utils/generateNumber');
 
 module.exports = (sequelize, DataTypes) => {
   class Doctor extends Model {
@@ -51,6 +52,13 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: true
+      },
+      doctor_number: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue() {
+          return generateNumber('00', 8);
+        }
       },
       role_id: {
         allowNull: true,

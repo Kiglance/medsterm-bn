@@ -1,5 +1,5 @@
 import express from 'express';
-import VacationController from '../../controllers/vacation.controller';
+import DayoffController from '../../controllers/dayoff.controller';
 import {
   checkDoctorExist,
   checkLoggedIn,
@@ -14,28 +14,28 @@ routes.post(
   checkLoggedIn,
   checkIsAdmin,
   async (req, res) => {
-    await new VacationController().makeVacation(req, res);
+    await new DayoffController().makeDayoff(req, res);
   }
 );
 
 routes.get('/', async (req, res) => {
-  await new VacationController().getVacations(req, res);
+  await new DayoffController().getDayoffs(req, res);
 });
 
 routes.get('/:id', async (req, res) => {
-  await new VacationController().getSingleVacation(req, res);
+  await new DayoffController().getSingleDayoff(req, res);
 });
 
 routes.patch('/:id', async (req, res) => {
-  await new VacationController().updateVacation(req, res);
+  await new DayoffController().updateDayoff(req, res);
 });
 
 routes.delete('/:id', async (req, res) => {
-  await new VacationController().deleteVacation(req, res);
+  await new DayoffController().deleteDayoff(req, res);
 });
 
 routes.delete('/', async (req, res) => {
-  await new VacationController().deleteAllVacations(req, res);
+  await new DayoffController().deleteAllDayoffs(req, res);
 });
 
 export default routes;

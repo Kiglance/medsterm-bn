@@ -11,9 +11,8 @@ module.exports = {
       department_name: {
         type: Sequelize.STRING
       },
-      patient_visit: {
-        type: Sequelize.STRING,
-        allowNull: true
+      speciality_name: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

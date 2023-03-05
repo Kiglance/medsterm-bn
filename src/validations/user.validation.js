@@ -44,6 +44,7 @@ const registerUserValidation = (req, res, next) => {
           '{{#label}} must contain atleast a number, upper-case letter, longer than 8 characters, and no space'
       }),
     email: Joi.string().email().required().empty(),
+    picture: Joi.string(),
     marital_status: Joi.string().required().empty(),
     country: Joi.string().required().empty(),
     address_1: Joi.string().required().empty(),

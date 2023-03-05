@@ -1,13 +1,20 @@
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
+const { generateNumber } = require('../../utils/generateNumber');
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Appointments', {
       appointment_id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false
+      },
+      appointment_number: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue() {
+          return generateNumber('AP', 8);
+        }
       },
       client_id: {
         type: Sequelize.UUID,
@@ -39,31 +46,18 @@ module.exports = {
           as: 'schedule'
         }
       },
-      appointment_duration: {
+      _id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Work_Days',
+          key: '_id',
+          as: 'work_day'
+        }
+      },
+      appointment_period: {
         type: Sequelize.STRING
-      },
-      // slot_id: {
-      //   type: Sequelize.UUID,
-      //   onDelete: 'CASCADE',
-      //   onUpdate: 'CASCADE',
-      //   references: {
-      //     model: 'Slots',
-      //     key: 'slot_id',
-      //     as: 'slot'
-      //   }
-      // },
-      department: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      is_approved: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: true
-      },
-      status: {
-        type: Sequelize.ENUM('pending', 'approved', 'cancelled'),
-        defaultValue: 'pending'
       },
       is_canceled: {
         type: Sequelize.BOOLEAN,
@@ -76,6 +70,18 @@ module.exports = {
       },
       cancel_reason: {
         type: Sequelize.DATE,
+        allowNull: true
+      },
+      is_set_to: {
+        type: Sequelize.ENUM('expected', 'previous'),
+        defaultValue: 'expected'
+      },
+      complaints: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      diagnosis: {
+        type: Sequelize.TEXT,
         allowNull: true
       },
       createdAt: {

@@ -9,12 +9,31 @@ import { Medical_Info } from '../database/models';
 
 export default class MedicalInfoService {
   async createMedicalInfo(data) {
-    const newInfo = await Medical_Info.create(data);
-    return newInfo;
+    const result = await Medical_Info.create(data);
+    return result;
   }
 
   async getAllMedicalInfo() {
-    const infos = await Medical_Info.findAll({});
-    return infos;
+    const result = await Medical_Info.findAll({});
+    return result;
+  }
+
+  async getSingleMedicalInfo(id) {
+    return Medical_Info.findByPk(id, {});
+  }
+
+  async updateMedicalInfo(data, where) {
+    const result = await Medical_Info.update(data, where);
+    return result;
+  }
+
+  async deleteOneMedicalInfo(where) {
+    const result = await Medical_Info.destroy(where);
+    return result;
+  }
+
+  async deleteMedicalInfos({ where }) {
+    const result = await Medical_Info.destroy({ where });
+    return result;
   }
 }

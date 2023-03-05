@@ -22,8 +22,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false
       },
-      info_description: {
-        type: DataTypes.TEXT,
+      info_type: {
+        type: DataTypes.ENUM('general', 'special'),
+        defaultValue: 'general',
         allowNull: true
       }
     },

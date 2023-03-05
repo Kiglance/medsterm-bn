@@ -53,7 +53,6 @@ export const validateScheduleTime = async (req, res, next) => {
       }
     }
     const fx = compareDates(new Date(start_date), new Date(end_date));
-    console.log({ thatDate, fx, mapps });
 
     if (thatDate === 'CASE 1') {
       return res.status(400).json({
@@ -98,7 +97,6 @@ export const validateScheduleTime = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(req);
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message
@@ -118,7 +116,6 @@ export const checkScheduleInterval = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(req);
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message

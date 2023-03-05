@@ -9,33 +9,33 @@ import { Work_Day } from '../database/models';
 
 export default class WorkDayService {
   async createWorkDay(data) {
-    const newDay = await Work_Day.create(data);
-    return newDay;
+    const result = await Work_Day.create(data);
+    return result;
   }
 
   async createWorkDayArr(data) {
-    const newData = await Work_Day.bulkCreate(data);
-    return newData;
+    const result = await Work_Day.bulkCreate(data);
+    return result;
   }
 
   async getWorkDays() {
-    const infos = await Work_Day.findAll({});
-    return infos;
+    const result = await Work_Day.findAll({});
+    return result;
   }
 
   async deleteWorkDays(req) {
     const { id } = req.params;
-    const infos = await Work_Day.destroy({ where: { schedule_id: id } });
-    return infos;
+    const result = await Work_Day.destroy({ where: { schedule_id: id } });
+    return result;
   }
 
   async updateWorkDay(data, where) {
-    const newDay = await Work_Day.update(data, where);
-    return newDay;
+    const result = await Work_Day.update(data, where);
+    return result;
   }
 
   async deleteDays({ where }) {
-    const infos = await Work_Day.destroy({ where });
-    return infos;
+    const result = await Work_Day.destroy({ where });
+    return result;
   }
 }

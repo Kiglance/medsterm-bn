@@ -1,16 +1,5 @@
 import VacationService from '../services/vacation.service';
 import UserService from '../services/user.service';
-import {
-  hashPassword,
-  comparePassword,
-  decodeToken,
-  generateToken
-} from '../helpers/user.helper';
-import sendEmail from '../helpers/nodemailer';
-import { verifyToken } from '../helpers/user.helper';
-import checkToken from '../helpers/checkToken';
-import { Doctor, Client, Vacation } from '../database/models';
-import { date } from 'joi';
 
 export default class vacationController {
   constructor() {
@@ -53,6 +42,87 @@ export default class vacationController {
     } catch (error) {
       return res.status(500).json({
         message: 'Error occured while fetching vacations',
+        error: error.message
+      });
+    }
+  }
+
+  async getSingleVacation(req, res) {
+    try {
+      const vacation = await this.vacationService.getSingleVacation();
+      return res.status(200).json({
+        message: 'Retrieved one vacation successfully',
+        data: vacation
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching vacation',
+        error: error.message
+      });
+    }
+  }
+
+  async updateVacation(req, res) {
+    try {
+      const { doctor_id, from_date, to_date } = req.body;
+      const { id } = req.params;
+
+      await this.vacationService.updateVacation(req.body, {
+        doctor_id,
+        from_date,
+        to_date,
+        where: {
+          vacation_id: id
+        }
+      });
+
+      return res.status(201).json({
+        status: 200,
+        message: 'Vacation update successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while updating vacation.',
+        error: error.message
+      });
+    }
+  }
+
+  async deleteVacation(req, res) {
+    try {
+      const { id } = req.params;
+
+      await this.vacationService.deleteOnevacation({
+        where: {
+          vacation_id: id
+        }
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Vacation deleted successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while deleting vacation.',
+        error: error.message
+      });
+    }
+  }
+
+  async deleteAllVacations(req, res) {
+    try {
+      await this.vacationService.deleteVacations({
+        where: {}
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Vacations deleted successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while deleting vacations.',
         error: error.message
       });
     }
