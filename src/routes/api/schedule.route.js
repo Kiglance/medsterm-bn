@@ -1,6 +1,7 @@
 import express from 'express';
 import scheduleController from '../../controllers/schedule.controller';
 import {
+  checkIsDoneByAdmin,
   checkLoggedIn,
   checkLoginDoctorExist
 } from '../../middlewares/user.middleware';
@@ -14,7 +15,7 @@ const routes = express.Router();
 routes.post(
   '/',
   checkLoggedIn,
-  checkLoginDoctorExist,
+  checkIsDoneByAdmin,
   checkScheduleInterval,
   validateScheduleTime,
   async (req, res) => {

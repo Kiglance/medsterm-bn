@@ -99,7 +99,7 @@ export const checkVerifiedDoctor = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(500).json({
-      message: 'An Unexpected error occurred',
+      message: 'An Unexpected error occurred666',
       error
     });
   }
@@ -117,6 +117,44 @@ export const checkVerifiedClient = async (req, res, next) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     if (!user.isVerified) {
+      return res.status(400).json({
+        message: 'Please verify your email'
+      });
+    }
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error
+    });
+  }
+};
+
+export const checkVerifiedUser = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const client = await Client.findOne({
+      where: {
+        email
+      }
+    });
+
+    const doctor = await Doctor.findOne({
+      where: {
+        email
+      }
+    });
+
+    if (!client && !doctor) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    if (client && !client.isVerified) {
+      return res.status(400).json({
+        message: 'Please verify your email'
+      });
+    }
+    if (doctor && !doctor.isVerified) {
       return res.status(400).json({
         message: 'Please verify your email'
       });
@@ -223,6 +261,36 @@ export const isLoginClient = async (req, res, next) => {
   }
 };
 
+export const isLoginUser = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const client = await Client.findOne({
+      where: {
+        email
+      }
+    });
+
+    const doctor = await Doctor.findOne({
+      where: {
+        email
+      }
+    });
+
+    if (!client && !doctor) {
+      return res.status(404).json({ message: `Invalid credentials.` });
+    }
+
+    req.user = client || doctor;
+
+    return next();
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: 'Access denied', error: error.message });
+  }
+};
+
 export const checkDoctorExist = async (req, res, next) => {
   try {
     const { doctor_id } = req.body;
@@ -237,7 +305,7 @@ export const checkDoctorExist = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(500).json({
-      message: 'An Unexpected error occurred',
+      message: 'An Unexpected error occurred7777',
       error: error.message
     });
   }
@@ -258,7 +326,7 @@ export const checkClientExist = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(500).json({
-      message: 'An Unexpected error occurred',
+      message: 'An Unexpected error occurred0000',
       error: error.message
     });
   }
@@ -300,6 +368,35 @@ export const checkLoginDoctorExist = async (req, res, next) => {
         message: `Doctor with id "${doctor_data.id}" doesn't exist`
       });
     }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkIsDoneByAdmin = async (req, res, next) => {
+  try {
+    const token = checkToken(req);
+    const { doctor_id } = req.body;
+    const user_data = decodeToken(token);
+    const user = await Doctor.findByPk(user_data.id, {});
+    const assignedDoctor = await Doctor.findByPk(doctor_id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `Doctor or Admin with id "${user_data.id}" doesn't exist`
+      });
+    }
+    if (user_data.id !== doctor_id && user.role_id !== 1) {
+      return res.status(400).json({
+        message: `This action can only be performed by an admin or the corresponding doctor`
+      });
+    }
+
     req.user = user;
 
     return next();

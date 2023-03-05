@@ -5,10 +5,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Appointments', {
       appointment_id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        allowNull: false
       },
       appointment_number: {
         type: Sequelize.STRING,
@@ -25,17 +24,6 @@ module.exports = {
           model: 'Clients',
           key: 'client_id',
           as: 'client'
-        }
-      },
-      department_id: {
-        type: Sequelize.UUID,
-        allowNull: true,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: {
-          model: 'Departments',
-          key: 'department_id',
-          as: 'department'
         }
       },
       doctor_id: {
@@ -68,17 +56,8 @@ module.exports = {
           as: 'work_day'
         }
       },
-      appointment_duration: {
+      appointment_period: {
         type: Sequelize.STRING
-      },
-      is_approved: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: true
-      },
-      status: {
-        type: Sequelize.ENUM('pending', 'approved', 'cancelled'),
-        defaultValue: 'pending'
       },
       is_canceled: {
         type: Sequelize.BOOLEAN,
@@ -91,6 +70,18 @@ module.exports = {
       },
       cancel_reason: {
         type: Sequelize.DATE,
+        allowNull: true
+      },
+      is_set_to: {
+        type: Sequelize.ENUM('expected', 'previous'),
+        defaultValue: 'expected'
+      },
+      complaints: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      diagnosis: {
+        type: Sequelize.TEXT,
         allowNull: true
       },
       createdAt: {

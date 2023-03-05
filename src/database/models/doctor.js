@@ -133,10 +133,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      speciality: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
       about: {
         type: DataTypes.TEXT,
         allowNull: true

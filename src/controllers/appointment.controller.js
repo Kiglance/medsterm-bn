@@ -21,13 +21,8 @@ export default class userController {
 
   async makeAppointment(req, res) {
     try {
-      const {
-        appointment_duration,
-        doctor_id,
-        _id,
-        schedule_id,
-        department_id
-      } = req.body;
+      const { appointment_period, doctor_id, _id, schedule_id, department_id } =
+        req.body;
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
@@ -37,7 +32,7 @@ export default class userController {
 
       const newAppointment = await this.appointmentService.makeAppointment(
         {
-          appointment_duration,
+          appointment_period,
           client_id,
           doctor_id,
           _id,

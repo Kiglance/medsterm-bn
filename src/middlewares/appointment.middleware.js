@@ -31,10 +31,10 @@ export const checkAppointmentExist = async (req, res, next) => {
 
 export const checkAppointmentIsTaken = async (req, res, next) => {
   try {
-    const { appointment_duration, _id } = req.body;
+    const { appointment_period, _id } = req.body;
     const appointment = await Appointment.findOne({
       where: {
-        appointment_duration,
+        appointment_period,
         _id
       }
     });
@@ -42,7 +42,7 @@ export const checkAppointmentIsTaken = async (req, res, next) => {
 
     if (appointment) {
       return res.status(400).json({
-        message: `This slot "${appointment_duration}" is taken!`
+        message: `This slot "${appointment_period}" is taken!`
       });
     }
     console.log({ appointment });
@@ -51,7 +51,7 @@ export const checkAppointmentIsTaken = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(500).json({
-      message: 'An Unexpected error occurred',
+      message: 'An Unexpected error occurred888',
       error: error.message
     });
   }

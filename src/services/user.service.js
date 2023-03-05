@@ -5,7 +5,6 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { name } from 'ejs';
 import {
   Doctor,
   Client,
