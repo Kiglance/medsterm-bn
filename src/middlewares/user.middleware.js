@@ -39,7 +39,7 @@ export const checkClientEmailExist = async (req, res, next) => {
     if (emailExist) {
       return res
         .status(409)
-        .json({ message: `Client with email ${email} already exist` });
+        .json({ message: `User with email ${email} already exist` });
     }
 
     return next();

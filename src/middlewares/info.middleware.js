@@ -5,6 +5,10 @@ export const checkIfInfoExist = async (req, res, next) => {
   try {
     const str = req.body.arr;
 
+    if (!str) {
+      return next();
+    }
+
     const new_arr = str.split('#&#&');
 
     function getAnyt(arr) {
@@ -30,6 +34,7 @@ export const checkIfInfoExist = async (req, res, next) => {
         determinearray.push(first_arr[i]);
       }
     }
+    console.log(first_arr);
 
     if (determinearray == '') {
       return res.status(404).json({

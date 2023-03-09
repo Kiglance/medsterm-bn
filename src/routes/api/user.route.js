@@ -25,7 +25,7 @@ const routes = express.Router();
 routes.post(
   '/doctor/register',
   upload.single('picture'),
-  checkDepartmentExist,
+  // checkDepartmentExist,
   checkDoctorEmailExist,
   // checkIsAdmin,
   async (req, res) => {
@@ -92,6 +92,14 @@ routes.patch(
   checkDoctorEmailExist,
   async (req, res) => {
     await new UserController().updateDoctor(req, res);
+  }
+);
+
+routes.delete(
+  '/doctor/:id',
+  //  checkLoggedIn, checkIsAdmins,
+  async (req, res) => {
+    await new UserController().deleteOneDoctor(req, res);
   }
 );
 
