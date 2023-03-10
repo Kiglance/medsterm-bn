@@ -29,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       speciality_name: {
         type: DataTypes.STRING
+      },
+      picture: {
+        type: DataTypes.STRING,
+        defaultValue:
+          'https://www.pngkit.com/png/detail/135-1357744_medical-report-healthcare-description-policy-graph-medical-report.png'
       }
     },
     {

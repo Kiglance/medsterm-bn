@@ -14,8 +14,15 @@ export default class scheduleController {
 
   async createSchedule(req, res) {
     try {
-      const { doctor_id, start_date, end_date, appointment_duration, days } =
-        req.body;
+      const {
+        doctor_id,
+        start_date,
+        end_date,
+        appointment_duration,
+        days,
+        from,
+        to
+      } = req.body;
       const token = checkToken(req);
       const decoded = decodeToken(token);
 
@@ -56,6 +63,8 @@ export default class scheduleController {
             new Date(arr[i]).setDate(new Date(arr[i]).getDate() + 1)
           ).toISOString();
           obj['schedule_id'] = newSchedule.schedule_id;
+          obj['from'] = from;
+          obj['to'] = to;
 
           if (dayee.includes(arr[i].split(' ')[0])) {
             obj['status'] = 'active';
@@ -66,6 +75,8 @@ export default class scheduleController {
 
         return value;
       }
+
+      console.log(getDatesInRange(date1, date2), '**************');
 
       await this.workDayService.createWorkDayArr(
         makeArr(getDatesInRange(date1, date2)),

@@ -19,6 +19,7 @@ import {
   Medical_Info
 } from '../database/models';
 import ClientInfoService from '../services/client_medicalinfo.service';
+import { generatePassword } from '../utils/generatePassword';
 
 export default class userController {
   constructor() {
@@ -34,7 +35,7 @@ export default class userController {
         first_name,
         last_name,
         email,
-        password,
+        // password,
         gender,
         phone_number,
         id_number,
@@ -44,7 +45,9 @@ export default class userController {
         cost_per_appointment,
         salary,
         education,
-        about
+        category,
+        about,
+        department_id
       } = req.body;
 
       if (req.file) {
@@ -58,6 +61,8 @@ export default class userController {
           'https://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
       }
 
+      const generatedPassword = generatePassword();
+
       const newUser = await this.userService
         .createDoctor(
           {
@@ -65,7 +70,7 @@ export default class userController {
             first_name,
             last_name,
             email,
-            password: hashPassword(password),
+            password: hashPassword(generatedPassword),
             picture: req.body.picture,
             phone_number,
             id_number,
@@ -76,6 +81,7 @@ export default class userController {
             cost_per_appointment,
             salary,
             education,
+            category,
             about
           },
           res
@@ -100,56 +106,62 @@ export default class userController {
         });
       }
 
-      const deptIdsArr = req.body.department_id.split(', ');
+      if (department_id !== '' && department_id !== undefined) {
+        const deptIdsArr = department_id?.split(', ');
 
-      var lastArray = [];
-      var usableIndices = [];
-      for (let i = 0; i < deptIdsArr.length; i++) {
-        const existingDept = await Department.findOne({
-          where: {
-            department_id: deptIdsArr[i]
-          }
-        });
-
-        const existingRelation = await Doctor_Dept.findOne({
-          where: { doctor_id: doctor_id, department_id: deptIdsArr[i] }
-        }).catch((error) => {
-          return res.status(404).send({
-            error: error.message
+        var lastArray = [];
+        var usableIndices = [];
+        for (let i = 0; i < deptIdsArr?.length; i++) {
+          const existingDept = await Department.findOne({
+            where: {
+              department_id: deptIdsArr[i]
+            }
           });
-        });
-        if (!existingRelation && existingDept) {
-          usableIndices.push(i);
-        }
-        lastArray.push(existingRelation);
-      }
 
-      if (usableIndices == '') {
-        return res.status(404).json({
-          error: 'All these relations have already been made.'
-        });
-      }
-
-      const getBulkArr = (deptIdsArr) => {
-        var arr = [];
-        var newArr = [];
-        for (let i = 0; i < deptIdsArr.length; i++) {
-          var obj = {};
-          obj['doctor_id'] = doctor_id;
-          obj['department_id'] = deptIdsArr[i];
-
-          arr.push(obj);
-        }
-
-        for (let i = 0; i < arr.length; i++) {
-          if (usableIndices.includes(i)) {
-            newArr.push(arr[i]);
+          const existingRelation = await Doctor_Dept.findOne({
+            where: { doctor_id: doctor_id, department_id: deptIdsArr[i] }
+          }).catch((error) => {
+            return res.status(404).send({
+              error: error.message
+            });
+          });
+          if (!existingRelation && existingDept) {
+            usableIndices.push(i);
           }
+          lastArray.push(existingRelation);
         }
-        return newArr;
-      };
 
-      await this.docdeptService.createDocDept(getBulkArr(deptIdsArr), res);
+        if (usableIndices == '') {
+          return res.status(404).json({
+            error: 'All these relations have already been made.'
+          });
+        }
+
+        const getBulkArr = (deptIdsArr) => {
+          var arr = [];
+          var newArr = [];
+          for (let i = 0; i < deptIdsArr?.length; i++) {
+            var obj = {};
+            obj['doctor_id'] = doctor_id;
+            obj['department_id'] = deptIdsArr[i];
+
+            arr.push(obj);
+          }
+
+          for (let i = 0; i < arr.length; i++) {
+            if (usableIndices.includes(i)) {
+              newArr.push(arr[i]);
+            }
+          }
+          return newArr;
+        };
+        console.log('******************');
+        console.log(getBulkArr(deptIdsArr));
+        console.log('******************');
+        await this.docdeptService.createDocDept(getBulkArr(deptIdsArr), res);
+      }
+
+      // ??????????????????????????????????????????
 
       const token = generateToken({ id: doctor_id }, '1d');
       const message = `
@@ -157,6 +169,9 @@ export default class userController {
       <p>
         You were successfully registered to MedStem. Activate your account by
         clicking the button below.
+      </p>
+      <p>
+        Here is your password ${generatedPassword}.
       </p>
       <a
         href="${process.env.FRONTEND_URL}/verify?token=${token}"
@@ -241,122 +256,79 @@ export default class userController {
         res
       );
 
-      // Array to pass in body
       const str = req.body.arr;
-      // const first_arr = [
-      //   {
-      //     info_id,
-      //     description
-      //   },
-      //   {
-      //     info_id,
-      //     description
-      //   },
-      //   {
-      //     info_id,
-      //     description
-      //   }
-      // ];
 
-      const new_arr = str.split('#&#&');
+      if (str !== '' && str !== undefined) {
+        const new_arr = str.split('#&#&');
 
-      function getAnyt(arr) {
-        let newArr = [];
-        for (let i = 0; i < arr.length; i++) {
-          const obj = {};
-          obj['info_id'] = arr[i].split('#%#%')[0];
-          obj['description'] = arr[i].split('#%#%')[1];
-          newArr.push(obj);
+        function getAnyt(arr) {
+          let newArr = [];
+          for (let i = 0; i < arr.length; i++) {
+            const obj = {};
+            obj['info_id'] = arr[i].split('#%#%')[0];
+            obj['description'] = arr[i].split('#%#%')[1];
+            newArr.push(obj);
+          }
+          return newArr;
         }
-        return newArr;
-      }
 
-      const first_arr = getAnyt(new_arr);
-      let final_arr = [];
+        const first_arr = getAnyt(new_arr);
+        let final_arr = [];
 
-      for (let i = 0; i < first_arr.length; i++) {
-        let obj = {};
-        obj['client_id'] = newUser.client_id;
-        obj['info_id'] = first_arr[i].info_id;
-        obj['description'] = first_arr[i].description;
-
-        // const existingInfo = await Medical_Info.findOne({
-        //   where: {
-        //     info_id: first_arr[i]
-        //   }
-        // });
-        const id = first_arr[i].info_id;
-        const existingInfo = await this.medicalInfoService.getSingleMedicalInfo(
-          id
-        );
-        if (existingInfo) {
-          final_arr.push(obj);
+        for (let i = 0; i < first_arr.length; i++) {
+          let obj = {};
+          obj['client_id'] = newUser.client_id;
+          obj['info_id'] = first_arr[i].info_id;
+          obj['description'] = first_arr[i].description;
+          const id = first_arr[i].info_id;
+          const existingInfo =
+            await this.medicalInfoService.getSingleMedicalInfo(id);
+          if (existingInfo) {
+            final_arr.push(obj);
+          }
         }
+
+        if (final_arr == '') {
+          return res.status(500).json({
+            message: 'Final array is empty'
+          });
+        }
+
+        const newInfo =
+          await this.clientMedicalInfoService.createClientMedicalInfo(
+            final_arr,
+            res
+          );
       }
 
-      if (final_arr == '') {
-        return res.status(500).json({
-          message: 'Final array is empty',
-          error: error.message
-        });
-      }
-
-      // let array = [
-      //   {
-      //     client_id: newUser.client_id,
-      //     info_id,
-      //     description
-      //   },
-      //   {
-      //     client_id: newUser.client_id,
-      //     info_id,
-      //     description
-      //   },
-      //   {
-      //     client_id: newUser.client_id,
-      //     info_id,
-      //     description
-      //   }
-      // ];
-
-      const newInfo =
-        await this.clientMedicalInfoService.createClientMedicalInfo(
-          final_arr,
-          res
-        );
-
-      console.log({ newUser });
-      console.log({ newInfo });
-      console.log({ first_arr });
-
-      // const token = generateToken({ id: newUser.client_id }, '1d');
-      // const message = `
-      //    <h1><strong>Activate your account.</strong></h1>
-      // <p>
-      //   You were successfully registered to MedStem. Activate your account by
-      //   clicking the button below.
-      // </p>
-      // <a
-      //   href="${process.env.FRONTEND_URL}/verify?token=${token}"
-      //   target="_blank"
-      // >
-      //   <button
-      //     style="
-      //       border: none;
-      //       border-radius: 3px;
-      //       background: #003e6b;
-      //       color: #ffffff;
-      //       padding: 10px 5px;
-      //       width: fit-content;
-      //       margin: auto;
-      //     "
-      //   >
-      //     Verify email
-      //   </button>
-      // </a>
-      //       `;
-      // const subject = `Your account was successfully created!`;
-      // await sendEmail(subject, message, newUser.email);
+      const token = generateToken({ id: newUser.client_id }, '1d');
+      const message = `
+         <h1><strong>Activate your account.</strong></h1>
+      <p>
+        You were successfully registered to MedStem. Activate your account by
+        clicking the button below.
+      </p>
+      <a
+        href="${process.env.FRONTEND_URL}/verify?token=${token}"
+        target="_blank"
+      >
+        <button
+          style="
+            border: none;
+            border-radius: 3px;
+            background: #003e6b;
+            color: #ffffff;
+            padding: 10px 5px;
+            width: fit-content;
+            margin: auto;
+          "
+        >
+          Verify email
+        </button>
+      </a>
+            `;
+      const subject = `Your account was successfully created!`;
+      await sendEmail(subject, message, newUser.email);
       return res.status(201).json({
         status: 201,
         message:
@@ -385,18 +357,20 @@ export default class userController {
         });
       }
 
-      const user = await this.userService.getUser(userData.doctor_id);
+      console.log(userData, '************');
+
+      const user = await this.userService.getUser(userData.id);
 
       await this.userService.updateUserParts(
         { isVerified: true },
-        { where: { id: user.user_id } }
+        { where: { doctor_id: user.doctor_id } }
       );
 
       return res.status(200).send('<h1>Email successfully verified</h1>');
     } catch (error) {
       return res.status(500).json({
         message: 'An Unexpected error occurred',
-        error
+        error: error.message
       });
     }
   }
@@ -417,10 +391,13 @@ export default class userController {
             },
             '7d'
           );
-          return res.status(201).header('authenticate', token).json({
-            message: 'Doctor Logged in successfully',
-            data: { token, doctor }
-          });
+          return res
+            .status(201)
+            .header('authenticate', token)
+            .json({
+              message: 'Doctor Logged in successfully',
+              data: { token, user: doctor }
+            });
         }
         return res.status(400).json({ message: 'Invalid credentials' });
       }
@@ -433,10 +410,13 @@ export default class userController {
             },
             '7d'
           );
-          return res.status(201).header('authenticate', token).json({
-            message: 'Client Logged in successfully',
-            data: { token, client }
-          });
+          return res
+            .status(201)
+            .header('authenticate', token)
+            .json({
+              message: 'Client Logged in successfully',
+              data: { token, user: client }
+            });
         }
         return res.status(400).json({ message: 'Invalid credentials' });
       }
@@ -597,6 +577,28 @@ export default class userController {
     } catch (error) {
       return res.status(500).json({
         message: 'Failed to update doctor info.',
+        error: error.message
+      });
+    }
+  }
+
+  async deleteOneDoctor(req, res) {
+    try {
+      const { id } = req.params;
+
+      await this.userService.deleteOneDoctor({
+        where: {
+          doctor_id: id
+        }
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Doctor deleted successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while deleting Doctor.',
         error: error.message
       });
     }

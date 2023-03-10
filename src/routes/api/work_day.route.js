@@ -6,7 +6,7 @@ routes.post('/:schedule_id', async (req, res) => {
   await new WorkDayController().createWorkDay(req, res);
 });
 
-routes.get('/', async (req, res) => {
+routes.get('/:id', async (req, res) => {
   await new WorkDayController().getWorkDays(req, res);
 });
 

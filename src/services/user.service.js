@@ -84,4 +84,9 @@ export default class UserService {
     const newUser = await Doctor.update(data, where);
     return newUser;
   }
+
+  async deleteOneDoctor(where) {
+    const data = await Doctor.destroy(where);
+    return data;
+  }
 }

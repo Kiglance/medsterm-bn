@@ -11,10 +11,18 @@ export default class DepartmentController {
     try {
       const { department_name, speciality_name } = req.body;
 
+      if (req.file) {
+        req.body.picture = await imageUpload(req);
+      } else {
+        req.body.picture =
+          'https://www.pngkit.com/png/detail/135-1357744_medical-report-healthcare-description-policy-graph-medical-report.png';
+      }
+
       await this.dptService.makeDepartment(
         {
           department_name,
-          speciality_name
+          speciality_name,
+          picture: req.body.picture
         },
         res
       );
