@@ -5,7 +5,7 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { Work_Day } from '../database/models';
+import { Work_Day, Schedule, Doctor } from '../database/models';
 
 export default class WorkDayService {
   async createWorkDay(data) {
@@ -19,7 +19,22 @@ export default class WorkDayService {
   }
 
   async getWorkDays() {
-    const result = await Work_Day.findAll({});
+    const result = await Work_Day.findAll({
+      include: [
+        {
+          model: Schedule,
+          attributes: ['schedule_id'],
+          as: 'schedule',
+          include: [
+            {
+              model: Doctor,
+              attributes: ['doctor_id'],
+              as: 'doctor'
+            }
+          ]
+        }
+      ]
+    });
     return result;
   }
 

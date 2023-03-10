@@ -391,10 +391,13 @@ export default class userController {
             },
             '7d'
           );
-          return res.status(201).header('authenticate', token).json({
-            message: 'Doctor Logged in successfully',
-            data: { token, doctor }
-          });
+          return res
+            .status(201)
+            .header('authenticate', token)
+            .json({
+              message: 'Doctor Logged in successfully',
+              data: { token, user: doctor }
+            });
         }
         return res.status(400).json({ message: 'Invalid credentials' });
       }
@@ -407,10 +410,13 @@ export default class userController {
             },
             '7d'
           );
-          return res.status(201).header('authenticate', token).json({
-            message: 'Client Logged in successfully',
-            data: { token, client }
-          });
+          return res
+            .status(201)
+            .header('authenticate', token)
+            .json({
+              message: 'Client Logged in successfully',
+              data: { token, user: client }
+            });
         }
         return res.status(400).json({ message: 'Invalid credentials' });
       }
