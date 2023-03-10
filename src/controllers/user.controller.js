@@ -14,6 +14,7 @@ import MedicalInfoService from '../services/medical_info.service';
 import {
   Doctor_Dept,
   Doctor,
+  Client,
   Department,
   Medical_Info
 } from '../database/models';
@@ -400,27 +401,50 @@ export default class userController {
     }
   }
 
-  async clientLogin(req, res) {
+  async userLogin(req, res) {
     try {
-      const user = await this.userService.clientLogin(req.body.email);
-      const validation = comparePassword(req.body.password, user.password);
-      if (validation) {
-        const token = generateToken(
-          {
-            id: user.client_id
-          },
-          '7d'
-        );
-        return res.status(201).header('authenticate', token).json({
-          message: 'Logged in successfully',
-          data: { token, user }
-        });
+      const { email, password } = req.body;
+
+      const doctor = await this.userService.doctorLogin(email);
+      const client = await this.userService.clientLogin(email);
+
+      if (doctor) {
+        const validation = comparePassword(password, doctor.password);
+        if (validation) {
+          const token = generateToken(
+            {
+              id: doctor.doctor_id
+            },
+            '7d'
+          );
+          return res.status(201).header('authenticate', token).json({
+            message: 'Doctor Logged in successfully',
+            data: { token, doctor }
+          });
+        }
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+      if (client) {
+        const validation = comparePassword(password, client.password);
+        if (validation) {
+          const token = generateToken(
+            {
+              id: client.client_id
+            },
+            '7d'
+          );
+          return res.status(201).header('authenticate', token).json({
+            message: 'Client Logged in successfully',
+            data: { token, client }
+          });
+        }
+        return res.status(400).json({ message: 'Invalid credentials' });
       }
       return res.status(400).json({ message: 'Invalid credentials' });
     } catch (error) {
       return res.status(500).json({
         message: 'An Unexpected error occurred',
-        error
+        error: error.message
       });
     }
   }
@@ -491,6 +515,22 @@ export default class userController {
     } catch (error) {
       return res.status(500).json({
         message: 'Error occured while fetching users',
+        error: error.message
+      });
+    }
+  }
+
+  async getDoctor(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await this.userService.getUser(id);
+      return res.status(200).json({
+        message: 'Retrieved one doctor successfully',
+        data: result
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching doctor',
         error: error.message
       });
     }

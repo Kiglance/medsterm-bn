@@ -10,19 +10,22 @@ import {
   isDoctor,
   isLoginClient,
   isLoginDoctor,
-  checkIsAdmin
+  checkIsAdmin,
+  isLoginUser,
+  checkVerifiedUser
 } from '../../middlewares/user.middleware';
 import { checkIfInfoExist } from '../../middlewares/info.middleware';
 import {
   loginUserValidation,
   registerUserValidation
 } from '../../validations/user.validation';
+import { checkDepartmentExist } from '../../middlewares/department.middleware';
 const routes = express.Router();
 
 routes.post(
   '/doctor/register',
   upload.single('picture'),
-  // registerUserValidation,
+  checkDepartmentExist,
   checkDoctorEmailExist,
   // checkIsAdmin,
   async (req, res) => {
@@ -52,17 +55,21 @@ routes.post(
 );
 
 routes.post(
-  '/client/login',
-  isLoginClient,
+  '/login',
+  isLoginUser,
   loginUserValidation,
-  checkVerifiedClient,
+  checkVerifiedUser,
   async (req, res) => {
-    await new UserController().clientLogin(req, res);
+    await new UserController().userLogin(req, res);
   }
 );
 
 routes.get('/doctors', async (req, res) => {
   await new UserController().getDoctors(req, res);
+});
+
+routes.get('/doctors/:id', async (req, res) => {
+  await new UserController().getDoctor(req, res);
 });
 
 routes.get('/clients', async (req, res) => {

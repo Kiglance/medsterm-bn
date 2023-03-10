@@ -12,6 +12,7 @@ import {
   checkDoctorScheduleDayExist,
   checkDoctorDepartmentExist
 } from '../../middlewares/appointment.middleware';
+import { appointmentValidation } from '../../validations/appointment.validation';
 
 const routes = express.Router();
 
@@ -22,7 +23,7 @@ routes.post(
   checkClientExist,
   checkAppointmentIsTaken,
   checkDoctorScheduleDayExist,
-  checkDoctorDepartmentExist,
+  appointmentValidation,
   async (req, res) => {
     await new AppointmentController().makeAppointment(req, res);
   }

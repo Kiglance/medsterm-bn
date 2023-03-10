@@ -5,7 +5,6 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { name } from 'ejs';
 import {
   Doctor,
   Client,
@@ -18,6 +17,7 @@ import {
 export default class UserService {
   async getDoctors() {
     const users = await Doctor.findAll({
+      where: { role_id: 2 },
       include: [
         {
           model: Vacation,
@@ -64,7 +64,14 @@ export default class UserService {
   }
 
   async getUser(id) {
-    return Doctor.findByPk(id, {});
+    return Doctor.findByPk(id, {
+      include: [
+        {
+          model: Department,
+          as: 'departments'
+        }
+      ]
+    });
   }
 
   async getClient(id) {

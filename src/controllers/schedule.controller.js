@@ -14,11 +14,11 @@ export default class scheduleController {
 
   async createSchedule(req, res) {
     try {
-      const { start_date, end_date, appointment_duration, days } = req.body;
+      const { doctor_id, start_date, end_date, appointment_duration, days } =
+        req.body;
       const token = checkToken(req);
       const decoded = decodeToken(token);
 
-      const doctor = await this.userService.getUser(decoded.id);
       const dayee = days.split(', ');
 
       function getDatesInRange(startDate, endDate) {
@@ -38,7 +38,7 @@ export default class scheduleController {
 
       const newSchedule = await this.scheduleService.createSchedule(
         {
-          doctor_id: decoded.id,
+          doctor_id,
           start_date,
           appointment_duration,
           end_date

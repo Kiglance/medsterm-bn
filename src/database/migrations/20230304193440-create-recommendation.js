@@ -2,18 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Doctor_Depts', {
-      _id: {
+    await queryInterface.createTable('Recommendations', {
+      recommendation_id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.literal('uuid_generate_v4()'),
         allowNull: false
       },
-      department_id: {
-        type: Sequelize.UUID
+      appointment_id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Appointments',
+          key: 'appointment_id',
+          as: 'appointment'
+        }
       },
-      doctor_id: {
-        type: Sequelize.UUID
+      recommendation_name: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Doctor_Depts');
+    await queryInterface.dropTable('Recommendations');
   }
 };

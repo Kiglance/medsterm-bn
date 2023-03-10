@@ -142,7 +142,7 @@ module.exports = {
         {
           doctor_id: '9d0867d3-4fd3-482a-b423-3c1c508b6c69',
           doctor_number: generateNumber('00', 8),
-          first_name: 'Tima',
+          first_name: 'Tina',
           last_name: 'Ellis',
           email: 'tinelli@med.com',
           password: await bcrypt.hash('Admin2@ms', 12),

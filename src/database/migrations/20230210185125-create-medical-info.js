@@ -13,8 +13,9 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      info_description: {
-        type: Sequelize.TEXT,
+      info_type: {
+        type: Sequelize.ENUM('general', 'special'),
+        defaultValue: 'general',
         allowNull: true
       },
       createdAt: {

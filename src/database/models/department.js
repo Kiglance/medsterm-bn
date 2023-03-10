@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'doctors'
       });
 
-      this.hasMany(models.Appointment, {
+      this.belongsToMany(models.Department, {
         foreignKey: 'department_id',
-        onDelete: 'CASCADE',
+        through: 'Appointment_Dept',
         as: 'appointments'
       });
     }
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       department_name: {
         type: DataTypes.STRING
       },
-      patient_visit: {
+      speciality_name: {
         type: DataTypes.STRING
       }
     },

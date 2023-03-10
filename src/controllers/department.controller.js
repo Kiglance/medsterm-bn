@@ -9,11 +9,12 @@ export default class DepartmentController {
 
   async makeDepartment(req, res) {
     try {
-      const { department_name } = req.body;
+      const { department_name, speciality_name } = req.body;
 
       await this.dptService.makeDepartment(
         {
-          department_name
+          department_name,
+          speciality_name
         },
         res
       );
@@ -65,11 +66,12 @@ export default class DepartmentController {
 
   async updateDepartment(req, res) {
     try {
-      const { department_name } = req.body;
+      const { department_name, speciality_name } = req.body;
       const { id } = req.params;
 
       await this.dptService.updateDepartment(req.body, {
         department_name,
+        speciality_name,
         where: {
           department_id: id
         }
