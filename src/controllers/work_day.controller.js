@@ -9,12 +9,12 @@ export default class WorkDayController {
 
   async createWorkDay(req, res) {
     try {
-      const { day, date } = req.body;
-      const { schedule_id } = req.params;
+      const { day, date, schedule_id, doctor_id } = req.body;
 
       const newDay = await this.dayService.createWorkDay(
         {
           schedule_id,
+          doctor_id,
           day,
           date,
           status: 'active'
@@ -39,6 +39,24 @@ export default class WorkDayController {
       const days = await new WorkDayService().getWorkDays();
       return res.status(200).json({
         message: 'Retrieved all workdays successfully',
+        data: days
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching days',
+        error: error.message
+      });
+    }
+  }
+
+  async getWorkDaysByDoctorId(req, res) {
+    try {
+      const { id } = req.params;
+      const days = await new WorkDayService().getWorkDaysByDoctorId({
+        where: { doctor_id: id }
+      });
+      return res.status(200).json({
+        message: 'Retrieved all workdays of doctor successfully',
         data: days
       });
     } catch (error) {

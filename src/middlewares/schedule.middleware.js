@@ -5,8 +5,8 @@ import ScheduleService from '../services/schedule.service';
 
 export const validateScheduleTime = async (req, res, next) => {
   try {
-    const { start_date, end_date } = req.body;
-    const schedules = await Schedule.findAll({});
+    const { start_date, end_date, doctor_id } = req.body;
+    const schedules = await Schedule.findAll({ where: { doctor_id } });
 
     const mapps = schedules?.map((values, idx) => {
       return { start: values.start_date, end: values.end_date };
@@ -93,6 +93,26 @@ export const checkScheduleInterval = async (req, res, next) => {
         message: `The starting date can't be greater than or equal to the ending date.`
       });
     }
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkScheduleExist = async (req, res, next) => {
+  try {
+    const { schedule_id } = req.body;
+    const schedule = await Schedule.findByPk(schedule_id, {});
+    if (!schedule) {
+      return res.status(400).json({
+        message: `Schedule with id "${schedule_id}" doesn't exist`
+      });
+    }
+    req.schedule = schedule;
 
     return next();
   } catch (error) {

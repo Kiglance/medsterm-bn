@@ -20,14 +20,13 @@ export default class ScheduleService {
 
   async getSchedules() {
     const infos = await Schedule.findAll({
-      include: [
-        {
-          model: Work_Day,
-          as: 'work_days',
-          // attributes: ['_id', 'date', 'day', 'status'],
-          order: [['date', 'ASC']]
-        }
-      ]
+      // include: [
+      //   {
+      //     model: Work_Day,
+      //     as: 'work_days',
+      //     order: [['date', 'ASC']]
+      //   }
+      // ]
     });
     return infos;
   }

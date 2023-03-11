@@ -76,6 +76,26 @@ module.exports = {
         type: Sequelize.ENUM('expected', 'previous'),
         defaultValue: 'expected'
       },
+      drugs: {
+        type: Sequelize.STRING,
+        get() {
+          const rawValue = this.getDataValue('drugs');
+          return rawValue ? JSON.parse(rawValue) : JSON.parse(`[]`);
+        },
+        set(value) {
+          this.setDataValue('drugs', JSON.parse(value));
+        }
+      },
+      recommendations: {
+        type: Sequelize.STRING,
+        get() {
+          const rawValue = this.getDataValue('recommendations');
+          return rawValue ? JSON.parse(rawValue) : JSON.parse(`[]`);
+        },
+        set(value) {
+          this.setDataValue('recommendations', JSON.parse(value));
+        }
+      },
       complaints: {
         type: Sequelize.TEXT,
         allowNull: true

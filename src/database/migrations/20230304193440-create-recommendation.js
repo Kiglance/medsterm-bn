@@ -8,16 +8,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false
       },
-      appointment_id: {
-        type: Sequelize.UUID,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        references: {
-          model: 'Appointments',
-          key: 'appointment_id',
-          as: 'appointment'
-        }
-      },
       recommendation_name: {
         type: Sequelize.STRING
       },

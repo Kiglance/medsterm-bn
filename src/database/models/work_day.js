@@ -12,6 +12,15 @@ module.exports = (sequelize, DataTypes) => {
         as: 'schedule'
       });
 
+      this.belongsTo(models.Doctor, {
+        foreignKey: {
+          name: 'doctor_id',
+          allowNull: true
+        },
+        onDelete: 'CASCADE',
+        as: 'doctor'
+      });
+
       this.hasMany(models.Appointment, {
         foreignKey: '_id',
         onDelete: 'CASCADE',
@@ -34,6 +43,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       schedule_id: {
+        type: DataTypes.UUID
+      },
+      doctor_id: {
         type: DataTypes.UUID
       },
       day: {
