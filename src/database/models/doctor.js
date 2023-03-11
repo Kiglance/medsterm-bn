@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: true
         },
         onDelete: 'SET DEFAULT',
-        as: 'role'
+        as: 'Role'
       });
 
       this.belongsToMany(models.Department, {
