@@ -12,7 +12,8 @@ import {
   isLoginDoctor,
   checkIsAdmin,
   isLoginUser,
-  checkVerifiedUser
+  checkVerifiedUser,
+  isClient
 } from '../../middlewares/user.middleware';
 import { checkIfInfoExist } from '../../middlewares/info.middleware';
 import {
@@ -92,6 +93,16 @@ routes.patch(
   checkDoctorEmailExist,
   async (req, res) => {
     await new UserController().updateDoctor(req, res);
+  }
+);
+
+routes.patch(
+  '/client/:id',
+  upload.single('picture'),
+  checkLoggedIn,
+  isClient,
+  async (req, res) => {
+    await new UserController().updateClient(req, res);
   }
 );
 

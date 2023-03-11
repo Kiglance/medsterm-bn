@@ -604,7 +604,7 @@ export default class userController {
         req.body.picture = await imageUpload(req);
       }
 
-      const newUser = await this.userService.updateDoctor(req.body, {
+      const newUser = await this.userService.updateClient(req.body, {
         role_id: 3,
         first_name,
         last_name,

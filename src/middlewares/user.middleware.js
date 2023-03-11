@@ -193,17 +193,21 @@ export const isDoctor = async (req, res, next) => {
 
 export const isClient = async (req, res, next) => {
   try {
-    const { role_id, user_id } = req.decoded;
+    const client_id = req.decoded.id;
+    const { id } = req.params;
 
-    if (role_id !== 2) {
+    const user = await Client.findOne({
+      where: { client_id }
+    });
+
+    console.log(client_id, '###########');
+    console.log(user, '###########');
+
+    if (user.role_id !== 1 && id !== client_id) {
       return res.status(400).json({
-        message: 'Only Doctors can perform this action'
+        message: "You can't edit an other users data unless you are an admin"
       });
     }
-
-    const user = await Doctor.findOne({
-      where: { user_id }
-    });
 
     req.user = user;
 
