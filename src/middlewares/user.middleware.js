@@ -311,6 +311,46 @@ export const checkDoctorExist = async (req, res, next) => {
   }
 };
 
+export const checkDoctorExistParam = async (req, res, next) => {
+  try {
+    const doctor_id = req.params.id;
+    const user = await Doctor.findByPk(doctor_id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `Doctor with id "${doctor_id}" doesn't exist`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkClientExistParam = async (req, res, next) => {
+  try {
+    const client_id = req.params.id;
+    const user = await Client.findByPk(client_id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `Client with id "${client_id}" doesn't exist`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
 export const checkClientExist = async (req, res, next) => {
   try {
     const token = checkToken(req);

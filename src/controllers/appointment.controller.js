@@ -96,6 +96,50 @@ export default class userController {
     }
   }
 
+  async getAppointmentsByDoctor(req, res) {
+    try {
+      const { id } = req.params;
+      const doctor = await this.userService.getUser(id);
+      const appointments =
+        await new AppointmentService().getAppointmentsByDoctor({
+          where: {
+            doctor_id: id
+          }
+        });
+      return res.status(200).json({
+        message: `Retrieved all appointments successfully of Dr. ${doctor.first_name} ${doctor.first_name}`,
+        data: appointments
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching doctor appointments',
+        error: error.message
+      });
+    }
+  }
+
+  async getAppointmentsByClient(req, res) {
+    try {
+      const { id } = req.params;
+      const patient = await this.userService.getClient(id);
+      const appointments =
+        await new AppointmentService().getAppointmentsByClient({
+          where: {
+            client_id: id
+          }
+        });
+      return res.status(200).json({
+        message: `Retrieved all appointments successfully of Patient. ${patient.first_name} ${patient.first_name}`,
+        data: appointments
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching doctor appointments',
+        error: error.message
+      });
+    }
+  }
+
   async checkAppointment(req, res) {
     try {
       const { id } = req.params;

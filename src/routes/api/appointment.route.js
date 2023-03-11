@@ -4,7 +4,9 @@ import {
   checkLoggedIn,
   checkDoctorExist,
   checkClientExist,
-  checkLoginDoctorExist
+  checkLoginDoctorExist,
+  checkDoctorExistParam,
+  checkClientExistParam
 } from '../../middlewares/user.middleware';
 import {
   checkAppointmentExist,
@@ -31,6 +33,14 @@ routes.post(
 
 routes.get('/', async (req, res) => {
   await new AppointmentController().getAppointments(req, res);
+});
+
+routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
+  await new AppointmentController().getAppointmentsByDoctor(req, res);
+});
+
+routes.get('/client/:id', checkClientExistParam, async (req, res) => {
+  await new AppointmentController().getAppointmentsByClient(req, res);
 });
 
 routes.get(

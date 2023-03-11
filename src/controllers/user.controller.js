@@ -218,6 +218,7 @@ export default class userController {
         birth_date,
         marital_status,
         country,
+        city,
         address_1,
         address_2
       } = req.body;
@@ -247,6 +248,7 @@ export default class userController {
           birth_date,
           marital_status,
           country,
+          city,
           address_1,
           address_2
         },
@@ -572,6 +574,64 @@ export default class userController {
     } catch (error) {
       return res.status(500).json({
         message: 'Failed to update doctor info.',
+        error: error.message
+      });
+    }
+  }
+
+  async updateClient(req, res) {
+    try {
+      const {
+        first_name,
+        last_name,
+        email,
+        password,
+        gender,
+        phone_number,
+        id_number,
+        birth_date,
+        picture,
+        marital_status,
+        country,
+        city,
+        address_1,
+        address_2
+      } = req.body;
+
+      const id = req.params.id;
+
+      if (req.file) {
+        req.body.picture = await imageUpload(req);
+      }
+
+      const newUser = await this.userService.updateDoctor(req.body, {
+        role_id: 3,
+        first_name,
+        last_name,
+        email,
+        password,
+        gender,
+        phone_number,
+        picture,
+        id_number,
+        birth_date,
+        marital_status,
+        country,
+        city,
+        address_1,
+        address_2,
+        where: {
+          client_id: id
+        }
+      });
+      return res.status(201).json({
+        status: 201,
+        message: 'Patient updated successfully.',
+        data: newUser
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed to update patient info.',
         error: error.message
       });
     }

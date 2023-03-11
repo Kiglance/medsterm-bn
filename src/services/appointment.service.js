@@ -18,6 +18,16 @@ export default class AppointmentService {
     return result;
   }
 
+  async getAppointmentsByDoctor(where) {
+    const result = await Appointment.findAll(where);
+    return result;
+  }
+
+  async getAppointmentsByClient(where) {
+    const result = await Appointment.findAll(where);
+    return result;
+  }
+
   async getAppointment(id) {
     return Appointment.findByPk(id, {});
   }
