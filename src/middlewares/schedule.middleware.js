@@ -56,42 +56,22 @@ export const validateScheduleTime = async (req, res, next) => {
 
     if (thatDate === 'CASE 1') {
       return res.status(400).json({
-        message: `Your dates are between ${new Date(
-          first
-        ).toDateString()} and ${new Date(
-          last
-        ).toDateString()} of another schedule.`
+        message: `You cant't create a schedule inside another schedule.`
       });
     }
     if (!fx && thatDate === 'CASE 2') {
       return res.status(400).json({
-        message: `Your dates surround ${new Date(
-          first
-        ).toDateString()} and ${new Date(
-          last
-        ).toDateString()} of another schedule.`
+        message: `You cant't create a schedule inside another schedule.`
       });
     }
     if (!fx && thatDate === 'CASE 3') {
       return res.status(400).json({
-        message: `Your starting date is less than ${new Date(
-          first
-        ).toDateString()} and ending date is beyond ${new Date(
-          first
-        ).toDateString()} and less than ${new Date(
-          last
-        ).toDateString()} of another schedule.`
+        message: `You cant't create a schedule inside another schedule.`
       });
     }
     if (!fx && thatDate === 'CASE 4') {
       return res.status(400).json({
-        message: `Your ending date is greater than ${new Date(
-          last
-        ).toDateString()} and starting date is less than ${new Date(
-          last
-        ).toDateString()} and beyond ${new Date(
-          first
-        ).toDateString()} of another schedule.`
+        message: `You cant't create a schedule inside another schedule.`
       });
     }
 

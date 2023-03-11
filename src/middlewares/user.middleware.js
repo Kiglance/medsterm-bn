@@ -432,7 +432,7 @@ export const checkIsDoneByAdmin = async (req, res, next) => {
     const assignedDoctor = await Doctor.findByPk(doctor_id, {});
     if (!user) {
       return res.status(400).json({
-        message: `Doctor or Admin with id "${user_data.id}" doesn't exist`
+        message: `This action can be done by admin only`
       });
     }
     if (user_data.id !== doctor_id && user.role_id !== 1) {
