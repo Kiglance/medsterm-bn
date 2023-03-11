@@ -11,6 +11,7 @@ import {
   Vacation,
   Appointment,
   Department,
+  Role,
   Medical_Info
 } from '../database/models';
 
@@ -26,6 +27,10 @@ export default class UserService {
         {
           model: Department,
           as: 'departments'
+        },
+        {
+          model: Role,
+          as: 'Role'
         }
       ]
     });
@@ -33,7 +38,14 @@ export default class UserService {
   }
 
   async getClients() {
-    const users = await Client.findAll({});
+    const users = await Client.findAll({
+      include: [
+        {
+          model: Role,
+          as: 'Role'
+        }
+      ]
+    });
     return users;
   }
 
@@ -69,6 +81,10 @@ export default class UserService {
         {
           model: Department,
           as: 'departments'
+        },
+        {
+          model: Role,
+          as: 'Role'
         }
       ]
     });
@@ -76,7 +92,13 @@ export default class UserService {
 
   async getClient(id) {
     return Client.findByPk(id, {
-      include: [{ model: Medical_Info, as: 'medical_info' }]
+      include: [
+        { model: Medical_Info, as: 'medical_info' },
+        {
+          model: Role,
+          as: 'Role'
+        }
+      ]
     });
   }
 

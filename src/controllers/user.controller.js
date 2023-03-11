@@ -155,9 +155,6 @@ export default class userController {
           }
           return newArr;
         };
-        console.log('******************');
-        console.log(getBulkArr(deptIdsArr));
-        console.log('******************');
         await this.docdeptService.createDocDept(getBulkArr(deptIdsArr), res);
       }
 
@@ -356,8 +353,6 @@ export default class userController {
           message: 'Invalid Token'
         });
       }
-
-      console.log(userData, '************');
 
       const user = await this.userService.getUser(userData.id);
 
