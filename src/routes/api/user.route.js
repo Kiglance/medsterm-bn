@@ -13,7 +13,9 @@ import {
   checkIsAdmin,
   isLoginUser,
   checkVerifiedUser,
-  isClient
+  isClient,
+  checkUpdateClientPwdExist,
+  checkUpdateDoctorPwdExist
 } from '../../middlewares/user.middleware';
 import { checkIfInfoExist } from '../../middlewares/info.middleware';
 import {
@@ -103,6 +105,24 @@ routes.patch(
   isClient,
   async (req, res) => {
     await new UserController().updateClient(req, res);
+  }
+);
+
+routes.patch(
+  '/client/reset/:id',
+  checkLoggedIn,
+  checkUpdateClientPwdExist,
+  async (req, res) => {
+    await new UserController().updateClientPassword(req, res);
+  }
+);
+
+routes.patch(
+  '/doctor/reset/:id',
+  checkLoggedIn,
+  checkUpdateDoctorPwdExist,
+  async (req, res) => {
+    await new UserController().updateDoctorPassword(req, res);
   }
 );
 

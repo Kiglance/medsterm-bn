@@ -638,6 +638,104 @@ export default class userController {
     }
   }
 
+  async updateClientPassword(req, res) {
+    try {
+      const { id } = req.params;
+      const { new_password, current_password } = req.body;
+      const user = await this.userService.getClient(id);
+      const validation = comparePassword(current_password, user.password);
+      if (!validation) {
+        return res.status(400).json({
+          message:
+            'The password you entered does not match your current password'
+        });
+      }
+      // const newUser = await this.userService.updateClientPassword(req.body, {
+      //   password: hashPassword(new_password),
+      //   where: {
+      //     client_id: id
+      //   }
+      // });
+      const newUser = await Client.update(
+        { password: hashPassword(new_password) },
+        {
+          where: { client_id: id }
+        }
+      ).then((num) => {
+        1 == num
+          ? res.status(201).json({
+              status: 201,
+              message: "Patient's password  reset successfully.",
+              data: newUser
+            })
+          : res.status(400).json({
+              status: 201,
+              message: "Patient's password NOT  reset successfully.",
+              data: newUser
+            });
+      });
+      // return res.status(201).json({
+      //   status: 201,
+      //   message: "Patient's password  reset successfully.",
+      //   data: newUser
+      // });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed to update patient password.',
+        error: error.message
+      });
+    }
+  }
+
+  async updateDoctorPassword(req, res) {
+    try {
+      const { id } = req.params;
+      const { new_password, current_password } = req.body;
+      const user = await this.userService.getUser(id);
+      const validation = comparePassword(current_password, user.password);
+      if (!validation) {
+        return res.status(400).json({
+          message:
+            'The password you entered does not match your current password'
+        });
+      }
+      // const newUser = await this.userService.updateClientPassword(req.body, {
+      //   password: hashPassword(new_password),
+      //   where: {
+      //     client_id: id
+      //   }
+      // });
+      const newUser = await Doctor.update(
+        { password: hashPassword(new_password) },
+        {
+          where: { doctor_id: id }
+        }
+      ).then((num) => {
+        1 == num
+          ? res.status(201).json({
+              status: 201,
+              message: "Doctor's password  reset successfully.",
+              data: newUser
+            })
+          : res.status(400).json({
+              status: 201,
+              message: "Doctor's password NOT  reset successfully.",
+              data: newUser
+            });
+      });
+      // return res.status(201).json({
+      //   status: 201,
+      //   message: "Patient's password  reset successfully.",
+      //   data: newUser
+      // });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed to update doctor password.',
+        error: error.message
+      });
+    }
+  }
+
   async deleteOneDoctor(req, res) {
     try {
       const { id } = req.params;

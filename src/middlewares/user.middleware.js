@@ -474,3 +474,65 @@ export const checkUserExist = async (req, res, next) => {
     });
   }
 };
+
+export const checkUpdateDoctorPwdExist = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const token = checkToken(req);
+    const doctor_data = decodeToken(token);
+    const user = await Doctor.findByPk(doctor_data.id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `This provided doctor id is invalid`
+      });
+    }
+
+    if (user.doctor_id !== id) {
+      return res.status(400).json({
+        message: `You can not change someone else's password`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkUpdateClientPwdExist = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const token = checkToken(req);
+    const client_data = decodeToken(token);
+    const user = await Client.findByPk(client_data.id, {});
+    const patient = await Client.findByPk(id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `You can't reset this patient's password`
+      });
+    }
+    if (!patient) {
+      return res.status(400).json({
+        message: `This provided patient id '${id}' is invalid`
+      });
+    }
+
+    if (user.client_id !== id) {
+      return res.status(400).json({
+        message: `You can not change someone else's password`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
