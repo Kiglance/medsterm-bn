@@ -61,13 +61,25 @@ export default class UserService {
 
   async doctorLogin(email) {
     return Doctor.findOne({
-      where: { email }
+      where: { email },
+      include: [
+        {
+          model: Role,
+          as: 'Role'
+        }
+      ]
     });
   }
 
   async clientLogin(email) {
     return Client.findOne({
-      where: { email }
+      where: { email },
+      include: [
+        {
+          model: Role,
+          as: 'Role'
+        }
+      ]
     });
   }
 
