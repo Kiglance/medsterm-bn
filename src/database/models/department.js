@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'doctors'
       });
 
-      this.belongsToMany(models.Department, {
+      this.belongsToMany(models.Appointment, {
         foreignKey: 'department_id',
         through: 'Appointment_Dept',
         as: 'appointments'
