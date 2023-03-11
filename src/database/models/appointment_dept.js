@@ -1,10 +1,10 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Appointment_Depts extends Model {
+  class Appointment_Dept extends Model {
     static associate(models) {}
   }
-  Appointment_Depts.init(
+  Appointment_Dept.init(
     {
       _id: {
         type: DataTypes.UUID,
@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
       department_id: {
         type: DataTypes.UUID
       },
-      doctor_id: {
+      appointment_id: {
         type: DataTypes.UUID
       }
     },
     {
       sequelize,
-      modelName: 'Appointment_Depts'
+      modelName: 'Appointment_Dept'
     }
   );
-  return Appointment_Depts;
+  return Appointment_Dept;
 };
