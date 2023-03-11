@@ -3,7 +3,7 @@ import scheduleController from '../../controllers/schedule.controller';
 import {
   checkIsDoneByAdmin,
   checkLoggedIn,
-  checkLoginDoctorExist
+  checkDoctorExist
 } from '../../middlewares/user.middleware';
 import {
   checkScheduleInterval,
@@ -15,6 +15,7 @@ const routes = express.Router();
 routes.post(
   '/',
   checkLoggedIn,
+  checkDoctorExist,
   checkIsDoneByAdmin,
   checkScheduleInterval,
   validateScheduleTime,

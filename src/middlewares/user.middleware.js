@@ -305,7 +305,7 @@ export const checkDoctorExist = async (req, res, next) => {
     return next();
   } catch (error) {
     return res.status(500).json({
-      message: 'An Unexpected error occurred7777',
+      message: 'An Unexpected error occurred',
       error: error.message
     });
   }
