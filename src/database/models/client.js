@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: true
         },
         onDelete: 'SET DEFAULT',
-        as: 'role'
+        as: 'Role'
       });
 
       this.belongsToMany(models.Medical_Info, {
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'Roles',
           key: 'role_id',
-          as: 'role'
+          as: 'Role'
         }
       },
       first_name: {

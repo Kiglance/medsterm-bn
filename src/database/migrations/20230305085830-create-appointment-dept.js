@@ -12,7 +12,7 @@ module.exports = {
       department_id: {
         type: Sequelize.UUID
       },
-      doctor_id: {
+      appointment_id: {
         type: Sequelize.UUID
       },
       createdAt: {
