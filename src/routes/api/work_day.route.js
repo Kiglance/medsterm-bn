@@ -1,13 +1,22 @@
 import express from 'express';
 import WorkDayController from '../../controllers/work_day.controller';
+import {
+  checkDoctorExistParam,
+  checkDoctorExist
+} from '../../middlewares/user.middleware';
+import { checkScheduleExist } from '../../middlewares/schedule.middleware';
 const routes = express.Router();
 
-routes.post('/:schedule_id', async (req, res) => {
+routes.post('/', checkDoctorExist, checkScheduleExist, async (req, res) => {
   await new WorkDayController().createWorkDay(req, res);
 });
 
-routes.get('/:id', async (req, res) => {
+routes.get('/', async (req, res) => {
   await new WorkDayController().getWorkDays(req, res);
+});
+
+routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
+  await new WorkDayController().getWorkDaysByDoctorId(req, res);
 });
 
 routes.patch('/:id', async (req, res) => {

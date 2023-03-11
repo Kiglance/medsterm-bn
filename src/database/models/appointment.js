@@ -46,17 +46,17 @@ module.exports = (sequelize, DataTypes) => {
         as: 'client'
       });
 
-      this.hasMany(models.Drug, {
-        foreignKey: 'appointment_id',
-        onDelete: 'CASCADE',
-        as: 'drugs'
-      });
+      // this.hasMany(models.Drug, {
+      //   foreignKey: 'appointment_id',
+      //   onDelete: 'CASCADE',
+      //   as: 'drugs'
+      // });
 
-      this.hasMany(models.Recommendation, {
-        foreignKey: 'appointment_id',
-        onDelete: 'CASCADE',
-        as: 'recommendations'
-      });
+      // this.hasMany(models.Recommendation, {
+      //   foreignKey: 'appointment_id',
+      //   onDelete: 'CASCADE',
+      //   as: 'recommendations'
+      // });
     }
   }
   Appointment.init(
@@ -101,6 +101,26 @@ module.exports = (sequelize, DataTypes) => {
       is_set_to: {
         type: DataTypes.ENUM('expected', 'previous'),
         defaultValue: 'expected'
+      },
+      drugs: {
+        type: DataTypes.STRING,
+        get() {
+          const rawValue = this.getDataValue('drugs');
+          return rawValue ? JSON.parse(rawValue) : JSON.parse('[]');
+        },
+        set(value) {
+          this.setDataValue('drugs', JSON.parse(value));
+        }
+      },
+      recommendations: {
+        type: DataTypes.STRING,
+        get() {
+          const rawValue = this.getDataValue('recommendations');
+          return rawValue ? JSON.parse(rawValue) : JSON.parse('[]');
+        },
+        set(value) {
+          this.setDataValue('recommendations', JSON.parse(value));
+        }
       },
       complaints: {
         type: DataTypes.TEXT,

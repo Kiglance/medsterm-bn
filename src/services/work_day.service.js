@@ -20,27 +20,34 @@ export default class WorkDayService {
 
   async getWorkDays() {
     const result = await Work_Day.findAll({
-      include: [
-        {
-          model: Schedule,
-          attributes: ['schedule_id'],
-          as: 'schedule',
-          include: [
-            {
-              model: Doctor,
-              attributes: ['doctor_id'],
-              as: 'doctor'
-            }
-          ]
-        }
-      ]
+      // include: [
+      //   {
+      //     model: Schedule,
+      //     attributes: ['schedule_id'],
+      //     as: 'schedule',
+      //     include: [
+      //       {
+      //         model: Doctor,
+      //         attributes: ['doctor_id'],
+      //         as: 'doctor'
+      //       }
+      //     ]
+      //   }
+      // ]
     });
+    return result;
+  }
+
+  async getWorkDaysByDoctorId(where) {
+    const result = await Work_Day.findAll(where);
     return result;
   }
 
   async deleteWorkDays(req) {
     const { id } = req.params;
-    const result = await Work_Day.destroy({ where: { schedule_id: id } });
+    const result = await Work_Day.destroy({
+      where: { schedule_id: id }
+    });
     return result;
   }
 

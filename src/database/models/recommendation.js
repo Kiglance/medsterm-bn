@@ -2,16 +2,7 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Recommendation extends Model {
-    static associate(models) {
-      this.belongsTo(models.Appointment, {
-        foreignKey: {
-          name: 'appointment_id',
-          allowNull: true
-        },
-        onDelete: 'CASCADE',
-        as: 'appointment'
-      });
-    }
+    static associate(models) {}
   }
   Recommendation.init(
     {
@@ -20,9 +11,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: true
-      },
-      appointment_id: {
-        type: DataTypes.UUID
       },
       recommendation_name: {
         type: DataTypes.STRING

@@ -71,6 +71,7 @@ export default class userController {
             last_name,
             email,
             password: hashPassword(generatedPassword),
+            isVerified: true,
             picture: req.body.picture,
             phone_number,
             id_number,

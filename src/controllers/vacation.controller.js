@@ -49,7 +49,8 @@ export default class vacationController {
 
   async getSingleVacation(req, res) {
     try {
-      const vacation = await this.vacationService.getSingleVacation();
+      const { id } = req.params;
+      const vacation = await this.vacationService.getSingleVacation(id);
       return res.status(200).json({
         message: 'Retrieved one vacation successfully',
         data: vacation

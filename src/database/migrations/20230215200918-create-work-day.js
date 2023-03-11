@@ -18,6 +18,16 @@ module.exports = {
           as: 'schedule'
         }
       },
+      doctor_id: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        references: {
+          model: 'Doctors',
+          key: 'doctor_id',
+          as: 'doctor'
+        }
+      },
       day: {
         type: Sequelize.STRING
       },

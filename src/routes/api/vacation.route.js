@@ -5,6 +5,7 @@ import {
   checkLoggedIn,
   checkIsAdmin
 } from '../../middlewares/user.middleware';
+import { checkVacationInterval } from '../../middlewares/vacation.middleware';
 
 const routes = express.Router();
 
@@ -13,6 +14,7 @@ routes.post(
   checkDoctorExist,
   checkLoggedIn,
   checkIsAdmin,
+  checkVacationInterval,
   async (req, res) => {
     await new VacationController().makeVacation(req, res);
   }
