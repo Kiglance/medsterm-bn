@@ -67,6 +67,24 @@ export default class WorkDayController {
     }
   }
 
+  async getWorkDaysByScheduleId(req, res) {
+    try {
+      const { id } = req.params;
+      const days = await new WorkDayService().getWorkDaysByScheduleId({
+        where: { schedule_id: id }
+      });
+      return res.status(200).json({
+        message: 'Retrieved all workdays of scchedule successfully',
+        data: days
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching days',
+        error: error.message
+      });
+    }
+  }
+
   async updateWorkDay(req, res) {
     try {
       const { status, from, to } = req.body;

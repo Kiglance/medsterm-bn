@@ -122,3 +122,34 @@ export const checkDoctorScheduleDayExist = async (req, res, next) => {
     });
   }
 };
+
+export const checkCancelAppointment = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { client_id, doctor_id } = req.body;
+    const appointment = await Appointment.findByPk(id, {});
+    const doctor = await Doctor.findByPk(doctor_id, {});
+    const client = await Client.findByPk(client_id, {});
+
+    if (appointment.doctor_id !== doctor_id) {
+      return res.status(500).json({
+        message: "You can not cancel an other doctor's appointment",
+        error: error.message
+      });
+    }
+
+    if (appointment.client_id !== client_id) {
+      return res.status(500).json({
+        message: "You can not cancel an other client's appointment",
+        error: error.message
+      });
+    }
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};

@@ -1,10 +1,12 @@
 import { Client, Client_MedicalInfo, Medical_Info } from '../database/models';
 import ClientInfoService from '../services/client_medicalinfo.service';
+import MedicalInfoService from '../services/medical_info.service';
 import UserService from '../services/user.service';
 
 export default class ClientMedicalInfoController {
   constructor() {
     this.clientMedicalInfoService = new ClientInfoService();
+    this.medicalInfoService = new MedicalInfoService();
     this.userService = new UserService();
   }
 
@@ -75,9 +77,10 @@ export default class ClientMedicalInfoController {
 
   async assignInfo(req, res) {
     try {
+      const client_id = req.body.client_id;
       const existingClient = await Client.findOne({
         where: {
-          client_id: req.body.client_id
+          client_id
         }
       });
 
@@ -116,15 +119,21 @@ export default class ClientMedicalInfoController {
             await this.medicalInfoService.getSingleMedicalInfo(id);
           if (existingInfo) {
             final_arr.push(obj);
+          } else {
+            return res.status(500).json({
+              message: 'None of these medical info were saved.'
+            });
           }
         }
 
         if (final_arr == '') {
           return res.status(500).json({
-            message: 'Final array is empty'
+            message: 'No medical info was selected to be added to history'
           });
         }
-
+        console.log('*****fINAL ATR******');
+        console.log(final_arr);
+        console.log('*****FINAL******');
         const newInfo =
           await this.clientMedicalInfoService.createClientMedicalInfo(
             final_arr,
@@ -133,7 +142,7 @@ export default class ClientMedicalInfoController {
 
         return res.status(201).json({
           status: 201,
-          message: "Medical info added to patient'n data successfully.."
+          message: "Medical info added to patient's data successfully."
         });
       }
 
