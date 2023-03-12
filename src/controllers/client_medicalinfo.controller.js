@@ -87,7 +87,6 @@ export default class ClientMedicalInfoController {
         });
       }
 
-      
       const str = req.body.info_id;
 
       if (str !== '' && str !== undefined) {
@@ -109,7 +108,7 @@ export default class ClientMedicalInfoController {
 
         for (let i = 0; i < first_arr.length; i++) {
           let obj = {};
-          obj['client_id'] = newUser.client_id;
+          obj['client_id'] = existingClient.client_id;
           obj['info_id'] = first_arr[i].info_id;
           obj['description'] = first_arr[i].description;
           const id = first_arr[i].info_id;
@@ -132,14 +131,11 @@ export default class ClientMedicalInfoController {
             res
           );
 
-          return res.status(201).json({
-            status: 201,
-            message:
-              'Medical info added to patient\'n data successfully..'
-           
-          });
+        return res.status(201).json({
+          status: 201,
+          message: "Medical info added to patient'n data successfully.."
+        });
       }
-
 
       // const myTuts = req.body.info_id.split(', ');
 
