@@ -17,7 +17,9 @@ const appointmentValidation = (req, res, next) => {
     _id: Joi.string().required(),
     schedule_id: Joi.string().required(),
     doctor_id: Joi.string().required(),
-    client_id: Joi.string().required()
+    client_id: Joi.string().required(),
+    drugs: Joi.array().items(Joi.object()),
+    recommendations: Joi.array().items(Joi.string())
   });
 
   // /^(0?[1-9]|1[0-2]):[0-5][0-9]\s*-\s*(0?[1-9]|1[0-2]):[0-5][0-9]$/

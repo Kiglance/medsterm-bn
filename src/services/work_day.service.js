@@ -18,6 +18,10 @@ export default class WorkDayService {
     return result;
   }
 
+  async getWorkDay(id) {
+    return Work_Day.findByPk(id, {});
+  }
+
   async getWorkDays() {
     const result = await Work_Day.findAll({
       // include: [
@@ -39,6 +43,11 @@ export default class WorkDayService {
   }
 
   async getWorkDaysByDoctorId(where) {
+    const result = await Work_Day.findAll(where);
+    return result;
+  }
+
+  async getWorkDaysByScheduleId(where) {
     const result = await Work_Day.findAll(where);
     return result;
   }

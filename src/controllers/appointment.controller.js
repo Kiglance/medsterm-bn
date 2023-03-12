@@ -12,17 +12,34 @@ import { verifyToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
 import { Doctor, Client, Work_Day } from '../database/models';
 import { date } from 'joi';
+import WorkDayService from '../services/work_day.service';
 
 export default class userController {
   constructor() {
     this.appointmentService = new AppointmentService();
     this.userService = new UserService();
+    this.workdayService = new WorkDayService();
   }
 
   async makeAppointment(req, res) {
     try {
-      const { appointment_period, doctor_id, _id, schedule_id, department_id } =
-        req.body;
+      const {
+        appointment_period,
+        doctor_id,
+        _id,
+        schedule_id,
+        department_id,
+        drugs,
+        recommendations
+      } = req.body;
+
+      const drugBody = `${drugs}`;
+      const recomBody = `${recommendations}`;
+
+      console.log(drugBody, '&&&&&');
+      console.log(JSON.stringify(drugs), '****');
+      console.log(JSON.toString(drugs), '%%%%%%');
+
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
@@ -37,7 +54,9 @@ export default class userController {
           doctor_id,
           _id,
           schedule_id,
-          department_id
+          department_id,
+          drugs: JSON.stringify(drugs),
+          recommendations: JSON.stringify(recommendations)
         },
         res
       );
@@ -96,18 +115,60 @@ export default class userController {
     }
   }
 
+  async getAppointment(req, res) {
+    try {
+      const { id } = req.params;
+      const appointment = await new AppointmentService().getAppointment(id);
+      return res.status(200).json({
+        message: 'Fetched appointments successfully',
+        data: appointment
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching appointment',
+        error: error.message
+      });
+    }
+  }
+
+  async getAppointmentsByWorkDay(req, res) {
+    try {
+      const { id } = req.params;
+      const day = await this.workdayService.getWorkDay(id);
+      const appointments =
+        await new AppointmentService().getAppointmentsByParam({
+          where: {
+            _id: id
+          }
+        });
+      return res.status(200).json({
+        message: `Retrieved all appointments successfully of work day on ${
+          day.day
+        } ${new Date(
+          new Date(day.date).setDate(new Date(day.date).getDate() - 1)
+        ).toDateString()}`,
+        data: appointments
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching doctor appointments',
+        error: error.message
+      });
+    }
+  }
+
   async getAppointmentsByDoctor(req, res) {
     try {
       const { id } = req.params;
       const doctor = await this.userService.getUser(id);
       const appointments =
-        await new AppointmentService().getAppointmentsByDoctor({
+        await new AppointmentService().getAppointmentsByParam({
           where: {
             doctor_id: id
           }
         });
       return res.status(200).json({
-        message: `Retrieved all appointments successfully of Dr. ${doctor.first_name} ${doctor.first_name}`,
+        message: `Retrieved all appointments successfully of Dr. ${doctor.first_name} ${doctor.last_name}`,
         data: appointments
       });
     } catch (error) {
@@ -123,13 +184,13 @@ export default class userController {
       const { id } = req.params;
       const patient = await this.userService.getClient(id);
       const appointments =
-        await new AppointmentService().getAppointmentsByClient({
+        await new AppointmentService().getAppointmentsByParam({
           where: {
             client_id: id
           }
         });
       return res.status(200).json({
-        message: `Retrieved all appointments successfully of Patient. ${patient.first_name} ${patient.first_name}`,
+        message: `Retrieved all appointments successfully of Patient. ${patient.first_name} ${patient.last_name}`,
         data: appointments
       });
     } catch (error) {
@@ -193,23 +254,22 @@ export default class userController {
     try {
       const { id } = req.params;
       const { cancel_reason } = req.body;
+      const cancel_date = new Date();
       const appointment = await this.appointmentService.getAppointment(id);
-      const token = checkToken(req);
-      const client_data = decodeToken(token);
-      const user = await Client.findByPk(client_data.id, {});
+      const user = await Client.findByPk(appointment.client_id, {});
       const doctor = await Doctor.findByPk(appointment.doctor_id, {});
 
       await this.appointmentService.updateAppointmentParts(
-        { is_canceled: true, cancel_date: new Date.now() },
+        { is_canceled: true, cancel_date },
         { where: { appointment_id: appointment.appointment_id } }
       );
 
       const message = `
     <h1><strong>Appointment notification.</strong></h1>
-    <p>Hello Dr. ${doctor.first_name} ${doctor.last_name}, your appointment with the patient ${user.first_name} ${user.last_name} that was due: ${appointment.appointment_date} was canceled because of: ${cancel_reason} on ${cancel_date}.</p> 
+    <p>Hello Dr. ${doctor.first_name} ${doctor.last_name}, your appointment with the patient ${user.first_name} ${user.last_name} that was due: ${appointment.appointment_date} was canceled on ${cancel_date}.</p> 
     `;
       const subject = `Your appointment was approved by doctor!`;
-      await sendEmail(subject, message, client.email);
+      await sendEmail(subject, message, user.email);
 
       return res.status(200).json('Appointment checked successfully!');
     } catch (error) {

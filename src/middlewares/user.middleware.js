@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Op } from 'sequelize';
-import { Doctor, Client } from '../database/models';
+import { Doctor, Client, Schedule, Work_Day } from '../database/models';
 import { verifyToken, decodeToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
 
@@ -315,6 +315,46 @@ export const checkDoctorExist = async (req, res, next) => {
   }
 };
 
+export const checkClientBodyExist = async (req, res, next) => {
+  try {
+    const { client_id } = req.body;
+    const user = await Client.findByPk(client_id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `Client with id "${client_id}" doesn't exist`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkDayExistParam = async (req, res, next) => {
+  try {
+    const _id = req.params.id;
+    const day = await Work_Day.findByPk(_id, {});
+    if (!day) {
+      return res.status(400).json({
+        message: `Work day with id "${_id}" doesn't exist`
+      });
+    }
+    req.day = day;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
 export const checkDoctorExistParam = async (req, res, next) => {
   try {
     const doctor_id = req.params.id;
@@ -325,6 +365,26 @@ export const checkDoctorExistParam = async (req, res, next) => {
       });
     }
     req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
+      error: error.message
+    });
+  }
+};
+
+export const checkScheduleExistParam = async (req, res, next) => {
+  try {
+    const schedule_id = req.params.id;
+    const schedule = await Schedule.findByPk(schedule_id, {});
+    if (!schedule) {
+      return res.status(400).json({
+        message: `Schedule with id "${schedule_id}" doesn't exist`
+      });
+    }
+    req.schedule = schedule;
 
     return next();
   } catch (error) {

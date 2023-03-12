@@ -11,6 +11,7 @@ import {
   Vacation,
   Appointment,
   Department,
+  Dayoff,
   Role,
   Medical_Info
 } from '../database/models';
@@ -92,10 +93,22 @@ export default class UserService {
       include: [
         {
           model: Department,
+          attributes: ['department_id', 'department_name', 'speciality_name'],
           as: 'departments'
         },
         {
+          model: Vacation,
+          attributes: ['vacation_id', 'from_date', 'to_date'],
+          as: 'vacations'
+        },
+        {
+          model: Dayoff,
+          attributes: ['dayoff_id', 'dayoff_date'],
+          as: 'dayoffs'
+        },
+        {
           model: Role,
+          attributes: ['role_id', 'role'],
           as: 'Role'
         }
       ]
