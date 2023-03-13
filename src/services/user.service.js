@@ -122,6 +122,10 @@ export default class UserService {
         {
           model: Role,
           as: 'Role'
+        },
+        {
+          model: Appointment,
+          as: 'appointments'
         }
       ]
     });
