@@ -102,7 +102,12 @@ export default class userController {
 
   async getAppointments(req, res) {
     try {
-      const appointments = await new AppointmentService().getAllAppointments();
+      const { month, year } = req.query;
+
+      const appointments = await new AppointmentService().getAllAppointments({
+        month,
+        year
+      });
       return res.status(200).json({
         message: 'Retrieved all appointments successfully',
         data: appointments

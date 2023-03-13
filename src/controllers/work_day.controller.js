@@ -52,8 +52,11 @@ export default class WorkDayController {
   async getWorkDaysByDoctorId(req, res) {
     try {
       const { id } = req.params;
+      const { month, year } = req.query;
       const days = await new WorkDayService().getWorkDaysByDoctorId({
-        where: { doctor_id: id }
+        id,
+        month,
+        year
       });
       return res.status(200).json({
         message: 'Retrieved all workdays of doctor successfully',
