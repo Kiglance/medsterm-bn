@@ -74,4 +74,8 @@ routes.get(
   }
 );
 
+routes.patch('/:id', checkLoggedIn, async (req, res) => {
+  await new AppointmentController().updateAppointment(req, res);
+});
+
 export default routes;
