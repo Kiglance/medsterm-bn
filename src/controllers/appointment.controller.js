@@ -33,13 +33,6 @@ export default class userController {
         recommendations
       } = req.body;
 
-      const drugBody = `${drugs}`;
-      const recomBody = `${recommendations}`;
-
-      console.log(drugBody, '&&&&&');
-      console.log(JSON.stringify(drugs), '****');
-      console.log(JSON.toString(drugs), '%%%%%%');
-
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
@@ -275,6 +268,52 @@ export default class userController {
     } catch (error) {
       return res.status(500).json({
         message: 'An Unexpected error occurred',
+        error: error.message
+      });
+    }
+  }
+
+  async updateAppointment(req, res) {
+    try {
+      const {
+        appointment_period,
+        doctor_id,
+        _id,
+        schedule_id,
+        department_id,
+        drugs,
+        recommendations
+      } = req.body;
+
+      const id = req.params.id;
+
+      const newUser = await this.appointmentService.updateAppointmentParts(
+        {
+          ...req.body,
+          drugs: JSON.stringify(drugs),
+          recommendations: JSON.stringify(recommendations)
+        },
+        {
+          appointment_period,
+          doctor_id,
+          _id,
+          schedule_id,
+          department_id,
+          drugs: JSON.stringify(drugs),
+          recommendations: JSON.stringify(recommendations),
+          where: {
+            appointment_id: id
+          }
+        }
+      );
+      return res.status(201).json({
+        status: 201,
+        message: 'Appointment updated successfully.',
+        data: newUser
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed to update appointment info.',
         error: error.message
       });
     }
