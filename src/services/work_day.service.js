@@ -5,7 +5,9 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { Work_Day, Schedule, Doctor } from '../database/models';
+import { Work_Day, Schedule, Appointment, Doctor } from '../database/models';
+import { startOfMonth, endOfMonth } from 'date-fns';
+import { Op } from 'sequelize';
 
 export default class WorkDayService {
   async createWorkDay(data) {
@@ -38,8 +40,53 @@ export default class WorkDayService {
     return result;
   }
 
-  async getWorkDaysByDoctorId(where) {
-    const result = await Work_Day.findAll(where);
+  async getWorkDaysByDoctorId({ id, month, year }) {
+    const where = {};
+    if (month && year) {
+      const start = startOfMonth(new Date(year, month - 1));
+      const end = endOfMonth(new Date(year, month - 1));
+      where.date = { [Op.between]: [start, end] };
+    } else if (month) {
+      const start = startOfMonth(new Date().setMonth(month - 1));
+      const end = endOfMonth(new Date().setMonth(month - 1));
+      where.date = { [Op.between]: [start, end] };
+    } else if (year) {
+      const start = new Date(year, 0, 1);
+      const end = new Date(year, 11, 31);
+      where.date = { [Op.between]: [start, end] };
+    }
+
+    const result = await Work_Day.findAll({
+      where: { doctor_id: id, ...where },
+      include: [
+        {
+          model: Schedule,
+          as: 'schedule',
+          attributes: ['appointment_duration'],
+          required: true,
+          include: [
+            {
+              model: Appointment,
+              as: 'appointments',
+              attributes: ['is_canceled'],
+              required: true,
+              include: [
+                {
+                  model: Work_Day,
+                  as: 'work_day',
+                  attributes: ['from', 'to'],
+                  where: {
+                    _id: {
+                      [Op.col]: 'Work_Day._id'
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    });
     return result;
   }
 
