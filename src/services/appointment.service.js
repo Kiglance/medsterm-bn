@@ -6,7 +6,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
 import { startOfMonth, endOfMonth } from 'date-fns';
-import { Appointment, Work_Day, Schedule } from '../database/models';
+import { Appointment, Work_Day, Schedule, Doctor } from '../database/models';
 import { Op } from 'sequelize';
 
 export default class AppointmentService {

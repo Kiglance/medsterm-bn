@@ -67,8 +67,8 @@ routes.get(
   '/cancel/:id',
   checkAppointmentExist,
   checkLoggedIn,
-  checkDoctorExist,
-  checkClientBodyExist,
+  // checkDoctorExist,
+  // checkClientBodyExist,
   async (req, res) => {
     await new AppointmentController().cancelAppointment(req, res);
   }

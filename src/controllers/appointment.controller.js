@@ -10,7 +10,7 @@ import {
 import sendEmail from '../helpers/nodemailer';
 import { verifyToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
-import { Doctor, Client, Work_Day } from '../database/models';
+import { Doctor, Client, Work_Day, Department } from '../database/models';
 import { date } from 'joi';
 import WorkDayService from '../services/work_day.service';
 
@@ -185,7 +185,27 @@ export default class userController {
         await new AppointmentService().getAppointmentsByParam({
           where: {
             client_id: id
-          }
+          },
+
+          include: [
+            {
+              model: Doctor,
+              as: 'doctor',
+              required: true,
+              include: [
+                {
+                  model: Department,
+                  as: 'departments',
+                  required: true
+                }
+              ]
+            },
+            {
+              model: Work_Day,
+              as: 'work_day',
+              required: true
+            }
+          ]
         });
       return res.status(200).json({
         message: `Retrieved all appointments successfully of Patient. ${patient.first_name} ${patient.last_name}`,
@@ -193,7 +213,7 @@ export default class userController {
       });
     } catch (error) {
       return res.status(500).json({
-        message: 'Error occured while fetching doctor appointments',
+        message: 'Error occured while fetching client appointments',
         error: error.message
       });
     }
@@ -266,10 +286,10 @@ export default class userController {
     <h1><strong>Appointment notification.</strong></h1>
     <p>Hello Dr. ${doctor.first_name} ${doctor.last_name}, your appointment with the patient ${user.first_name} ${user.last_name} that was due: ${appointment.appointment_date} was canceled on ${cancel_date}.</p> 
     `;
-      const subject = `Your appointment was approved by doctor!`;
+      const subject = `Your appointment was cancelled!`;
       await sendEmail(subject, message, user.email);
 
-      return res.status(200).json('Appointment checked successfully!');
+      return res.status(200).json('Appointment cancelled successfully!');
     } catch (error) {
       return res.status(500).json({
         message: 'An Unexpected error occurred',
