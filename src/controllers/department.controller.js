@@ -1,5 +1,6 @@
 import DepartmentService from '../services/department.service';
 import UserService from '../services/user.service';
+import { imageUpload } from '../helpers/fileUpload';
 
 export default class DepartmentController {
   constructor() {

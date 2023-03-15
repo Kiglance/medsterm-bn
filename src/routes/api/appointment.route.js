@@ -22,12 +22,12 @@ const routes = express.Router();
 
 routes.post(
   '/',
-  checkLoggedIn,
+  // checkLoggedIn,
   checkDoctorExist,
   checkClientBodyExist,
   checkAppointmentIsTaken,
   checkDoctorScheduleDayExist,
-  appointmentValidation,
+  // appointmentValidation,
   async (req, res) => {
     await new AppointmentController().makeAppointment(req, res);
   }

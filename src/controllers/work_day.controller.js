@@ -53,6 +53,13 @@ export default class WorkDayController {
     try {
       const { id } = req.params;
       const { month, year } = req.query;
+      console.log(
+        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+      );
+      console.log(req.query);
+      console.log(
+        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
+      );
       const days = await new WorkDayService().getWorkDaysByDoctorId({
         id,
         month,

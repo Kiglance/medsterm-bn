@@ -29,14 +29,13 @@ export default class userController {
         _id,
         schedule_id,
         department_id,
-        drugs,
-        recommendations
+        client_id
       } = req.body;
 
       const doctor = await this.userService.getUser(doctor_id);
       const token = checkToken(req);
       const variable = decodeToken(token);
-      const client_id = variable.id;
+      // const client_id = variable.id;
       const user = await this.userService.getClient(client_id);
       const work_day = await Work_Day.findByPk(_id, {});
 
@@ -47,9 +46,7 @@ export default class userController {
           doctor_id,
           _id,
           schedule_id,
-          department_id,
-          drugs: JSON.stringify(drugs),
-          recommendations: JSON.stringify(recommendations)
+          department_id
         },
         res
       );
