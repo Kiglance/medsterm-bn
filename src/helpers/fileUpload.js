@@ -5,7 +5,7 @@ export const imageUpload = async (req) => {
   let imageUrl = '';
   await cloudinary.uploader.upload(
     req.file.path,
-    // { folder: 'newday_api/images' },
+    // { folder: 'ms_api/images' },
     async (err, image) => {
       if (err) {
         throw new Error(err);

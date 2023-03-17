@@ -53,20 +53,14 @@ export default class WorkDayController {
     try {
       const { id } = req.params;
       const { month, year } = req.query;
-      console.log(
-        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-      );
-      console.log(req.query);
-      console.log(
-        '++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
-      );
+
       const days = await new WorkDayService().getWorkDaysByDoctorId({
         id,
         month,
         year
       });
       return res.status(200).json({
-        message: 'Retrieved all workdays of doctor successfully',
+        message: `Retrieved all workdays of doctor ${req.user.first_name}  ${req.user.last_name} successfully`,
         data: days
       });
     } catch (error) {

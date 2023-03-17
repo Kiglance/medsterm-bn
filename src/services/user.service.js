@@ -13,6 +13,8 @@ import {
   Department,
   Dayoff,
   Role,
+  Schedule,
+  Work_Day,
   Medical_Info
 } from '../database/models';
 
@@ -97,6 +99,16 @@ export default class UserService {
           as: 'departments'
         },
         {
+          model: Schedule,
+          as: 'schedules',
+          include: [
+            {
+              model: Work_Day,
+              as: 'work_days'
+            }
+          ]
+        },
+        {
           model: Vacation,
           attributes: ['vacation_id', 'from_date', 'to_date'],
           as: 'vacations'
@@ -110,6 +122,10 @@ export default class UserService {
           model: Role,
           attributes: ['role_id', 'role'],
           as: 'Role'
+        },
+        {
+          model: Appointment,
+          as: 'appointments'
         }
       ]
     });

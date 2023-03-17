@@ -140,7 +140,7 @@ export default class userController {
         message: `Retrieved all appointments successfully of work day on ${
           day.day
         } ${new Date(
-          new Date(day.date).setDate(new Date(day.date).getDate() - 1)
+          new Date(day.date).setDate(new Date(day.date).getDate())
         ).toDateString()}`,
         data: appointments
       });

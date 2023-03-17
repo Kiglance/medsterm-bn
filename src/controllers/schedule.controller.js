@@ -69,9 +69,8 @@ export default class scheduleController {
 
           if (dayee.includes(arr[i].split(' ')[0])) {
             obj['status'] = 'active';
+            value.push(obj);
           }
-
-          value.push(obj);
         }
 
         return value;

@@ -301,7 +301,7 @@ export const checkDoctorExist = async (req, res, next) => {
     const user = await Doctor.findByPk(doctor_id, {});
     if (!user) {
       return res.status(400).json({
-        message: `Doctor with id "${doctor_id}" doesn't exist`
+        message: `Please select doctor.`
       });
     }
     req.user = user;

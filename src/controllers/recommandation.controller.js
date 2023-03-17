@@ -88,7 +88,7 @@ export default class RecommandationController {
         end_date,
         explanation,
         where: {
-          Recommandation_id: id
+          recommandation_id: id
         }
       });
 
