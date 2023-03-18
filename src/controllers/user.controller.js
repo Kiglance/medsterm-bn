@@ -20,6 +20,7 @@ import {
 } from '../database/models';
 import ClientInfoService from '../services/client_medicalinfo.service';
 import { generatePassword } from '../utils/generatePassword';
+import { isClient } from '../middlewares/user.middleware';
 
 export default class userController {
   constructor() {
@@ -224,113 +225,112 @@ export default class userController {
         address_2
       } = req.body;
 
-      // if (req.file) {
-      //   req.body.picture = await imageUpload(req);
-      // } else {
-      //   if (gender === 'female') {
-      //     req.body.picture =
-      //       'https://s.pngkit.com/png/small/806-8066032_person-icon-black-female-user-icon-png.png';
-      //   }
-      //   req.body.picture =
-      //     'http s://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
-      // }
+      if (req.file) {
+        req.body.picture = await imageUpload(req);
+      } else {
+        if (gender === 'female') {
+          req.body.picture =
+            'https://s.pngkit.com/png/small/806-8066032_person-icon-black-female-user-icon-png.png';
+        }
+        req.body.picture =
+          'http s://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
+      }
 
-      // const newUser = await this.userService.createUser(
-      //   {
-      //     role_id: 3,
-      //     first_name,
-      //     last_name,
-      //     email,
-      //     password: hashPassword(password),
-      //     picture: req.body.picture,
-      //     phone_number,
-      //     id_number,
-      //     gender,
-      //     birth_date,
-      //     marital_status,
-      //     country,
-      //     city,
-      //     address_1,
-      //     address_2
-      //   },
-      //   res
-      // );
+      const newUser = await this.userService.createUser(
+        {
+          role_id: 3,
+          first_name,
+          last_name,
+          email,
+          password: hashPassword(password),
+          picture: req.body.picture,
+          phone_number,
+          id_number,
+          gender,
+          birth_date,
+          marital_status,
+          country,
+          city,
+          address_1,
+          address_2
+        },
+        res
+      );
 
-      // const str = req.body.arr;
+      const str = req.body.arr;
 
-      // if (str !== '' && str !== undefined) {
-      //   const new_arr = str.split('#&#&');
+      if (str !== '' && str !== undefined) {
+        const new_arr = str.split('#&#&');
 
-      //   function getAnyt(arr) {
-      //     let newArr = [];
-      //     for (let i = 0; i < arr.length; i++) {
-      //       const obj = {};
-      //       obj['info_id'] = arr[i].split('#%#%')[0];
-      //       obj['description'] = arr[i].split('#%#%')[1];
-      //       newArr.push(obj);
-      //     }
-      //     return newArr;
-      //   }
+        function getAnyt(arr) {
+          let newArr = [];
+          for (let i = 0; i < arr.length; i++) {
+            const obj = {};
+            obj['info_id'] = arr[i].split('#%#%')[0];
+            obj['description'] = arr[i].split('#%#%')[1];
+            newArr.push(obj);
+          }
+          return newArr;
+        }
 
-      //   const first_arr = getAnyt(new_arr);
-      //   let final_arr = [];
+        const first_arr = getAnyt(new_arr);
+        let final_arr = [];
 
-      //   for (let i = 0; i < first_arr.length; i++) {
-      //     let obj = {};
-      //     obj['client_id'] = newUser.client_id;
-      //     obj['info_id'] = first_arr[i].info_id;
-      //     obj['description'] = first_arr[i].description;
-      //     const id = first_arr[i].info_id;
-      //     const existingInfo =
-      //       await this.medicalInfoService.getSingleMedicalInfo(id);
-      //     if (existingInfo) {
-      //       final_arr.push(obj);
-      //     }
-      //   }
+        for (let i = 0; i < first_arr.length; i++) {
+          let obj = {};
+          obj['client_id'] = newUser.client_id;
+          obj['info_id'] = first_arr[i].info_id;
+          obj['description'] = first_arr[i].description;
+          const id = first_arr[i].info_id;
+          const existingInfo =
+            await this.medicalInfoService.getSingleMedicalInfo(id);
+          if (existingInfo) {
+            final_arr.push(obj);
+          }
+        }
 
-      //   if (final_arr == '') {
-      //     return res.status(500).json({
-      //       message: 'Final array is empty'
-      //     });
-      //   }
+        if (final_arr == '') {
+          return res.status(500).json({
+            message: 'Final array is empty'
+          });
+        }
 
-      //   const newInfo =
-      //     await this.clientMedicalInfoService.createClientMedicalInfo(
-      //       final_arr,
-      //       res
-      //     );
-      // }
+        const newInfo =
+          await this.clientMedicalInfoService.createClientMedicalInfo(
+            final_arr,
+            res
+          );
+      }
 
-      // const token = generateToken({ id: newUser.client_id }, '1d');
-      const token = generateToken({ id: 1 }, '1d');
+      const token = generateToken({ id: newUser.client_id }, '1d');
       const message = `
-         <h1><strong>Activate your account.</strong></h1>
-      <p>
-        You were successfully registered to MedStem. Activate your account by
-        clicking the button below.
-      </p>
-      <a
-        href="${process.env.FRONTEND_URL}/verify?token=${token}"
-        target="_blank"
-      >
-        <button
-          style="
-            border: none;
-            border-radius: 3px;
-            background: #003e6b;
-            color: #ffffff;
-            padding: 10px 5px;
-            width: fit-content;
-            margin: auto;
-          "
+        <h1><strong>Activate your account.</strong></h1>
+        <p>
+          You were successfully registered to MedStem. Activate your account by
+          clicking the button below.
+        </p>
+        <a
+          href="${process.env.FRONTEND_URL}/verify?token=${token}"
+          target="_blank"
         >
-          Verify email
-        </button>
-      </a>
-            `;
+          <button
+            style="
+              border: none;
+              border-radius: 3px;
+              background: #003e6b;
+              color: #ffffff;
+              padding: 10px;
+              width: fit-content;
+              margin: auto;
+              cursor: pointer;
+            "
+          >
+            Verify email
+          </button>
+        </a>
+      `;
       const subject = `Your account was successfully created!`;
-      await sendEmail(subject, message, 'tsa2341@gmail.com');
-      // await sendEmail(subject, message, newUser.email);
+      await sendEmail(subject, message, newUser.email);
       return res.status(201).json({
         status: 201,
         message:
@@ -343,6 +343,114 @@ export default class userController {
         message: 'Error occured while creating a user',
         error: error.message
       });
+    }
+  }
+
+  async forgot(req, res) {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({
+          status: 400,
+          message: 'Email is required!'
+        });
+      }
+
+      let exist = null;
+
+      exist = await Client.findOne({
+        where: {
+          email
+        }
+      });
+
+      if (!exist) {
+        exist = await Doctor.findOne({
+          where: {
+            email
+          }
+        });
+      }
+
+      if (exist) {
+        const token = generateToken(
+          { id: exist.client_id || exist.doctor_id },
+          '10m'
+        );
+        const message = `
+          <h1><strong>Reset Password.</strong></h1>
+          <p>
+            You requested to reset your password. Continue by
+            clicking the button below.
+          </p>
+          <a
+            href="${process.env.FRONTEND_URL}/reset?token=${token}"
+            target="_blank"
+          >
+            <button
+              style="
+                border: none;
+                border-radius: 3px;
+                background: #003e6b;
+                color: #ffffff;
+                padding: 10px;
+                width: fit-content;
+                margin: auto;
+                cursor: pointer;
+              "
+            >
+              Reset Password
+            </button>
+          </a>
+        `;
+        const subject = `Reset your account password!`;
+        await sendEmail(subject, message, email);
+        return res.status(200).json({
+          status: 200,
+          message: 'Password reset link has been sent to your email',
+          token
+        });
+      } else {
+        res.status(404).json({ status: 404, message: 'Email not found' });
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async reset(req, res) {
+    try {
+      const { password } = req.body;
+      const { token } = req.params;
+      if (!password || !token) {
+        return res.status(400).json({
+          status: 400,
+          message: 'Password and token param are required!'
+        });
+      }
+      const userInfo = decodeToken(token);
+      console.log(userInfo);
+      const id = userInfo.id;
+
+      const isClient = await Client.findOne({ where: { client_id: id } });
+
+      const newPassword = hashPassword(password);
+      isClient &&
+        (await this.userService.updateClientPassword(
+          { password: newPassword },
+          { where: { client_id: id } }
+        ));
+      !isClient &&
+        (await this.userService.updateDoctorPassword(
+          { password: newPassword },
+          { where: { doctor_id: id } }
+        ));
+      return res
+        .status(200)
+        .send({ message: 'Password Resetted successfully' });
+    } catch (error) {
+      return res.status(500).send({ message: error.message });
     }
   }
 
