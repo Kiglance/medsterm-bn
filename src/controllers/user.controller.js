@@ -439,7 +439,32 @@ export default class userController {
           '7d'
         );
         return res.status(201).header('authenticate', token).json({
-          message: 'Logged in successfully',
+          message: 'Doctor logged in successfully',
+          data: { token, user }
+        });
+      }
+      return res.status(400).json({ message: 'Invalid credentials' });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'An Unexpected error occurred',
+        error
+      });
+    }
+  }
+
+  async patientLogin(req, res) {
+    try {
+      const user = await this.userService.clientLogin(req.body.email);
+      const validation = comparePassword(req.body.password, user.password);
+      if (validation) {
+        const token = generateToken(
+          {
+            id: user.client_id
+          },
+          '7d'
+        );
+        return res.status(201).header('authenticate', token).json({
+          message: 'Patient logged in successfully',
           data: { token, user }
         });
       }

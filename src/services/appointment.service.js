@@ -63,7 +63,11 @@ export default class AppointmentService {
     return result;
   }
 
-  async getAppointment() {
+  async getAppointmentId(id) {
+    return Appointment.findByPk(id, {});
+  }
+
+  async getAppointment(req) {
     const { id } = req.params;
     return Appointment.findOne({
       where: { appointment_id: id },

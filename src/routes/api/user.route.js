@@ -58,6 +58,16 @@ routes.post(
 );
 
 routes.post(
+  '/client/login',
+  isLoginClient,
+  loginUserValidation,
+  checkVerifiedClient,
+  async (req, res) => {
+    await new UserController().patientLogin(req, res);
+  }
+);
+
+routes.post(
   '/login',
   isLoginUser,
   loginUserValidation,

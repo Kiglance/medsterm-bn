@@ -244,7 +244,7 @@ export default class userController {
   async checkAppointment(req, res) {
     try {
       const { id } = req.params;
-      const appointment = await this.appointmentService.getAppointment(id);
+      const appointment = await this.appointmentService.getAppointmentId(id);
       const token = checkToken(req);
       const doctor_data = decodeToken(token);
       const user = await Doctor.findByPk(doctor_data.id, {});
@@ -295,7 +295,7 @@ export default class userController {
       const { id } = req.params;
       const { cancel_reason } = req.body;
       const cancel_date = new Date();
-      const appointment = await this.appointmentService.getAppointment(id);
+      const appointment = await this.appointmentService.getAppointmentId(id);
       const user = await Client.findByPk(appointment.client_id, {});
       const doctor = await Doctor.findByPk(appointment.doctor_id, {});
 
