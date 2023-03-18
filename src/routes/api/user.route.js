@@ -36,12 +36,22 @@ routes.post(
   }
 );
 
+// routes.post(
+//   '/client/register',
+//   upload.single('picture'),
+//   // registerUserValidation,
+//   checkIfInfoExist,
+//   checkClientEmailExist,
+//   async (req, res) => {
+//     await new UserController().registerClient(req, res);
+//   }
+// );
 routes.post(
   '/client/register',
   upload.single('picture'),
   // registerUserValidation,
-  checkIfInfoExist,
-  checkClientEmailExist,
+  // checkIfInfoExist,
+  // checkClientEmailExist,
   async (req, res) => {
     await new UserController().registerClient(req, res);
   }
