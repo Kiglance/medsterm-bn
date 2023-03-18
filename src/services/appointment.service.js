@@ -63,8 +63,28 @@ export default class AppointmentService {
     return result;
   }
 
-  async getAppointment(id) {
-    return Appointment.findByPk(id, {});
+  async getAppointment() {
+    const { id } = req.params;
+    return Appointment.findOne({
+      where: { appointment_id: id },
+      include: [
+        {
+          model: Doctor,
+          as: 'doctor',
+          required: true
+        },
+        {
+          model: Client,
+          as: 'client',
+          required: true
+        },
+        {
+          model: Work_Day,
+          as: 'work_day',
+          required: true
+        }
+      ]
+    });
   }
 
   async updateAppointmentParts(updates, where) {

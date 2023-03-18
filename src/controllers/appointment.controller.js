@@ -10,7 +10,13 @@ import {
 import sendEmail from '../helpers/nodemailer';
 import { verifyToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
-import { Doctor, Client, Work_Day, Department } from '../database/models';
+import {
+  Doctor,
+  Client,
+  Work_Day,
+  Department,
+  Appointment
+} from '../database/models';
 import { date } from 'joi';
 import WorkDayService from '../services/work_day.service';
 
@@ -113,9 +119,28 @@ export default class userController {
   async getAppointment(req, res) {
     try {
       const { id } = req.params;
-      const appointment = await new AppointmentService().getAppointment(id);
+      const appointment = await Appointment.findOne({
+        where: { appointment_id: id },
+        include: [
+          {
+            model: Doctor,
+            as: 'doctor',
+            required: true
+          },
+          {
+            model: Client,
+            as: 'client',
+            required: true
+          },
+          {
+            model: Work_Day,
+            as: 'work_day',
+            required: true
+          }
+        ]
+      });
       return res.status(200).json({
-        message: 'Fetched appointments successfully',
+        message: 'Fetched appointment successfully',
         data: appointment
       });
     } catch (error) {

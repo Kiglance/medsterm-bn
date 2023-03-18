@@ -22,7 +22,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -57,7 +57,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -92,7 +92,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -127,7 +127,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -162,7 +162,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -197,7 +197,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -232,7 +232,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -267,7 +267,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -302,7 +302,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -337,7 +337,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -372,7 +372,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -407,7 +407,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -442,7 +442,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -477,7 +477,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -512,7 +512,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -547,7 +547,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 month',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -582,7 +582,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -617,7 +617,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -652,7 +652,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -687,7 +687,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -722,7 +722,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -757,7 +757,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -792,7 +792,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -827,7 +827,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -862,7 +862,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -897,7 +897,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -932,7 +932,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -967,7 +967,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -1002,7 +1002,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
@@ -1037,7 +1037,7 @@ module.exports = {
               dosage: '0.5 mg',
               frequency_per_day: 'once a day',
               frequency_per_week: 'daily',
-              duration: 'Amlodipine',
+              duration: '1 week',
               start_date: '2023-03-11',
               end_date: '2023-03-19',
               explanation: 'Take in the morning on an empty stomach'
