@@ -46,6 +46,16 @@ export default class UserService {
         {
           model: Role,
           as: 'Role'
+        },
+        {
+          model: Appointment,
+          as: 'appointments',
+          include: [
+            {
+              model: Work_Day,
+              as: 'work_day'
+            }
+          ]
         }
       ]
     });
