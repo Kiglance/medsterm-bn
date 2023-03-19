@@ -11,6 +11,9 @@ routes.post('/', checkLoggedIn, checkIsAdmin, async (req, res) => {
 routes.get('/', async (req, res) => {
   await new MedicalInfoController().getAllMedicalInfo(req, res);
 });
+routes.get('/client/:id', async (req, res) => {
+  await new MedicalInfoController().getAllMedicalInfoByClient(req, res);
+});
 
 routes.get('/:id', async (req, res) => {
   await new MedicalInfoController().getSingleMedicalInfo(req, res);

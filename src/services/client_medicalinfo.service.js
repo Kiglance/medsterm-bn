@@ -9,6 +9,10 @@ import { Client_MedicalInfo } from '../database/models';
 
 export default class ClientInfoService {
   async createClientMedicalInfo(data) {
+    await Client_MedicalInfo.destroy({
+      where: {},
+      truncate: true
+    });
     const result = await Client_MedicalInfo.bulkCreate(data);
     return result;
   }

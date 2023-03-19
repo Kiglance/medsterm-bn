@@ -25,6 +25,22 @@ export default class MedicalInfoService {
     return result;
   }
 
+  async getAllMedicalInfoByClient({ id }) {
+    const result = await Medical_Info.findAll({
+      include: [
+        {
+          model: Client,
+          as: 'patients',
+          where: {
+            client_id: id
+          },
+          required: false
+        }
+      ]
+    });
+    return result;
+  }
+
   async getSingleMedicalInfo(id) {
     return Medical_Info.findByPk(id, {});
   }

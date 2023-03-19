@@ -15,7 +15,8 @@ import {
   checkVerifiedUser,
   isClient,
   checkUpdateClientPwdExist,
-  checkUpdateDoctorPwdExist
+  checkUpdateDoctorPwdExist,
+  checkClientExist
 } from '../../middlewares/user.middleware';
 import { checkIfInfoExist } from '../../middlewares/info.middleware';
 import {
@@ -46,6 +47,14 @@ routes.post(
     await new UserController().registerClient(req, res);
   }
 );
+
+routes.post('/forgot-password', async (req, res) => {
+  await await new UserController().forgot(req, res);
+});
+
+routes.patch('/reset-password/:token', async (req, res) => {
+  await await new UserController().reset(req, res);
+});
 
 routes.post(
   '/doctor/login',
