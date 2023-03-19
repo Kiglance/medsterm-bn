@@ -46,6 +46,25 @@ export default class MedicalInfoController {
     }
   }
 
+  async getAllMedicalInfoByClient(req, res) {
+    try {
+      const { id } = req.params;
+      const infos = await this.medicalInfoService.getAllMedicalInfoByClient({
+        id
+      });
+      return res.status(200).json({
+        message: 'Retrieved all infos successfully',
+        data: infos
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: 'Error occured while fetching infos',
+        error: error.message
+      });
+    }
+  }
+
   async getSingleMedicalInfo(req, res) {
     try {
       const { id } = req.params;

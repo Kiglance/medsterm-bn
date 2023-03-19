@@ -72,7 +72,7 @@ export default class WorkDayService {
             {
               model: Appointment,
               as: 'appointments',
-              attributes: ['is_canceled'],
+              attributes: ['is_canceled', 'appointment_period'],
               required: true,
               include: [
                 {

@@ -86,7 +86,7 @@ export default class ClientMedicalInfoController {
 
       if (!existingClient) {
         return res.status(404).json({
-          error: "The Client you are trying assign doesn't exist."
+          error: "The Client you are trying assign info doesn't exist."
         });
       }
 

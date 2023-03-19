@@ -164,16 +164,15 @@ export default class userController {
 
       const token = generateToken({ id: doctor_id }, '1d');
       const message = `
-         <h1><strong>Activate your account.</strong></h1>
+      <h1><strong>Activate your account.</strong></h1>
       <p>
-        You were successfully registered to MedStem. Activate your account by
-        clicking the button below.
+      Here is your password ${generatedPassword}.
       </p>
       <p>
-        Here is your password ${generatedPassword}.
+        You were successfully registered to MedStem. Login with your new credentials.
       </p>
       <a
-        href="${process.env.FRONTEND_URL}/verify?token=${token}"
+        href="${process.env.FRONTEND_URL}/login"
         target="_blank"
       >
         <button
@@ -187,7 +186,7 @@ export default class userController {
             margin: auto;
           "
         >
-          Verify email
+          Login
         </button>
       </a> 
             `;
@@ -303,6 +302,11 @@ export default class userController {
       }
 
       const token = generateToken({ id: newUser.client_id }, '1d');
+      const backendUrl = `${req.protocol}://${req.hostname}${
+        req.socket.localPort !== 80 && req.socket.localPort !== 443
+          ? ':' + req.socket.localPort
+          : ''
+      }`;
       const message = `
         <h1><strong>Activate your account.</strong></h1>
         <p>
@@ -310,7 +314,7 @@ export default class userController {
           clicking the button below.
         </p>
         <a
-          href="${process.env.FRONTEND_URL}/verify?token=${token}"
+          href="${backendUrl}/api/v1/users/verify/${token}"
           target="_blank"
         >
           <button
@@ -467,14 +471,41 @@ export default class userController {
         });
       }
 
-      const user = await this.userService.getUser(userData.id);
+      const user = await Client.findByPk(userData.id);
+      if (!user) {
+        return res.status(400).send('<h1>User doesn&quos;t exist</h1>');
+      }
 
-      await this.userService.updateUserParts(
+      await this.userService.updateClient(
         { isVerified: true },
-        { where: { doctor_id: user.doctor_id } }
+        { where: { client_id: user.client_id } }
       );
 
-      return res.status(200).send('<h1>Email successfully verified</h1>');
+      return res.status(200).send(`
+      <div>
+        <h1>Email successfully verified</h1>
+        <p>Login to continue</p>
+        <a
+          href="${process.env.FRONTEND_URL}/login"
+          target="_blank"
+        >
+          <button
+            style="
+              border: none;
+              border-radius: 3px;
+              background: #003e6b;
+              color: #ffffff;
+              padding: 10px;
+              width: fit-content;
+              margin: auto;
+              cursor: pointer;
+            "
+          >
+            Login
+          </button>
+        </a>
+      </div>
+      `);
     } catch (error) {
       return res.status(500).json({
         message: 'An Unexpected error occurred',
