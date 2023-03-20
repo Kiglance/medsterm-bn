@@ -64,6 +64,7 @@ export default class userController {
 
       const generatedPassword = generatePassword();
 
+      console.log('before create doctor', email, generatedPassword, id_number);
       const newUser = await this.userService
         .createDoctor(
           {
@@ -95,6 +96,8 @@ export default class userController {
           });
         });
 
+      console.log(newUser, 'newUser .............................');
+
       const doctor_id = newUser.doctor_id;
 
       const existingDoctor = await Doctor.findOne({
@@ -109,7 +112,7 @@ export default class userController {
       }
 
       if (department_id !== '' && department_id !== undefined) {
-        const deptIdsArr = department_id?.split(', ');
+        const deptIdsArr = department_id?.split(',').map((id) => id.trim());
 
         var lastArray = [];
         var usableIndices = [];
@@ -166,7 +169,7 @@ export default class userController {
       const message = `
       <h1><strong>Activate your account.</strong></h1>
       <p>
-      Here is your password ${generatedPassword}.
+      Here is your password ${generatedPassword}
       </p>
       <p>
         You were successfully registered to MedStem. Login with your new credentials.
@@ -199,6 +202,7 @@ export default class userController {
         token
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: 'Error occured while creating a user',
         error: error.message
@@ -235,13 +239,15 @@ export default class userController {
           'http s://s.pngkit.com/png/small/225-2257356_this-could-be-you-user-male.png';
       }
 
+      const generatedPassword = password || generatePassword();
+
       const newUser = await this.userService.createUser(
         {
           role_id: 3,
           first_name,
           last_name,
           email,
-          password: hashPassword(password),
+          password: hashPassword(generatedPassword),
           picture: req.body.picture,
           phone_number,
           id_number,
@@ -313,6 +319,13 @@ export default class userController {
           You were successfully registered to MedStem. Activate your account by
           clicking the button below.
         </p>
+        ${`<p>
+            Notice: If you are not the one who created this account use  the password bellow to sign in.
+          </p>
+          <p>
+            PASSWORD: ${generatedPassword}
+          </p>
+        `}
         <a
           href="${backendUrl}/api/v1/users/verify/${token}"
           target="_blank"
