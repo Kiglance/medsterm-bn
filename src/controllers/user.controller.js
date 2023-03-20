@@ -717,7 +717,7 @@ export default class userController {
         first_name,
         last_name,
         email,
-        password: hashPassword(password),
+        password: password && hashPassword(password),
         picture: req.body.picture,
         phone_number,
         id_number,
@@ -730,7 +730,7 @@ export default class userController {
         education,
         about,
         where: {
-          user_id: id
+          doctor_id: id
         }
       });
       return res.status(201).json({
@@ -739,6 +739,7 @@ export default class userController {
         data: newUser
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: 'Failed to update doctor info.',
         error: error.message
