@@ -7,11 +7,15 @@ import checkToken from '../helpers/checkToken';
 export const checkDoctorEmailExist = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const emailExist = await Doctor.findOne({
-      where: {
-        email
-      }
-    });
+    let emailExist = null;
+
+    if (email) {
+      emailExist = await Doctor.findOne({
+        where: {
+          email
+        }
+      });
+    }
     if (emailExist) {
       return res
         .status(409)
@@ -20,7 +24,7 @@ export const checkDoctorEmailExist = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(req);
+    console.log(error);
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message
@@ -171,17 +175,24 @@ export const checkVerifiedUser = async (req, res, next) => {
 
 export const isDoctor = async (req, res, next) => {
   try {
-    const { role_id, user_id } = req.decoded;
+    const doctor_id = req.decoded.id;
+    const { id } = req.params;
 
-    if (role_id !== 2) {
+    const user = await Doctor.findOne({
+      where: { doctor_id }
+    });
+
+    if (user.role_id !== 2 && id !== doctor_id) {
       return res.status(400).json({
-        message: 'Only Doctors can perform this action'
+        message: "You can't edit an other doctors data unless you are an admin"
       });
     }
 
-    const user = await Doctor.findOne({
-      where: { user_id }
-    });
+    // if (role_id !== 2) {
+    //   return res.status(400).json({
+    //     message: 'Only Doctors can perform this action'
+    //   });
+    // }
 
     req.user = user;
 
