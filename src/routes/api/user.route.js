@@ -24,14 +24,15 @@ import {
   registerUserValidation
 } from '../../validations/user.validation';
 import { checkDepartmentExist } from '../../middlewares/department.middleware';
+import { checkDoctorDepartmentExist } from '../../middlewares/appointment.middleware';
 const routes = express.Router();
 
 routes.post(
   '/doctor/register',
   upload.single('picture'),
+  checkIsAdmin,
   // checkDepartmentExist,
   checkDoctorEmailExist,
-  // checkIsAdmin,
   async (req, res) => {
     await new UserController().createDoctor(req, res);
   }
