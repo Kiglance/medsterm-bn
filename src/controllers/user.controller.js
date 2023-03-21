@@ -937,4 +937,26 @@ export default class userController {
       });
     }
   }
+
+  async deleteOnePatient(req, res) {
+    try {
+      const { id } = req.params;
+
+      await this.userService.deleteOnePatient({
+        where: {
+          client_id: id
+        }
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'Doctor deleted successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while deleting Doctor.',
+        error: error.message
+      });
+    }
+  }
 }

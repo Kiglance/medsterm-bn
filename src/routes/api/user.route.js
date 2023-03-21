@@ -146,12 +146,12 @@ routes.patch(
   }
 );
 
-routes.delete(
-  '/doctor/:id',
-  //  checkLoggedIn, checkIsAdmins,
-  async (req, res) => {
-    await new UserController().deleteOneDoctor(req, res);
-  }
-);
+routes.delete('/doctor/:id', checkLoggedIn, checkIsAdmin, async (req, res) => {
+  await new UserController().deleteOneDoctor(req, res);
+});
+
+routes.delete('/client/:id', checkLoggedIn, checkIsAdmin, async (req, res) => {
+  await new UserController().deleteOnePatient(req, res);
+});
 
 export default routes;

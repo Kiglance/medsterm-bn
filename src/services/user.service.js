@@ -181,4 +181,9 @@ export default class UserService {
     const data = await Doctor.destroy(where);
     return data;
   }
+
+  async deleteOnePatient(where) {
+    const data = await Client.destroy(where);
+    return data;
+  }
 }

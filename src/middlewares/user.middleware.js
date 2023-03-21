@@ -204,17 +204,24 @@ export const isDoctor = async (req, res, next) => {
 
 export const isClient = async (req, res, next) => {
   try {
-    const client_id = req.decoded.id;
+    const user_id = req.decoded.id;
     const { id } = req.params;
 
-    const user = await Client.findOne({
-      where: { client_id }
+    const client = await Client.findOne({
+      where: { client_id: user_id }
+    });
+    const admin = await Doctor.findOne({
+      where: { doctor_id: user_id }
     });
 
-    console.log(client_id, '###########');
-    console.log(user, '###########');
+    const user = client || admin;
 
-    if (user.role_id !== 1 && id !== client_id) {
+    if (client && id !== user_id) {
+      return res.status(400).json({
+        message: "You can't edit an other users data unless you are an admin"
+      });
+    }
+    if (admin && admin.role_id !== 1) {
       return res.status(400).json({
         message: "You can't edit an other users data unless you are an admin"
       });
@@ -224,7 +231,9 @@ export const isClient = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return res.status(500).json({ message: 'Access denied' });
+    return res
+      .status(500)
+      .json({ message: 'Access denied', error: error.message });
   }
 };
 
@@ -450,11 +459,12 @@ export const checkClientExist = async (req, res, next) => {
 export const checkIsAdmin = async (req, res, next) => {
   try {
     const token = checkToken(req);
+    const doctor_id = req.decoded.id;
     const admin_data = decodeToken(token);
-    const user = await Doctor.findByPk(admin_data.id, {});
+    const user = await Doctor.findByPk(doctor_id, {});
     if (!user) {
       return res.status(400).json({
-        message: `Admin with id "${admin_data.id}" doesn't exist`
+        message: `Admin with id "${doctor_id}" doesn't exist`
       });
     }
     if (user.role_id !== 1) {
