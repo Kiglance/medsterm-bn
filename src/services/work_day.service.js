@@ -67,23 +67,21 @@ export default class WorkDayService {
           model: Schedule,
           as: 'schedule',
           attributes: ['appointment_duration'],
-          required: true,
           include: [
             {
               model: Appointment,
               as: 'appointments',
               attributes: ['is_canceled', 'appointment_period'],
-              required: true,
               include: [
                 {
                   model: Work_Day,
                   as: 'work_day',
-                  attributes: ['from', 'to'],
-                  where: {
-                    _id: {
-                      [Op.col]: 'Work_Day._id'
-                    }
-                  }
+                  attributes: ['from', 'to']
+                  // where: {
+                  //   _id: {
+                  //     [Op.col]: 'Work_Day._id'
+                  //   }
+                  // }
                 }
               ]
             }

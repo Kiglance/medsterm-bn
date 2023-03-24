@@ -9,10 +9,10 @@ import {
 const routes = express.Router();
 
 routes.post(
-  '/:id',
+  '/',
   checkLoggedIn,
   checkLoginDoctorExist,
-  checkAppointmentExist,
+  // checkAppointmentExist,
   async (req, res) => {
     await new RecommandationController().makeRecommandation(req, res);
   }

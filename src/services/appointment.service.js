@@ -43,15 +43,15 @@ export default class AppointmentService {
         {
           model: Schedule,
           as: 'schedule',
-          attributes: ['appointment_duration'],
-          required: true
+          attributes: ['appointment_duration']
+          // required: true
         },
         {
           model: Work_Day,
           as: 'work_day',
           where: workDayWhere,
-          attributes: ['day', 'date', 'from', 'to'],
-          required: true
+          attributes: ['day', 'date', 'from', 'to']
+          // required: true
         }
       ]
     });
@@ -93,5 +93,9 @@ export default class AppointmentService {
 
   async updateAppointmentParts(updates, where) {
     return Appointment.update(updates, where);
+  }
+  async deleteteAppointments({ where }) {
+    const data = await Appointment.destroy({ where });
+    return data;
   }
 }

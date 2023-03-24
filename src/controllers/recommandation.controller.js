@@ -9,12 +9,12 @@ export default class RecommandationController {
 
   async makeRecommandation(req, res) {
     try {
-      const { appointment_id, recommendation_name } = req.body;
+      const { recommendation_name } = req.body;
 
       const newRecommandation =
         await this.recommendationService.makeRecommendation(
           {
-            appointment_id,
+            // appointment_id,
             recommendation_name
           },
           res

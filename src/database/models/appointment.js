@@ -103,23 +103,23 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 'expected'
       },
       drugs: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(2000),
         get() {
           const rawValue = this.getDataValue('drugs');
           return rawValue ? JSON.parse(rawValue) : JSON.parse('[]');
         },
         set(value) {
-          this.setDataValue('drugs', JSON.parse(value));
+          this.setDataValue('drugs', JSON.stringify(value));
         }
       },
       recommendations: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         get() {
           const rawValue = this.getDataValue('recommendations');
           return rawValue ? JSON.parse(rawValue) : JSON.parse('[]');
         },
         set(value) {
-          this.setDataValue('recommendations', JSON.parse(value));
+          this.setDataValue('recommendations', JSON.stringify(value));
         }
       },
       complaints: {

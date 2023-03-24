@@ -42,7 +42,7 @@ export default class userController {
       const token = checkToken(req);
       const variable = decodeToken(token);
       // const client_id = variable.id;
-      const user = await this.userService.getClient(client_id);
+      const user = await Client.findByPk(client_id, {});
       const work_day = await Work_Day.findByPk(_id, {});
 
       const newAppointment = await this.appointmentService.makeAppointment(
@@ -58,32 +58,32 @@ export default class userController {
       );
 
       console.log({ newAppointment });
-      console.log({ work_day });
+      console.log({ user });
 
-      const message = `
-      <h1><strong>Appointment notification.</strong></h1>
-      <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${work_day?.date}</span>.</p> 
-      <a
-        href="${process.env.FRONTEND_URL}/verify?token=${token}"
-        target="_blank"
-      >
-        <button
-          style="
-            border: none;
-            border-radius: 3px;
-            background: #003e6b;
-            color: #ffffff;
-            padding: 10px 5px;
-            width: fit-content;
-            margin: auto;
-          "
-        >
-          Check appointment
-        </button>
-      </a>  
-            `;
-      const subject = `You were requested for an appointment!`;
-      await sendEmail(subject, message, doctor.email);
+      // const message = `
+      // <h1><strong>Appointment notification.</strong></h1>
+      // <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${work_day?.date}</span>.</p>
+      // <a
+      //   href="${process.env.FRONTEND_URL}/verify?token=${token}"
+      //   target="_blank"
+      // >
+      //   <button
+      //     style="
+      //       border: none;
+      //       border-radius: 3px;
+      //       background: #003e6b;
+      //       color: #ffffff;
+      //       padding: 10px 5px;
+      //       width: fit-content;
+      //       margin: auto;
+      //     "
+      //   >
+      //     Check appointment
+      //   </button>
+      // </a>
+      //       `;
+      // const subject = `You were requested for an appointment!`;
+      // await sendEmail(subject, message, doctor.email);
       return res.status(201).json({
         status: 201,
         message: 'Appointment creation was successfull.'
@@ -213,19 +213,16 @@ export default class userController {
             {
               model: Doctor,
               as: 'doctor',
-              required: true,
               include: [
                 {
                   model: Department,
-                  as: 'departments',
-                  required: true
+                  as: 'departments'
                 }
               ]
             },
             {
               model: Work_Day,
-              as: 'work_day',
-              required: true
+              as: 'work_day'
             }
           ]
         });
@@ -322,37 +319,52 @@ export default class userController {
 
   async updateAppointment(req, res) {
     try {
-      const {
-        appointment_period,
-        doctor_id,
-        _id,
-        schedule_id,
-        department_id,
-        drugs,
-        recommendations
-      } = req.body;
-
       const id = req.params.id;
+
+      const appointment = await Appointment.findByPk(id, {});
+
+      const bodyRecommendations = req.body.recommendations;
+      const bodyDrugs = req.body.drugs;
+
+      console.log(bodyDrugs, '***********');
+
+      let previousRecommendations = !appointment.recommendations[0]
+        ? appointment.recommendations
+        : JSON.parse(appointment.recommendations);
+      let previousDrugs = !appointment.drugs[0]
+        ? appointment.drugs
+        : JSON.parse(appointment.drugs);
+
+      for (let i = 0; i < bodyRecommendations?.length; i++) {
+        if (bodyRecommendations) {
+          previousRecommendations.push(bodyRecommendations[i]);
+        }
+      }
+      for (let i = 0; i < bodyDrugs?.length; i++) {
+        if (bodyDrugs) {
+          previousDrugs.push(bodyDrugs[i]);
+        }
+      }
 
       const newUser = await this.appointmentService.updateAppointmentParts(
         {
           ...req.body,
-          drugs: JSON.stringify(drugs),
-          recommendations: JSON.stringify(recommendations)
+          // complaints: req.body.complaints,
+          // diagnosis: req.body.diagnosis,
+          drugs: JSON.stringify(previousDrugs),
+          recommendations: JSON.stringify(previousRecommendations)
         },
         {
-          appointment_period,
-          doctor_id,
-          _id,
-          schedule_id,
-          department_id,
-          drugs: JSON.stringify(drugs),
-          recommendations: JSON.stringify(recommendations),
+          // complaints: req.body.complaints,
+          // diagnosis: req.body.diagnosis,
+          drugs: JSON.stringify(previousDrugs),
+          recommendations: JSON.stringify(previousRecommendations),
           where: {
             appointment_id: id
           }
         }
       );
+      console.log(req.body.complaints, '&&&');
       return res.status(201).json({
         status: 201,
         message: 'Appointment updated successfully.',
@@ -361,6 +373,97 @@ export default class userController {
     } catch (error) {
       return res.status(500).json({
         message: 'Failed to update appointment info.',
+        error: error.message
+      });
+    }
+  }
+
+  async removeRecommendation(req, res) {
+    try {
+      const id = req.params.id;
+      const index = req.params.index;
+
+      console.log(id, '################');
+      console.log(index, '################');
+
+      const appointment = await Appointment.findByPk(id, {});
+
+      let previousRecommendations = JSON.parse(appointment.recommendations);
+      previousRecommendations.splice(index, 1);
+
+      const newUser = await this.appointmentService.updateAppointmentParts(
+        {
+          recommendations: JSON.stringify(previousRecommendations)
+        },
+        {
+          recommendations: JSON.stringify(previousRecommendations),
+          where: {
+            appointment_id: id
+          }
+        }
+      );
+
+      return res.status(201).json({
+        status: 201,
+        message: 'Recommendation successfully.',
+        data: newUser
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed toremove recommendation.',
+        error: error.message
+      });
+    }
+  }
+
+  async removeDrug(req, res) {
+    try {
+      const id = req.params.id;
+      const index = req.params.index;
+
+      const appointment = await Appointment.findByPk(id, {});
+
+      let previousDrugs = JSON.parse(appointment.drugs);
+      previousDrugs.splice(index, 1);
+
+      const newUser = await this.appointmentService.updateAppointmentParts(
+        {
+          drugs: JSON.stringify(previousDrugs)
+        },
+        {
+          drugs: JSON.stringify(previousDrugs),
+          where: {
+            appointment_id: id
+          }
+        }
+      );
+
+      return res.status(201).json({
+        status: 201,
+        message: 'Recommendation successfully.',
+        data: newUser
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed toremove recommendation.',
+        error: error.message
+      });
+    }
+  }
+
+  async deleteteAppointments(req, res) {
+    try {
+      await this.appointmentService.deleteteAppointments({
+        where: {}
+      });
+
+      return res.status(200).json({
+        status: 200,
+        message: 'appointments deleted successfully.'
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while deleting appointments.',
         error: error.message
       });
     }

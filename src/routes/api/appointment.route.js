@@ -27,7 +27,7 @@ routes.post(
   checkClientBodyExist,
   checkAppointmentIsTaken,
   checkDoctorScheduleDayExist,
-  // appointmentValidation,
+  appointmentValidation,
   async (req, res) => {
     await new AppointmentController().makeAppointment(req, res);
   }
@@ -74,8 +74,20 @@ routes.get(
   }
 );
 
-routes.patch('/:id', checkLoggedIn, async (req, res) => {
+routes.patch('/:id', async (req, res) => {
   await new AppointmentController().updateAppointment(req, res);
+});
+
+routes.patch('/:id/drug/:index', checkAppointmentExist, async (req, res) => {
+  await new AppointmentController().removeDrug(req, res);
+});
+
+routes.patch('/:id/recommendation/:index', async (req, res) => {
+  await new AppointmentController().removeRecommendation(req, res);
+});
+
+routes.delete('/', checkLoggedIn, async (req, res) => {
+  await new AppointmentController().deleteteAppointments(req, res);
 });
 
 export default routes;
