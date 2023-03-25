@@ -5,7 +5,13 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
-import { Work_Day, Schedule, Appointment, Doctor } from '../database/models';
+import {
+  Work_Day,
+  Schedule,
+  Appointment,
+  Doctor,
+  Client
+} from '../database/models';
 import { startOfMonth, endOfMonth } from 'date-fns';
 import { Op } from 'sequelize';
 
@@ -66,24 +72,43 @@ export default class WorkDayService {
         {
           model: Schedule,
           as: 'schedule',
-          attributes: ['appointment_duration'],
+          attributes: ['appointment_duration']
+          // required: true,
+          // include: [
+          //   {
+          //     model: Appointment,
+          //     as: 'appointments',
+          //     attributes: ['is_canceled', 'appointment_period'],
+          //     required: true,
+          //     include: [
+          //       {
+          //         model: Work_Day,
+          //         as: 'work_day',
+          //         attributes: ['from', 'to'],
+          //         where: {
+          //           _id: {
+          //             [Op.col]: 'Work_Day._id'
+          //           }
+          //         }
+          //       }
+          //     ]
+          //   }
+          // ]
+        },
+        {
+          model: Appointment,
+          as: 'appointments',
+          attributes: ['is_canceled', 'appointment_period'],
           include: [
             {
-              model: Appointment,
-              as: 'appointments',
-              attributes: ['is_canceled', 'appointment_period'],
-              include: [
-                {
-                  model: Work_Day,
-                  as: 'work_day',
-                  attributes: ['from', 'to']
-                  // where: {
-                  //   _id: {
-                  //     [Op.col]: 'Work_Day._id'
-                  //   }
-                  // }
-                }
-              ]
+              model: Work_Day,
+              as: 'work_day',
+              attributes: ['from', 'to']
+            },
+            {
+              model: Client,
+              as: 'client',
+              attributes: ['client_id', 'first_name', 'last_name']
             }
           ]
         }
