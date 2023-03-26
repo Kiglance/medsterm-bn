@@ -459,12 +459,12 @@ export const checkClientExist = async (req, res, next) => {
 export const checkIsAdmin = async (req, res, next) => {
   try {
     const token = checkToken(req);
-    const doctor_id = req.decoded.id;
+    // const doctor_id = req.decoded.id;
     const admin_data = decodeToken(token);
-    const user = await Doctor.findByPk(doctor_id, {});
+    const user = await Doctor.findByPk(admin_data.id, {});
     if (!user) {
       return res.status(400).json({
-        message: `Admin with id "${doctor_id}" doesn't exist`
+        message: `Admin with id "${admin_data.id}" doesn't exist`
       });
     }
     if (user.role_id !== 1) {
@@ -476,6 +476,7 @@ export const checkIsAdmin = async (req, res, next) => {
 
     return next();
   } catch (error) {
+    console.log(error, '++++++++++++++++++');
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message

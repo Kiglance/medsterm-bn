@@ -319,13 +319,13 @@ export default class userController {
           You were successfully registered to MedStem. Activate your account by
           clicking the button below.
         </p>
-        ${`<p>
+        ${ !password ? `<p>
             Notice: If you are not the one who created this account use  the password bellow to sign in.
           </p>
           <p>
             PASSWORD: ${generatedPassword}
           </p>
-        `}
+        `: ''}
         <a
           href="${backendUrl}/api/v1/users/verify/${token}"
           target="_blank"
