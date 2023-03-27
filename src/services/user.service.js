@@ -34,6 +34,16 @@ export default class UserService {
         {
           model: Role,
           as: 'Role'
+        },
+        {
+          model: Appointment,
+          as: 'appointments',
+          include: [
+            {
+              model: Work_Day,
+              as: 'work_day'
+            }
+          ]
         }
       ]
     });
@@ -54,6 +64,16 @@ export default class UserService {
             {
               model: Work_Day,
               as: 'work_day'
+            },
+            {
+              model: Doctor,
+              as: 'doctor',
+              include: [
+                {
+                  model: Department,
+                  as: 'departments'
+                }
+              ]
             }
           ]
         }
