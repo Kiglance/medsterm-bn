@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { Op } from 'sequelize';
 import { Schedule } from '../database/models';
 import ScheduleService from '../services/schedule.service';
+import compareDates from '../utils/compareDates';
 
 export const validateScheduleTime = async (req, res, next) => {
   try {
@@ -88,7 +89,9 @@ export const checkScheduleInterval = async (req, res, next) => {
   try {
     const { start_date, end_date } = req.body;
 
-    if (start_date > end_date) {
+    const result = compareDates(start_date, end_date);
+
+    if (!result) {
       return res.status(400).json({
         message: `The starting date can't be greater than or equal to the ending date.`
       });
