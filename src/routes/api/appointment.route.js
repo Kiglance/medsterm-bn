@@ -8,7 +8,9 @@ import {
   checkDoctorExistParam,
   checkClientExistParam,
   checkClientBodyExist,
-  checkDayExistParam
+  checkDayExistParam,
+  checkIsAssociatedPatientOrDoctor,
+  checkIsAssociatedDoctor
 } from '../../middlewares/user.middleware';
 import {
   checkAppointmentExist,
@@ -67,6 +69,7 @@ routes.get(
   '/cancel/:id',
   checkAppointmentExist,
   checkLoggedIn,
+  checkIsAssociatedPatientOrDoctor,
   // checkDoctorExist,
   // checkClientBodyExist,
   async (req, res) => {
@@ -74,17 +77,35 @@ routes.get(
   }
 );
 
-routes.patch('/:id', async (req, res) => {
-  await new AppointmentController().updateAppointment(req, res);
-});
+routes.patch(
+  '/:id',
+  checkAppointmentExist,
+  checkLoggedIn,
+  checkIsAssociatedDoctor,
+  async (req, res) => {
+    await new AppointmentController().updateAppointment(req, res);
+  }
+);
 
-routes.patch('/:id/drug/:index', checkAppointmentExist, async (req, res) => {
-  await new AppointmentController().removeDrug(req, res);
-});
+routes.patch(
+  '/:id/drug/:index',
+  checkAppointmentExist,
+  checkLoggedIn,
+  checkIsAssociatedDoctor,
+  async (req, res) => {
+    await new AppointmentController().removeDrug(req, res);
+  }
+);
 
-routes.patch('/:id/recommendation/:index', async (req, res) => {
-  await new AppointmentController().removeRecommendation(req, res);
-});
+routes.patch(
+  '/:id/recommendation/:index',
+  checkAppointmentExist,
+  checkLoggedIn,
+  checkIsAssociatedDoctor,
+  async (req, res) => {
+    await new AppointmentController().removeRecommendation(req, res);
+  }
+);
 
 routes.delete('/', checkLoggedIn, async (req, res) => {
   await new AppointmentController().deleteteAppointments(req, res);

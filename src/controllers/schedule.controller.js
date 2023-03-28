@@ -60,7 +60,8 @@ export default class scheduleController {
           var obj = {};
           obj['day'] = arr[i].split(' ')[0];
           obj['date'] = new Date(
-            new Date(arr[i]).setDate(new Date(arr[i]).getDate() + 1)
+            new Date(arr[i])
+            // new Date(arr[i]).setDate(new Date(arr[i]).getDate() + 1)
           ).toISOString();
           obj['schedule_id'] = newSchedule.schedule_id;
           obj['doctor_id'] = doctor_id;

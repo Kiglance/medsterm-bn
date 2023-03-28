@@ -1,6 +1,12 @@
 import 'dotenv/config';
 import { Op } from 'sequelize';
-import { Doctor, Client, Schedule, Work_Day } from '../database/models';
+import {
+  Doctor,
+  Client,
+  Schedule,
+  Work_Day,
+  Appointment
+} from '../database/models';
 import { verifyToken, decodeToken } from '../helpers/user.helper';
 import checkToken from '../helpers/checkToken';
 
@@ -451,6 +457,67 @@ export const checkClientExist = async (req, res, next) => {
   } catch (error) {
     return res.status(500).json({
       message: 'An Unexpected error occurred0000',
+      error: error.message
+    });
+  }
+};
+
+export const checkIsAssociatedPatientOrDoctor = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const appointment = await Appointment.findByPk(id, {});
+    const token = checkToken(req);
+    const loginId = decodeToken(token);
+    const client = await Client.findByPk(loginId.id, {});
+    const doctor = await Doctor.findByPk(loginId.id, {});
+    const user = client || doctor;
+    if (!user) {
+      return res.status(400).json({
+        message: `You can't cancel this appointment`
+      });
+    }
+    if (
+      appointment?.client_id !== client?.client_id &&
+      appointment?.doctor_id !== doctor?.doctor_id
+    ) {
+      return res.status(400).json({
+        message: `You are not authorised to cancel someone else's appointment`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred0000',
+      error: error.message
+    });
+  }
+};
+
+export const checkIsAssociatedDoctor = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const appointment = await Appointment.findByPk(id, {});
+    const token = checkToken(req);
+    const loginId = decodeToken(token);
+    const user = await Doctor.findByPk(loginId.id, {});
+    if (!user) {
+      return res.status(400).json({
+        message: `You can't cancel this appointment`
+      });
+    }
+    if (appointment?.doctor_id !== user?.doctor_id) {
+      return res.status(400).json({
+        message: `You can't edit this appointment information`
+      });
+    }
+    req.user = user;
+
+    return next();
+  } catch (error) {
+    return res.status(500).json({
+      message: 'An Unexpected error occurred',
       error: error.message
     });
   }
