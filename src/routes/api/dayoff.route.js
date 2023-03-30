@@ -3,7 +3,8 @@ import DayoffController from '../../controllers/dayoff.controller';
 import {
   checkDoctorExist,
   checkLoggedIn,
-  checkIsAdmin
+  checkIsAdmin,
+  checkDoctorExistParam
 } from '../../middlewares/user.middleware';
 
 const routes = express.Router();
@@ -24,6 +25,10 @@ routes.get('/', async (req, res) => {
 
 routes.get('/:id', async (req, res) => {
   await new DayoffController().getSingleDayoff(req, res);
+});
+
+routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
+  await new DayoffController().getDayoffsByDoctorId(req, res);
 });
 
 routes.patch('/:id', async (req, res) => {

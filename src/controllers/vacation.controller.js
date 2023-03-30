@@ -63,6 +63,28 @@ export default class vacationController {
     }
   }
 
+  async getVacationsByDoctorId(req, res) {
+    try {
+      const { id } = req.params;
+      const { month, year } = req.query;
+
+      const vacations = await this.vacationService.getVacationsByDoctorId({
+        id,
+        month,
+        year
+      });
+      return res.status(200).json({
+        message: `Retrieved all vacations of doctor ${req.user.first_name}  ${req.user.last_name} successfully`,
+        data: vacations
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching vacations',
+        error: error.message
+      });
+    }
+  }
+
   async updateVacation(req, res) {
     try {
       const { doctor_id, from_date, to_date } = req.body;

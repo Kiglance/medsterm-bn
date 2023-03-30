@@ -64,6 +64,28 @@ export default class DayoffController {
     }
   }
 
+  async getDayoffsByDoctorId(req, res) {
+    try {
+      const { id } = req.params;
+      const { month, year } = req.query;
+
+      const dayoffs = await this.dayoffService.getDayoffsByDoctorId({
+        id,
+        month,
+        year
+      });
+      return res.status(200).json({
+        message: `Retrieved all dayoffs of doctor ${req.user.first_name}  ${req.user.last_name} successfully`,
+        data: dayoffs
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching dayoffs',
+        error: error.message
+      });
+    }
+  }
+
   async updateDayoff(req, res) {
     try {
       const { doctor_id, dayoff_date } = req.body;
