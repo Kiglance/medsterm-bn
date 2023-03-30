@@ -3,9 +3,13 @@ import VacationController from '../../controllers/vacation.controller';
 import {
   checkDoctorExist,
   checkLoggedIn,
-  checkIsAdmin
+  checkIsAdmin,
+  checkDoctorExistParam
 } from '../../middlewares/user.middleware';
-import { checkVacationInterval } from '../../middlewares/vacation.middleware';
+import {
+  checkVacationInterval,
+  validateVacationTime
+} from '../../middlewares/vacation.middleware';
 
 const routes = express.Router();
 
@@ -15,6 +19,7 @@ routes.post(
   checkLoggedIn,
   checkIsAdmin,
   checkVacationInterval,
+  validateVacationTime,
   async (req, res) => {
     await new VacationController().makeVacation(req, res);
   }
@@ -26,6 +31,10 @@ routes.get('/', async (req, res) => {
 
 routes.get('/:id', async (req, res) => {
   await new VacationController().getSingleVacation(req, res);
+});
+
+routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
+  await new VacationController().getVacationsByDoctorId(req, res);
 });
 
 routes.patch('/:id', async (req, res) => {

@@ -6,6 +6,8 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
 import { Vacation } from '../database/models';
+import { startOfMonth, endOfMonth } from 'date-fns';
+import { Op } from 'sequelize';
 
 export default class VacationService {
   async makeVacation(data) {
@@ -20,6 +22,28 @@ export default class VacationService {
 
   async getSingleVacation(id) {
     return Vacation.findByPk(id, {});
+  }
+
+  async getVacationsByDoctorId({ id, month, year }) {
+    const where = {};
+    if (month && year) {
+      const start = startOfMonth(new Date(year, month - 1));
+      const end = endOfMonth(new Date(year, month - 1));
+      where.from_date = { [Op.between]: [start, end] };
+    } else if (month) {
+      const start = startOfMonth(new Date().setMonth(month - 1));
+      const end = endOfMonth(new Date().setMonth(month - 1));
+      where.from_date = { [Op.between]: [start, end] };
+    } else if (year) {
+      const start = new Date(year, 0, 1);
+      const end = new Date(year, 11, 31);
+      where.from_date = { [Op.between]: [start, end] };
+    }
+
+    const result = await Vacation.findAll({
+      where: { doctor_id: id, ...where }
+    });
+    return result;
   }
 
   async updateVacation(data, where) {

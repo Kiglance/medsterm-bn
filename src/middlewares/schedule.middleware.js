@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Op } from 'sequelize';
 import { Schedule } from '../database/models';
 import ScheduleService from '../services/schedule.service';
-import compareDates from '../utils/compareDates';
+import { compareDates, checkEquality } from '../utils/compareDates';
 
 export const validateScheduleTime = async (req, res, next) => {
   try {
@@ -53,12 +53,24 @@ export const validateScheduleTime = async (req, res, next) => {
         }
       }
     }
-    const fx = compareDates(new Date(start_date), new Date(end_date));
 
-    if (thatDate === 'CASE 1') {
+    const fx = compareDates(new Date(start_date), new Date(end_date));
+    const equal = checkEquality(new Date(start_date), new Date(end_date));
+
+    console.log({
+      fx,
+      equal,
+      start_date,
+      end_date,
+      thatDate
+    });
+
+    if (thatDate === 'CASE 1' && !equal) {
       return res.status(400).json({
         message: `You cant't create a schedule inside another schedule.`
       });
+    } else if (thatDate === 'CASE 1' && equal) {
+      return next();
     }
     if (!fx && thatDate === 'CASE 2') {
       return res.status(400).json({

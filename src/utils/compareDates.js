@@ -13,15 +13,24 @@
 // };
 
 // export default compareDates;
-const compareDates = (date1, date2) => {
+export const checkEquality = (date1, date2) => {
   const d1 = new Date(date1);
   const d2 = new Date(date2);
 
-  if (d1.getTime() >= d2.getTime()) {
+  if (d1.getTime() === d2.getTime()) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const compareDates = (date1, date2) => {
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+
+  if (d1.getTime() > d2.getTime()) {
     return false;
   } else {
     return true;
   }
 };
-
-export default compareDates;
