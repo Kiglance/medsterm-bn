@@ -111,6 +111,22 @@ export default class scheduleController {
     }
   }
 
+  async getSchedulesInMonth(req, res) {
+    try {
+      const { id } = req.params;
+      const schedules = await this.scheduleService.getSchedulesInMonth(req, id);
+      return res.status(200).json({
+        message: 'Retrieved all schedules in month',
+        data: schedules
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching schedules',
+        error: error.message
+      });
+    }
+  }
+
   async deleteSchedules(req, res) {
     try {
       const schedules = await this.scheduleService.deleteSchedules({

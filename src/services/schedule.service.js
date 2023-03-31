@@ -31,6 +31,11 @@ export default class ScheduleService {
     return infos;
   }
 
+  async getSchedulesInMonth(req, id) {
+    const infos = await Schedule.findAll({});
+    return infos;
+  }
+
   async deleteSchedules({ where }) {
     const infos = await Schedule.destroy({ where });
     return infos;
