@@ -95,7 +95,7 @@ routes.get('/doctors/:id', async (req, res) => {
   await new UserController().getDoctor(req, res);
 });
 
-routes.get('/clients', checkLoggedIn, checkIsAdmin, async (req, res) => {
+routes.get('/clients', checkLoggedIn, async (req, res) => {
   await new UserController().getClients(req, res);
 });
 

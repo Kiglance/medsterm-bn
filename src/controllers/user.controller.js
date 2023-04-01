@@ -191,7 +191,7 @@ export default class userController {
         >
           Login
         </button>
-      </a> 
+      </a>
             `;
       const subject = `Your account was successfully created!`;
       await sendEmail(subject, message, newUser.email);
@@ -319,13 +319,17 @@ export default class userController {
           You were successfully registered to MedStem. Activate your account by
           clicking the button below.
         </p>
-        ${ !password ? `<p>
+        ${
+          !password
+            ? `<p>
             Notice: If you are not the one who created this account use  the password bellow to sign in.
           </p>
           <p>
             PASSWORD: ${generatedPassword}
           </p>
-        `: ''}
+        `
+            : ''
+        }
         <a
           href="${backendUrl}/api/v1/users/verify/${token}"
           target="_blank"
@@ -648,7 +652,25 @@ export default class userController {
 
   async getClients(req, res) {
     try {
-      const users = await new UserService().getClients();
+      const { id } = req.decoded;
+      const client = await Client.findByPk(id);
+      if (client) {
+        return res.status(400).json({
+          message: 'You are not allowed to perform this action'
+        });
+      }
+
+      const doctor = await Doctor.findByPk(id);
+      if (!doctor) {
+        return res.status(401).json({
+          message: 'Invalid Token'
+        });
+      }
+
+      const users = await new UserService().getClients({
+        roleId: doctor.role_id,
+        id
+      });
       return res.status(200).json({
         message: 'Retrieved all clients successfully',
         data: users
