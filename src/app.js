@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
@@ -5,13 +6,16 @@ import morgan from 'morgan';
 import path from 'path';
 import db from './database/models';
 import routes from './routes/index';
-import bodyParser from 'body-parser';
 
 const app = express();
 const port = process.env.PORT || 3030;
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
