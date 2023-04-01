@@ -31,15 +31,12 @@ export default class AppointmentService {
       workDayWhere.date = { [Op.between]: [start, end] };
     }
 
-    console.log(
-      year,
-      month,
-      workDayWhere,
-      'year, month ......................'
-    );
-
     const result = await Appointment.findAll({
       include: [
+        {
+          model: Doctor,
+          as: 'doctor'
+        },
         {
           model: Schedule,
           as: 'schedule',

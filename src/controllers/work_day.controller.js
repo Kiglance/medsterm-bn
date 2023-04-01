@@ -1,5 +1,6 @@
 import WorkDayService from '../services/work_day.service';
 import UserService from '../services/user.service';
+import { Work_Day } from '../database/models';
 
 export default class WorkDayController {
   constructor() {
@@ -102,6 +103,42 @@ export default class WorkDayController {
         where: {
           _id: id
         }
+      });
+      return res.status(201).json({
+        status: 201,
+        message: 'Work day has been updated successfully.',
+        data: newDay
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Failed to update work day.',
+        error: error.message
+      });
+    }
+  }
+
+  async updateWorkDaysByScheduleId(req, res) {
+    try {
+      const { from, to } = req.body;
+
+      const { id } = req.params;
+
+      const workDays = await Work_Day.findAll({
+        where: { schedule_id: id }
+      });
+
+      const workDaysArray = workDays?.map((value) => {
+        return {
+          _id: value._id,
+          from,
+          to
+        };
+      });
+
+      console.log({ workDaysArray });
+
+      const newDay = await Work_Day.bulkCreate(workDaysArray, {
+        updateOnDuplicate: ['from', 'to']
       });
       return res.status(201).json({
         status: 201,

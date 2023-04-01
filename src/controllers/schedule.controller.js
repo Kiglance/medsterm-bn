@@ -77,8 +77,6 @@ export default class scheduleController {
         return value;
       }
 
-      console.log(getDatesInRange(date1, date2), '**************');
-
       await this.workDayService.createWorkDayArr(
         makeArr(getDatesInRange(date1, date2)),
         res
@@ -101,6 +99,43 @@ export default class scheduleController {
       const schedules = await this.scheduleService.getSchedules();
       return res.status(200).json({
         message: 'Retrieved all schedules successfully',
+        data: schedules
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching schedules',
+        error: error.message
+      });
+    }
+  }
+
+  async getSchedulesByDoctorId(req, res) {
+    try {
+      const { id } = req.params;
+      const { month, year } = req.query;
+      const schedules = await this.scheduleService.getSchedulesByDoctorId({
+        id,
+        month,
+        year
+      });
+      return res.status(200).json({
+        message: 'Retrieved doctor schedules successfully',
+        data: schedules
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error occured while fetching schedules',
+        error: error.message
+      });
+    }
+  }
+
+  async getSchedulesInMonth(req, res) {
+    try {
+      const { id } = req.params;
+      const schedules = await this.scheduleService.getSchedulesInMonth(req, id);
+      return res.status(200).json({
+        message: 'Retrieved all schedules in month',
         data: schedules
       });
     } catch (error) {

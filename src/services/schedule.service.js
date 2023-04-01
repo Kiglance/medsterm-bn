@@ -6,6 +6,8 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable require-jsdoc */
 import { Schedule, Work_Day } from '../database/models';
+import { startOfMonth, endOfMonth } from 'date-fns';
+import { Op } from 'sequelize';
 
 export default class ScheduleService {
   async createSchedule(data) {
@@ -20,14 +22,34 @@ export default class ScheduleService {
 
   async getSchedules() {
     const infos = await Schedule.findAll({
-      // include: [
-      //   {
-      //     model: Work_Day,
-      //     as: 'work_days',
-      //     order: [['date', 'ASC']]
-      //   }
-      // ]
+      include: [
+        {
+          model: Work_Day,
+          as: 'work_days',
+          order: [['date', 'ASC']]
+        }
+      ]
     });
+    return infos;
+  }
+
+  async getSchedulesByDoctorId({ id, month, year }) {
+    const infos = await Schedule.findAll({
+      where: { doctor_id: id },
+      include: [
+        {
+          model: Work_Day,
+          as: 'work_days',
+          order: [['date', 'ASC']]
+        }
+      ]
+    });
+
+    return infos;
+  }
+
+  async getSchedulesInMonth(req, id) {
+    const infos = await Schedule.findAll({});
     return infos;
   }
 
