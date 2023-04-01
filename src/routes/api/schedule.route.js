@@ -3,7 +3,8 @@ import scheduleController from '../../controllers/schedule.controller';
 import {
   checkIsDoneByAdmin,
   checkLoggedIn,
-  checkDoctorExist
+  checkDoctorExist,
+  checkDoctorExistParam
 } from '../../middlewares/user.middleware';
 import {
   checkScheduleInterval,
@@ -27,6 +28,15 @@ routes.post(
 routes.get('/', async (req, res) => {
   await new scheduleController().getSchedules(req, res);
 });
+
+routes.get(
+  '/doctor/:id',
+  // checkLoggedIn,
+  checkDoctorExistParam,
+  async (req, res) => {
+    await new scheduleController().getSchedulesByDoctorId(req, res);
+  }
+);
 
 routes.get('/:id', async (req, res) => {
   // id = Month number

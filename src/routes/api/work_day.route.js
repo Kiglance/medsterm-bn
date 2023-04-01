@@ -28,6 +28,10 @@ routes.patch('/:id', async (req, res) => {
   await new WorkDayController().updateWorkDay(req, res);
 });
 
+routes.patch('/schedule/:id', checkScheduleExistParam, async (req, res) => {
+  await new WorkDayController().updateWorkDaysByScheduleId(req, res);
+});
+
 routes.delete('/', async (req, res) => {
   await new WorkDayController().deleteDays(req, res);
 });
