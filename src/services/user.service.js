@@ -50,7 +50,14 @@ export default class UserService {
     return users;
   }
 
-  async getClients() {
+  async getClients({ roleId, id }) {
+    let isAdmin = null;
+    if (roleId === 1) {
+      isAdmin = true;
+    } else {
+      isAdmin = false;
+    }
+
     const users = await Client.findAll({
       include: [
         {
@@ -68,6 +75,14 @@ export default class UserService {
             {
               model: Doctor,
               as: 'doctor',
+              ...(!isAdmin
+                ? {
+                    where: {
+                      doctor_id: id
+                    },
+                    required: true
+                  }
+                : {}),
               include: [
                 {
                   model: Department,
@@ -75,7 +90,8 @@ export default class UserService {
                 }
               ]
             }
-          ]
+          ],
+          required: !isAdmin
         }
       ]
     });
