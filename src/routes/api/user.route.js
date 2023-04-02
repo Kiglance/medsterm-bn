@@ -77,15 +77,15 @@ routes.post(
   }
 );
 
-routes.post(
-  '/login',
-  isLoginUser,
-  loginUserValidation,
-  checkVerifiedUser,
-  async (req, res) => {
-    await new UserController().userLogin(req, res);
-  }
-);
+// routes.post(
+//   '/login',
+//   isLoginUser,
+//   loginUserValidation,
+//   checkVerifiedUser,
+//   async (req, res) => {
+//     await new UserController().userLogin(req, res);
+//   }
+// );
 
 routes.get('/doctors', async (req, res) => {
   await new UserController().getDoctors(req, res);

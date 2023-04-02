@@ -25,28 +25,28 @@ routes.post(
   }
 );
 
-routes.get('/', async (req, res) => {
-  await new VacationController().getVacations(req, res);
-});
+// routes.get('/', async (req, res) => {
+//   await new VacationController().getVacations(req, res);
+// });
 
-routes.get('/:id', async (req, res) => {
-  await new VacationController().getSingleVacation(req, res);
-});
+// routes.get('/:id', async (req, res) => {
+//   await new VacationController().getSingleVacation(req, res);
+// });
 
 routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
   await new VacationController().getVacationsByDoctorId(req, res);
 });
 
-routes.patch('/:id', async (req, res) => {
-  await new VacationController().updateVacation(req, res);
-});
+// routes.patch('/:id', async (req, res) => {
+//   await new VacationController().updateVacation(req, res);
+// });
 
 routes.delete('/:id', async (req, res) => {
   await new VacationController().deleteVacation(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new VacationController().deleteAllVacations(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new VacationController().deleteAllVacations(req, res);
+// });
 
 export default routes;

@@ -23,16 +23,16 @@ routes.get('/:id', async (req, res) => {
   await new DepartmentController().getSingleDepartment(req, res);
 });
 
-routes.patch('/:id', upload.single('picture'), async (req, res) => {
-  await new DepartmentController().updateDepartment(req, res);
-});
+// routes.patch('/:id', upload.single('picture'), async (req, res) => {
+//   await new DepartmentController().updateDepartment(req, res);
+// });
 
-routes.delete('/:id', async (req, res) => {
-  await new DepartmentController().deleteDepartment(req, res);
-});
+// routes.delete('/:id', async (req, res) => {
+//   await new DepartmentController().deleteDepartment(req, res);
+// });
 
-routes.delete('/', async (req, res) => {
-  await new DepartmentController().deleteAllDepartments(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new DepartmentController().deleteAllDepartments(req, res);
+// });
 
 export default routes;

@@ -8,24 +8,24 @@ routes.post('/', checkDoctorExist, async (req, res) => {
   await new DoctorDeptController().createDocDept(req, res);
 });
 
-routes.get('/', async (req, res) => {
-  await new DoctorDeptController().getDocDepts(req, res);
-});
+// routes.get('/', async (req, res) => {
+//   await new DoctorDeptController().getDocDepts(req, res);
+// });
 
-routes.get('/:id', async (req, res) => {
-  await new DoctorDeptController().getDocDept(req, res);
-});
+// routes.get('/:id', async (req, res) => {
+//   await new DoctorDeptController().getDocDept(req, res);
+// });
 
-routes.patch('/:id', async (req, res) => {
-  await new DoctorDeptController().updateDocDpt(req, res);
-});
+// routes.patch('/:id', async (req, res) => {
+//   await new DoctorDeptController().updateDocDpt(req, res);
+// });
 
-routes.delete('/:id', async (req, res) => {
-  await new DoctorDeptController().removeDocFromDept(req, res);
-});
+// routes.delete('/:id', async (req, res) => {
+//   await new DoctorDeptController().removeDocFromDept(req, res);
+// });
 
-routes.delete('/', async (req, res) => {
-  await new DoctorDeptController().deleteDocDepts(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new DoctorDeptController().deleteDocDepts(req, res);
+// });
 
 export default routes;

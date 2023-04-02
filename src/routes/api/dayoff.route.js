@@ -31,16 +31,16 @@ routes.get('/doctor/:id', checkDoctorExistParam, async (req, res) => {
   await new DayoffController().getDayoffsByDoctorId(req, res);
 });
 
-routes.patch('/:id', async (req, res) => {
-  await new DayoffController().updateDayoff(req, res);
-});
+// routes.patch('/:id', async (req, res) => {
+//   await new DayoffController().updateDayoff(req, res);
+// });
 
-routes.delete('/:id', async (req, res) => {
-  await new DayoffController().deleteDayoff(req, res);
-});
+// routes.delete('/:id', async (req, res) => {
+//   await new DayoffController().deleteDayoff(req, res);
+// });
 
-routes.delete('/', async (req, res) => {
-  await new DayoffController().deleteAllDayoffs(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new DayoffController().deleteAllDayoffs(req, res);
+// });
 
 export default routes;

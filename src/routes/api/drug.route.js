@@ -22,9 +22,9 @@ routes.get('/', async (req, res) => {
   await new DrugController().getDrugs(req, res);
 });
 
-routes.get('/:id', async (req, res) => {
-  await new DrugController().getSingleDrug(req, res);
-});
+// routes.get('/:id', async (req, res) => {
+//   await new DrugController().getSingleDrug(req, res);
+// });
 
 routes.patch('/:id', async (req, res) => {
   await new DrugController().updateDrug(req, res);
@@ -34,8 +34,8 @@ routes.delete('/:id', async (req, res) => {
   await new DrugController().deleteDrug(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new DrugController().deleteAllDrugs(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new DrugController().deleteAllDrugs(req, res);
+// });
 
 export default routes;

@@ -32,8 +32,8 @@ routes.patch('/schedule/:id', checkScheduleExistParam, async (req, res) => {
   await new WorkDayController().updateWorkDaysByScheduleId(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new WorkDayController().deleteDays(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new WorkDayController().deleteDays(req, res);
+// });
 
 export default routes;

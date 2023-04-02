@@ -22,9 +22,9 @@ routes.get('/', async (req, res) => {
   await new RecommandationController().getRecommandations(req, res);
 });
 
-routes.get('/:id', async (req, res) => {
-  await new RecommandationController().getSingleRecommandation(req, res);
-});
+// routes.get('/:id', async (req, res) => {
+//   await new RecommandationController().getSingleRecommandation(req, res);
+// });
 
 routes.patch('/:id', async (req, res) => {
   await new RecommandationController().updateRecommandation(req, res);
@@ -34,8 +34,8 @@ routes.delete('/:id', async (req, res) => {
   await new RecommandationController().deleteRecommandation(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new RecommandationController().deleteAllRecommandations(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new RecommandationController().deleteAllRecommandations(req, res);
+// });
 
 export default routes;

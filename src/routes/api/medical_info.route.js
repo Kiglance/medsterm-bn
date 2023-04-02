@@ -15,9 +15,9 @@ routes.get('/client/:id', async (req, res) => {
   await new MedicalInfoController().getAllMedicalInfoByClient(req, res);
 });
 
-routes.get('/:id', async (req, res) => {
-  await new MedicalInfoController().getSingleMedicalInfo(req, res);
-});
+// routes.get('/:id', async (req, res) => {
+//   await new MedicalInfoController().getSingleMedicalInfo(req, res);
+// });
 
 routes.patch('/:id', async (req, res) => {
   await new MedicalInfoController().updateMedicalInfo(req, res);
@@ -27,8 +27,8 @@ routes.delete('/:id', async (req, res) => {
   await new MedicalInfoController().deleteMedicalInfo(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new MedicalInfoController().deleteAllMedicalInfos(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new MedicalInfoController().deleteAllMedicalInfos(req, res);
+// });
 
 export default routes;

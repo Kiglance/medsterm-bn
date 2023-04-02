@@ -25,9 +25,9 @@ routes.post(
   }
 );
 
-routes.get('/', async (req, res) => {
-  await new scheduleController().getSchedules(req, res);
-});
+// routes.get('/', async (req, res) => {
+//   await new scheduleController().getSchedules(req, res);
+// });
 
 routes.get(
   '/doctor/:id',
@@ -39,13 +39,12 @@ routes.get(
 );
 
 routes.get('/:id', async (req, res) => {
-  // id = Month number
   await new scheduleController().getSchedulesInMonth(req, res);
 });
 
-routes.delete('/', async (req, res) => {
-  await new scheduleController().deleteSchedules(req, res);
-});
+// routes.delete('/', async (req, res) => {
+//   await new scheduleController().deleteSchedules(req, res);
+// });
 
 routes.delete('/:id', async (req, res) => {
   await new scheduleController().deleteOneSchedule(req, res);
