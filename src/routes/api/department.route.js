@@ -2,6 +2,7 @@ import express from 'express';
 import DepartmentController from '../../controllers/department.controller';
 import { checkLoggedIn, checkIsAdmin } from '../../middlewares/user.middleware';
 import upload from '../../helpers/multer';
+import { checkDepExist } from '../../middlewares/department.middleware';
 
 const routes = express.Router();
 
@@ -10,6 +11,7 @@ routes.post(
   upload.single('picture'),
   checkLoggedIn,
   checkIsAdmin,
+  checkDepExist,
   async (req, res) => {
     await new DepartmentController().makeDepartment(req, res);
   }
