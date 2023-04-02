@@ -81,7 +81,7 @@ routes.patch(
   '/:id',
   checkAppointmentExist,
   checkLoggedIn,
-  checkIsAssociatedDoctor,
+  checkIsAssociatedPatientOrDoctor,
   async (req, res) => {
     await new AppointmentController().updateAppointment(req, res);
   }
