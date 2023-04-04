@@ -57,14 +57,6 @@ export const validateScheduleTime = async (req, res, next) => {
     const fx = compareDates(new Date(start_date), new Date(end_date));
     const equal = checkEquality(new Date(start_date), new Date(end_date));
 
-    console.log({
-      fx,
-      equal,
-      start_date,
-      end_date,
-      thatDate
-    });
-
     if (thatDate === 'CASE 1' && !equal) {
       return res.status(400).json({
         message: `You cant't create a schedule inside another schedule.`

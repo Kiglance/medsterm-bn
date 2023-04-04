@@ -45,7 +45,6 @@ export const checkAppointmentIsTaken = async (req, res, next) => {
         message: `This slot "${appointment_period}" is taken!`
       });
     }
-    console.log({ appointment });
     req.appointment = appointment;
 
     return next();
@@ -73,8 +72,6 @@ export const checkDoctorDepartmentExist = async (req, res, next) => {
         message: `This doctor is not in the provided department!!`
       });
     }
-
-    console.log({ department });
 
     return next();
   } catch (error) {

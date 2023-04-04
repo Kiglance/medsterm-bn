@@ -135,8 +135,6 @@ export default class WorkDayController {
         };
       });
 
-      console.log({ workDaysArray });
-
       const newDay = await Work_Day.bulkCreate(workDaysArray, {
         updateOnDuplicate: ['from', 'to']
       });

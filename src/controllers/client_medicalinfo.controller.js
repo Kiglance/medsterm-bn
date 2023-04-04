@@ -131,9 +131,6 @@ export default class ClientMedicalInfoController {
             message: 'No medical info was selected to be added to history'
           });
         }
-        console.log('*****fINAL ATR******');
-        console.log(final_arr);
-        console.log('*****FINAL******');
         const newInfo =
           await this.clientMedicalInfoService.createClientMedicalInfo(
             final_arr,

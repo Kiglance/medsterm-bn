@@ -34,7 +34,6 @@ export const checkIfInfoExist = async (req, res, next) => {
         determinearray.push(first_arr[i]);
       }
     }
-    console.log(first_arr);
 
     if (determinearray == '') {
       return res.status(404).json({

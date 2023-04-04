@@ -57,7 +57,6 @@ export default class MedicalInfoController {
         data: infos
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: 'Error occured while fetching infos',
         error: error.message

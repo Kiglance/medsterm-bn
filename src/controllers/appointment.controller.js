@@ -57,9 +57,6 @@ export default class userController {
         res
       );
 
-      console.log({ newAppointment });
-      console.log({ user });
-
       // const message = `
       // <h1><strong>Appointment notification.</strong></h1>
       // <p>A client "${user.first_name} ${user.last_name}" just requested an appointment with you on <span style="color: #797979">${work_day?.date}</span>.</p>
@@ -326,8 +323,6 @@ export default class userController {
       const bodyRecommendations = req.body.recommendations;
       const bodyDrugs = req.body.drugs;
 
-      console.log(bodyDrugs, '***********');
-
       let previousRecommendations = !appointment.recommendations[0]
         ? appointment.recommendations
         : JSON.parse(appointment.recommendations);
@@ -364,7 +359,6 @@ export default class userController {
           }
         }
       );
-      console.log(req.body.complaints, '&&&');
       return res.status(201).json({
         status: 201,
         message: 'Appointment updated successfully.',
@@ -382,9 +376,6 @@ export default class userController {
     try {
       const id = req.params.id;
       const index = req.params.index;
-
-      console.log(id, '################');
-      console.log(index, '################');
 
       const appointment = await Appointment.findByPk(id, {});
 

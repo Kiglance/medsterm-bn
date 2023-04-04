@@ -64,7 +64,6 @@ export default class userController {
 
       const generatedPassword = generatePassword();
 
-      console.log('before create doctor', email, generatedPassword, id_number);
       const newUser = await this.userService
         .createDoctor(
           {
@@ -95,8 +94,6 @@ export default class userController {
             error: error.message
           });
         });
-
-      console.log(newUser, 'newUser .............................');
 
       const doctor_id = newUser.doctor_id;
 
@@ -202,7 +199,6 @@ export default class userController {
         token
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: 'Error occured while creating a user',
         error: error.message
@@ -359,7 +355,6 @@ export default class userController {
         // token
       });
     } catch (error) {
-      console.log(error, '*****');
       return res.status(500).json({
         message: 'Error occured while creating a user',
         error: error.message
@@ -435,7 +430,6 @@ export default class userController {
         res.status(404).json({ status: 404, message: 'Email not found' });
       }
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ error: error.message });
     }
   }
@@ -451,7 +445,6 @@ export default class userController {
         });
       }
       const userInfo = decodeToken(token);
-      console.log(userInfo);
       const id = userInfo.id;
 
       const isClient = await Client.findOne({ where: { client_id: id } });
@@ -774,7 +767,6 @@ export default class userController {
         data: newUser
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: 'Failed to update doctor info.',
         error: error.message

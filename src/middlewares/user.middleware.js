@@ -30,7 +30,6 @@ export const checkDoctorEmailExist = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message
@@ -54,7 +53,6 @@ export const checkClientEmailExist = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(req);
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message
@@ -543,7 +541,6 @@ export const checkIsAdmin = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error, '++++++++++++++++++');
     return res.status(500).json({
       message: 'An Unexpected error occurred',
       error: error.message

@@ -55,13 +55,6 @@ export const validateVacationTime = async (req, res, next) => {
     const fx = compareDates(new Date(from_date), new Date(to_date));
     const equal = checkEquality(new Date(from_date), new Date(to_date));
 
-    console.log({
-      equal,
-      from_date,
-      to_date,
-      thatDate
-    });
-
     if (thatDate === 'CASE 1' && !equal) {
       return res.status(400).json({
         message: `You cant't create a vavation inside another vavation.`
