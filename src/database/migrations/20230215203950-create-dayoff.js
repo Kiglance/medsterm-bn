@@ -22,10 +22,6 @@ module.exports = {
       dayoff_date: {
         type: Sequelize.DATE
       },
-      description: {
-        type: Sequelize.TEXT,
-        allowNull: true
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

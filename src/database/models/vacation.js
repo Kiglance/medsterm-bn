@@ -29,10 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       to_date: {
         type: DataTypes.DATE
-      },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: true
       }
     },
     {

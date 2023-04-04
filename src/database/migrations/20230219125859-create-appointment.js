@@ -72,10 +72,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true
       },
-      is_set_to: {
-        type: Sequelize.ENUM('expected', 'previous'),
-        defaultValue: 'expected'
-      },
       drugs: {
         type: Sequelize.STRING(2000),
         get() {
