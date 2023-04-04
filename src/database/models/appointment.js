@@ -45,18 +45,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         as: 'client'
       });
-
-      // this.hasMany(models.Drug, {
-      //   foreignKey: 'appointment_id',
-      //   onDelete: 'CASCADE',
-      //   as: 'drugs'
-      // });
-
-      // this.hasMany(models.Recommendation, {
-      //   foreignKey: 'appointment_id',
-      //   onDelete: 'CASCADE',
-      //   as: 'recommendations'
-      // });
     }
   }
   Appointment.init(
@@ -97,10 +85,6 @@ module.exports = (sequelize, DataTypes) => {
       cancel_date: {
         type: DataTypes.DATE,
         allowNull: true
-      },
-      is_set_to: {
-        type: DataTypes.ENUM('expected', 'previous'),
-        defaultValue: 'expected'
       },
       drugs: {
         type: DataTypes.STRING(2000),

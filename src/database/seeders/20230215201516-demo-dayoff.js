@@ -9,7 +9,6 @@ module.exports = {
           dayoff_id: '4715285e-be2b-413f-a7f6-ca823b418703',
           doctor_id: '64ff1279-8b59-4143-8e6c-a0c8f38bf9d5',
           dayoff_date: '2023-04-12T00:00:00.000Z',
-          description: null,
           createdAt: '2023-03-11T19:00:59.148Z',
           updatedAt: '2023-03-11T19:00:59.148Z'
         },
@@ -17,7 +16,6 @@ module.exports = {
           dayoff_id: '4e70b90b-56d4-4132-9136-a98e891ecdbd',
           doctor_id: '64ff1279-8b59-4143-8e6c-a0c8f38bf9d5',
           dayoff_date: '2023-04-25T00:00:00.000Z',
-          description: null,
           createdAt: '2023-03-11T19:01:12.576Z',
           updatedAt: '2023-03-11T19:01:12.576Z'
         }

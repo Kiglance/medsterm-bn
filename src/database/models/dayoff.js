@@ -27,9 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       dayoff_date: {
         type: DataTypes.DATE
       },
-      description: {
-        type: DataTypes.TEXT
-      }
     },
     {
       sequelize,
