@@ -171,7 +171,13 @@ export default class UserService {
         },
         {
           model: Appointment,
-          as: 'appointments'
+          as: 'appointments',
+          include: [
+            {
+              model: Work_Day,
+              as: 'work_day'
+            }
+          ]
         }
       ]
     });

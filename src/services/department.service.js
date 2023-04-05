@@ -15,7 +15,7 @@ export default class DepartmentService {
 
   async getDepartments() {
     const result = await Department.findAll({
-      include: [{ model: Doctor, as: 'doctors', attributes: ['email'] }]
+      include: [{ model: Doctor, as: 'doctors' }]
     });
     return result;
   }

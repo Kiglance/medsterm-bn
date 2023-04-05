@@ -13,6 +13,13 @@ module.exports = {
           updatedAt: new Date()
         },
         {
+          _id: '009c6da5-6c8d-1b90-9903-080a10fe5b0f',
+          department_id: '04525180-4192-4d71-9d35-90a042fc044b',
+          doctor_id: '5542b45b-530e-4d7f-bdd4-2322633f591f',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
           _id: 'f3c0c4c7-01cf-4429-ba9d-e4f6800f5220',
           department_id: '04525180-4192-4d71-9d35-90a042fc044b',
           doctor_id: '5542b45b-530e-4d7f-bdd4-2322633f591f',
