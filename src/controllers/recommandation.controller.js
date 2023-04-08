@@ -1,5 +1,6 @@
 import RecommendationService from '../services/recommandation.service';
 import UserService from '../services/user.service';
+import { Recommendation } from '../database/models';
 
 export default class RecommandationController {
   constructor() {
@@ -10,6 +11,23 @@ export default class RecommandationController {
   async makeRecommandation(req, res) {
     try {
       const { recommendation_name } = req.body;
+
+      const existingRecommendation = await Recommendation.findOne({
+        where: { recommendation_name }
+      });
+
+      console.log(existingRecommendation, '&&&&&&&&&&&&&++++++++++++++++++');
+
+      if (recommendation_name === '') {
+        return res.status(400).json({
+          message: 'This field cannot be empty.'
+        });
+      }
+      if (existingRecommendation) {
+        return res.status(400).json({
+          message: "You can't duplicate arecommendation."
+        });
+      }
 
       const newRecommandation =
         await this.recommendationService.makeRecommendation(
