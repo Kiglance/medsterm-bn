@@ -13,7 +13,7 @@ const db = {};
 let sequelize;
 if (config.url) {
   sequelize = new Sequelize(config.url, {
-    dialect: 'postgres'
+    dialect: 'sqlite'
   });
 } else {
   sequelize = new Sequelize(config);

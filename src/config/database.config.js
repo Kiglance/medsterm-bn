@@ -1,28 +1,45 @@
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 
-dotenv.config();
+// dotenv.config();
+
+// module.exports = {
+//   development: {
+//     url: process.env.DEV_URL,
+//     dialect: 'sqlite',
+//     port: process.env.DB_PORT,
+//     logging: false
+//   },
+//   test: {
+//     url: process.env.TEST_URL,
+//     dialect: 'sqlite',
+//     port: process.env.DB_PORT
+//   },
+//   production: {
+//     url: process.env.PROD_URL,
+//     dialect: 'sqlite',
+//     port: process.env.DB_PORT,
+//     dialectOptions: {
+//       ssl: {
+//         require: true,
+//         rejectUnauthorized: false
+//       }
+//     }
+//   }
+// };
+
+require('dotenv').config();
 
 module.exports = {
   development: {
-    url: process.env.DEV_URL,
-    dialect: 'postgres',
-    port: process.env.DB_PORT,
-    logging: false
+    dialect: 'sqlite',
+    storage: './database.sqlite3'
   },
   test: {
-    url: process.env.TEST_URL,
-    dialect: 'postgres',
-    port: process.env.DB_PORT
+    dialect: 'sqlite',
+    storage: './database.sqlite3'
   },
   production: {
-    url: process.env.PROD_URL,
-    dialect: 'postgres',
-    port: process.env.DB_PORT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
+    dialect: 'sqlite',
+    storage: './database.sqlite3'
   }
 };

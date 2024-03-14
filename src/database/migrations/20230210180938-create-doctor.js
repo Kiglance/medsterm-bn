@@ -3,14 +3,14 @@ const { generateNumber } = require('../../utils/generateNumber');
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.sequelize.query(
-      'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-    );
+    // await queryInterface.sequelize.query(
+    //   'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+    // );
     await queryInterface.createTable('Doctors', {
       doctor_id: {
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.literal('uuid_generate_v4()'),
+        // defaultValue: Sequelize.literal('uuid_generate_v4()'),
         allowNull: false
       },
       doctor_number: {
